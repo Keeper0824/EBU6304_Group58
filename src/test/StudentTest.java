@@ -9,6 +9,7 @@ public class StudentTest {
     @org.junit.jupiter.api.Test
     public void testCreateStudent() {
         Student s1 = new Student();
-        s1.getName();
+        s1.setName("Keeper");
+        assertEquals("Keeper",s1.getName());
     }
 }
