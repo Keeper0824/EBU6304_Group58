@@ -1,5 +1,6 @@
-package src;
-import org.junit.jupiter.api.Test;
+package src.test;
+import src.main.Student;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -7,6 +8,6 @@ public class StudentTest {
 
     @org.junit.jupiter.api.Test
     public void test() {
-        fail("Not yet implemented");
+        Student s1 = new Student();
     }
 }
