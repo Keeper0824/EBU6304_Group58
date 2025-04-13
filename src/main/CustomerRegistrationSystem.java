@@ -110,5 +110,3 @@ class Customer {
 }
 
 
-// shenadaudiuafbaufiya
-//cd E:/aStudy/newjava/EBU6304_Group58  
