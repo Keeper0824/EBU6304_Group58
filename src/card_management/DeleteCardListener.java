@@ -1,4 +1,4 @@
-package src.src.card_management;
+package src.card_management;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
