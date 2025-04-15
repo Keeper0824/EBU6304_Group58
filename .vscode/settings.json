@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": ["src/main"],
+    "java.project.outputPath": "target/classes",
+    "java.project.referencedLibraries": [
+        "F:/webdownload/openjfx-21.0.7_windows-x64_bin-sdk/javafx-sdk-21.0.7/lib/*.jar"
+    ]
+}
