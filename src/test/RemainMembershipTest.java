@@ -1,6 +1,6 @@
 package src.test;
 import java.time.LocalDate;
-import src.main.User;
+import src.main.java.User;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
