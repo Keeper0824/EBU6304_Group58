@@ -22,6 +22,9 @@ public class UserController {
     @FXML
     private ImageView image2;
 
+    @FXML
+    private ImageView arrowImage;
+
     // Method to initialize the UI with User information
     public void initialize() {
         // Load user data from CSV
@@ -42,6 +45,10 @@ public class UserController {
 
              image1.setImage(new javafx.scene.image.Image("/src/main/resources/images/background_14_2.png"));
              image2.setImage(new javafx.scene.image.Image("/src/main/resources/images/background_14_3.png"));
+             arrowImage.setImage(new javafx.scene.image.Image("/src/main/resources/images/background_14_4.png"));
+
+
+
 
         } else {
             membershipLabel.setText("No user found.");

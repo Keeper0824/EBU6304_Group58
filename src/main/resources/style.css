@@ -66,3 +66,17 @@
     -fx-pref-width: 100%;
     -fx-pref-height: 100%;
 }
+
+/* Arrow and Text style */
+.vip-text {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333; /* Adjust text color */
+    -fx-padding: 5px;
+}
+
+/* Optional: Add some padding or margin for the entire section */
+.hbox {
+    -fx-padding: 10px;
+    -fx-background-color: #f0f0f0;
+}
