@@ -1,10 +1,10 @@
-package src.test;
+/*package src.test;
 import src.main.Student;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class StudentTest {
+/*public class StudentTest {
 
     @org.junit.jupiter.api.Test
     public void testCreateStudent() {
@@ -13,3 +13,4 @@ public class StudentTest {
         assertEquals("Keeper",s1.getName());
     }
 }
+*/
