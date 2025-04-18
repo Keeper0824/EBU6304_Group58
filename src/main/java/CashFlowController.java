@@ -7,26 +7,41 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.ScheduledExecutorService;
+
 import javafx.application.Platform;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.scene.input.MouseEvent;
+
 public class CashFlowController {
 
-    @FXML private VBox mainContainer;
-    @FXML private PieChart pieChart;
-    @FXML private BarChart<String, Number> barChart;
-    @FXML private ImageView backgroundImage;
-    @FXML private Label incomeLabel;
-    @FXML private Label expenseLabel;
-    @FXML private Label netLabel;
-    @FXML private VBox graphsContainer;
+    @FXML
+    private VBox mainContainer;
+    @FXML
+    private PieChart pieChart;
+    @FXML
+    private BarChart<String, Number> barChart;
+    @FXML
+    private ImageView backgroundImage;
+    @FXML
+    private Label incomeLabel;
+    @FXML
+    private Label expenseLabel;
+    @FXML
+    private Label netLabel;
+    @FXML
+    private VBox graphsContainer;
+    @FXML
+    private ImageView arrowImage; // Arrow Image
 
     private List<Transaction> transactions;
     private ScheduledExecutorService executorService;
@@ -39,9 +54,17 @@ public class CashFlowController {
         setupLabels();
     }
 
+    @FXML
+    public void goToPreviousPage(MouseEvent event) {
+        // Add logic to navigate to the previous page (for now, just print to console)
+        System.out.println("Navigating to previous page...");
+        // Implement your page switch logic here (e.g., using SceneManager or Stage switching)
+    }
+
     private void setupBackground() {
         try {
             backgroundImage.setImage(new javafx.scene.image.Image("/src/main/resources/images/background.png"));
+            arrowImage.setImage(new javafx.scene.image.Image("/src/main/resources/images/arrow.png"));
         } catch (Exception e) {
             System.err.println("Error loading background image: " + e.getMessage());
             backgroundImage.setStyle("-fx-background-color: linear-gradient(to bottom right, #2c3e50, #3498db);");
