@@ -1,4 +1,5 @@
 package src.test;
+import org.junit.jupiter.api.Assertions;
 import src.main.java.Transaction;
 
 import java.util.Arrays;
@@ -13,7 +14,7 @@ public class TransactionTest {
                 new Transaction("income", 1000),
                 new Transaction("expense", 600)
         );
-
+        Assertions.assertEquals(400, data.get(0).getAmount() - data.get(1).getAmount());
     }
 }
 
