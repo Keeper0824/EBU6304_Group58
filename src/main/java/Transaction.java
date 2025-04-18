@@ -1,4 +1,4 @@
-package src.main;
+package src.main.java;
 
 public class Transaction {
     private String type; // "income" or "expense"
@@ -17,4 +17,3 @@ public class Transaction {
         return amount;
     }
 }
-
