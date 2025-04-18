@@ -14,18 +14,19 @@ public class CashFlowView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        System.out.println("FXML Path: " + getClass().getResource("/src/main/resources/ui.fxml")); // 检查路径是否正确
-        System.out.println("CSS Path: " + getClass().getResource("/src/main/resources/styles.css"));
-        System.out.println("Image Path: " + getClass().getResource("/src/main/resources/images/background.png"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/ui.fxml"));
         AnchorPane root = loader.load();
-        System.out.println("1");
-        // Get controller and set initial data
-        CashFlowController controller = loader.getController();
-        List<Transaction> initialTransactions = generateInitialData();
-        controller.setTransactions(initialTransactions);
 
-        Scene scene = new Scene(root, 1600, 900);
+        CashFlowController controller = loader.getController();
+        // Load transactions from CSV
+        String csvFilePath = "data/InOutcome.csv";  // Replace with your CSV file path
+        try {
+            controller.loadTransactionsFromCSV(csvFilePath);
+        } catch (IOException e) {
+            System.err.println("Error loading CSV file: " + e.getMessage());
+        }
+
+        Scene scene = new Scene(root, 1600, 1100);
         scene.getStylesheets().add(getClass().getResource("/src/main/resources/styles.css").toExternalForm());
 
         primaryStage.setTitle("Cash Flow Visualization");
@@ -34,17 +35,6 @@ public class CashFlowView extends Application {
 
         // Handle window close to stop background threads
         primaryStage.setOnCloseRequest(e -> controller.stop());
-    }
-
-    private List<Transaction> generateInitialData() {
-        List<Transaction> transactions = new ArrayList<>();
-        // Add some initial transactions
-        transactions.add(new Transaction("income", 1500));
-        transactions.add(new Transaction("income", 800));
-        transactions.add(new Transaction("expense", 400));
-        transactions.add(new Transaction("expense", 300));
-        transactions.add(new Transaction("expense", 200));
-        return transactions;
     }
 
     public static void main(String[] args) {

@@ -1,24 +1,25 @@
 package src.main.java;
 
-import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CashFlowController {
 
+    @FXML private VBox mainContainer;
     @FXML private PieChart pieChart;
     @FXML private BarChart<String, Number> barChart;
     @FXML private ImageView backgroundImage;
@@ -28,21 +29,19 @@ public class CashFlowController {
     @FXML private VBox graphsContainer;
 
     private List<Transaction> transactions;
-    private final Random random = new Random();
     private ScheduledExecutorService executorService;
+    private int currentLineIndex = 0;  // Declare and initialize currentLineIndex
 
     @FXML
     public void initialize() {
         setupBackground();
         setupCharts();
         setupLabels();
-        startDataSimulation();
     }
 
     private void setupBackground() {
         try {
-            Image image = new Image(getClass().getResourceAsStream("/src/main/resources/images/background.png"));
-            backgroundImage.setImage(image);
+            backgroundImage.setImage(new javafx.scene.image.Image("/src/main/resources/images/background.png"));
         } catch (Exception e) {
             System.err.println("Error loading background image: " + e.getMessage());
             backgroundImage.setStyle("-fx-background-color: linear-gradient(to bottom right, #2c3e50, #3498db);");
@@ -71,22 +70,6 @@ public class CashFlowController {
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
         updateCharts();
-    }
-
-    private void startDataSimulation() {
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(() -> {
-            // Simulate new transactions
-            if (transactions != null) {
-                double incomeChange = random.nextDouble() * 500 - 100;
-                double expenseChange = random.nextDouble() * 300 - 50;
-
-                transactions.add(new Transaction("income", Math.max(incomeChange, 0)));
-                transactions.add(new Transaction("expense", Math.max(expenseChange, 0)));
-
-                javafx.application.Platform.runLater(this::updateCharts);
-            }
-        }, 0, 2, TimeUnit.SECONDS);
     }
 
     private void updateCharts() {
@@ -152,5 +135,50 @@ public class CashFlowController {
         if (executorService != null) {
             executorService.shutdownNow();
         }
+    }
+
+    public void loadTransactionsFromCSV(String filePath) throws IOException {
+        List<Transaction> transactionsList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+
+        // Skip header if present
+        reader.readLine();
+
+        // 读取所有数据到 transactionsList
+        while ((line = reader.readLine()) != null) {
+            String[] fields = line.split(",");
+            String type = fields[0].trim();  // 'income' or 'expense'
+            double amount = Double.parseDouble(fields[1].trim());  // Amount in the second column
+
+            transactionsList.add(new Transaction(type, amount));
+        }
+        reader.close();
+
+        // Start the "animation" by simulating the gradual display of data
+        simulateDataReading(transactionsList);
+    }
+
+    private void simulateDataReading(List<Transaction> transactionsList) {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (currentLineIndex < transactionsList.size()) {
+                    // 每次更新图表显示新的交易记录
+                    List<Transaction> newTransactionList = transactionsList.subList(0, currentLineIndex + 1);
+
+                    // 使用 Platform.runLater 确保图表更新发生在 JavaFX 主线程
+                    Platform.runLater(() -> {
+                        setTransactions(newTransactionList);  // 更新交易列表
+                        updateCharts();  // 更新图表
+                    });
+
+                    currentLineIndex++;
+                } else {
+                    timer.cancel();  // 所有数据已显示完毕，停止定时器
+                }
+            }
+        }, 0, 2000);  // 每 500 毫秒更新一次图表
     }
 }
