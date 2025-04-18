@@ -14,13 +14,12 @@ public class CashFlowView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        System.out.println("FXML Path: " + getClass().getResource("/ui.fxml")); // 检查路径是否正确
-        System.out.println("CSS Path: " + getClass().getResource("/styles.css"));
-        System.out.println("Image Path: " + getClass().getResource("/images/background.png"));
-
+        System.out.println("FXML Path: " + getClass().getResource("/src/main/resources/ui.fxml")); // 检查路径是否正确
+        System.out.println("CSS Path: " + getClass().getResource("/src/main/resources/styles.css"));
+        System.out.println("Image Path: " + getClass().getResource("/src/main/resources/images/background.png"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/ui.fxml"));
         AnchorPane root = loader.load();
-
+        System.out.println("1");
         // Get controller and set initial data
         CashFlowController controller = loader.getController();
         List<Transaction> initialTransactions = generateInitialData();
