@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.image.ImageView?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.UserController" prefHeight="900.0" prefWidth="1600.0">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.ViewMembershipTime_story14.UserController" prefHeight="900.0" prefWidth="1600.0">
     <!-- Background container -->
     <AnchorPane>
 

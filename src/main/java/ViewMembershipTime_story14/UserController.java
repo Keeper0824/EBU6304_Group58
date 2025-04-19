@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.ViewMembershipTime_story14;
 
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
@@ -43,9 +43,9 @@ public class UserController {
                 membershipLabel.setStyle("-fx-text-fill: red;");
             }
 
-             image1.setImage(new javafx.scene.image.Image("/src/main/resources/images/background_14_2.png"));
-             image2.setImage(new javafx.scene.image.Image("/src/main/resources/images/background_14_3.png"));
-             arrowImage.setImage(new javafx.scene.image.Image("/src/main/resources/images/background_14_4.png"));
+             image1.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_2.png"));
+             image2.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_3.png"));
+             arrowImage.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_4.png"));
 
 
 

@@ -1,6 +1,6 @@
 package src.test;
 import java.time.LocalDate;
-import src.main.java.User;
+import src.main.java.ViewMembershipTime_story14.User;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

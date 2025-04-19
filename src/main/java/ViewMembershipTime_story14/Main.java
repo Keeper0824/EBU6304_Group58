@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.ViewMembershipTime_story14;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +9,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/ui.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/ViewMembershipTime_story14/ui.fxml"));
         Scene scene = new Scene(loader.load());
 
         // Get the controller instance and initialize it
@@ -17,7 +17,7 @@ public class Main extends Application {
         controller.initialize();  // Initialize with user data
 
         // Apply the CSS stylesheet
-        scene.getStylesheets().add(getClass().getResource("/src/main/resources/style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/src/main/resources/ViewMembershipTime_story14/style.css").toExternalForm());
 
         primaryStage.setTitle("VIP Membership Status");
         primaryStage.setScene(scene);
