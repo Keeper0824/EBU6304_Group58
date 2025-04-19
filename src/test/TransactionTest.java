@@ -1,7 +1,7 @@
 package src.test;
 
 import org.junit.jupiter.api.Assertions;
-import src.main.java.Transaction;
+import src.main.java.CashFlowVisualization_story15.Transaction;
 
 import java.util.Arrays;
 import java.util.List;

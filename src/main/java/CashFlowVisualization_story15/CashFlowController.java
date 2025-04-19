@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.CashFlowVisualization_story15;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
@@ -63,8 +63,8 @@ public class CashFlowController {
 
     private void setupBackground() {
         try {
-            backgroundImage.setImage(new javafx.scene.image.Image("/src/main/resources/images/background.png"));
-            arrowImage.setImage(new javafx.scene.image.Image("/src/main/resources/images/arrow.png"));
+            backgroundImage.setImage(new javafx.scene.image.Image("/src/main/resources/CashFlowVisualization_story15/images/background.png"));
+            arrowImage.setImage(new javafx.scene.image.Image("/src/main/resources/CashFlowVisualization_story15/images/arrow.png"));
         } catch (Exception e) {
             System.err.println("Error loading background image: " + e.getMessage());
             backgroundImage.setStyle("-fx-background-color: linear-gradient(to bottom right, #2c3e50, #3498db);");

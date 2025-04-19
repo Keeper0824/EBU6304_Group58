@@ -10,9 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.image.Image?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.CashFlowController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.CashFlowVisualization_story15.CashFlowController">
     <!-- Background Image -->
     <ImageView fx:id="backgroundImage" fitWidth="1600" fitHeight="1100"/>
 

@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.CashFlowVisualization_story15;
 
 public class Transaction {
     private String type; // "income" or "expense"

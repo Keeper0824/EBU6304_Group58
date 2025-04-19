@@ -1,4 +1,4 @@
-package src.main.java;
+package src.main.java.CashFlowVisualization_story15;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,14 +7,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CashFlowView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/ui.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/CashFlowVisualization_story15/ui.fxml"));
         AnchorPane root = loader.load();
 
         CashFlowController controller = loader.getController();
@@ -27,7 +25,7 @@ public class CashFlowView extends Application {
         }
 
         Scene scene = new Scene(root, 1600, 1100);
-        scene.getStylesheets().add(getClass().getResource("/src/main/resources/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/src/main/resources/CashFlowVisualization_story15/styles.css").toExternalForm());
 
         primaryStage.setTitle("Cash Flow Visualization");
         primaryStage.setScene(scene);
