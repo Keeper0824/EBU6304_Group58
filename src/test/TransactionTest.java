@@ -1,4 +1,4 @@
-package test;
+package src.test;
 
 import org.junit.jupiter.api.Assertions;
 import src.main.java.CashFlowVisualization_story15.Transaction;
