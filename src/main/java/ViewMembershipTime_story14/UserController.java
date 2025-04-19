@@ -28,7 +28,7 @@ public class UserController {
     // Method to initialize the UI with User information
     public void initialize() {
         // Load user data from CSV
-        User user = UserLoader.loadUserFromCSV("data/user.csv");  // Replace with actual CSV file path
+        User user = UserLoader.loadUserFromCSV("data/userVIP.csv");  // Replace with actual CSV file path
 
         if (user != null) {
             // Update the greeting text dynamically
