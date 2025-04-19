@@ -54,7 +54,7 @@ public class EditController {
         isEdited = true;
 
         // 写入 CSV 文件
-        String filePath = "data/transactions.csv"; // CSV 文件路径
+        String filePath = "data/transactions_6.csv"; // CSV 文件路径
         List<String[]> lines = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {

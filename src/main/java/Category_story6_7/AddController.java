@@ -42,7 +42,7 @@ public class AddController {
     }
 
     private void saveTransactionToCSV(Transaction transaction) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transactions.csv", true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transactions_6.csv", true))) {
             // 将新记录追加到文件末尾
             bw.write(transaction.getTransaction() + "," + transaction.getPrice() + "," + transaction.getClassification() + "," + transaction.getDate());
             bw.newLine();
