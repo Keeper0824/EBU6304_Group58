@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transaction.AddController" alignment="CENTER" spacing="10" prefWidth="400" prefHeight="300">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.Category_story6_7.AddController" alignment="CENTER" spacing="10" prefWidth="400" prefHeight="300">
     <Label text="Transaction"/>
     <TextField fx:id="transactionField"/>
     <Label text="Price"/>

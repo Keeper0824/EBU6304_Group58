@@ -2,7 +2,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.transaction.MainController"
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.Category_story6_7.MainController"
       alignment="CENTER" spacing="10" style="-fx-background-image: url('file:src/main/resources/img.png');">
     <TableView fx:id="tableView" prefWidth="800" prefHeight="500">
         <columns>
