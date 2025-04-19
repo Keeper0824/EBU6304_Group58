@@ -205,7 +205,7 @@ public class BankCardManagerFX extends Application {
 
     private void setupBackground() {
         try {
-            Image bgImage = new Image(getClass().getResourceAsStream("/card_management/bg.png"));
+            Image bgImage = new Image(getClass().getResourceAsStream("/src/main/resources/card_management_story12/bg.png"));
             BackgroundSize bgSize = new BackgroundSize(
                     100, 100,
                     true, true, true, false

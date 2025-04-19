@@ -2,7 +2,7 @@
 AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
 
 
-## Feature 9: GUI Layout
+## Feature #9: GUI Layout
 
 - **UI Type**: Java Swing
 - **Components**:
@@ -14,7 +14,7 @@ AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
 - **Developer**:  @jmmboy (Yudian Wang)
 
 
-## Feature 12: Card Management (Add, Delete & Validation)
+## Feature #12: Card Management (Add, Delete & Validation)
 
 - **Classes**: `BankCardManager`, `AddCardListener`, `DeleteCardListener`
 - **Functions**:
