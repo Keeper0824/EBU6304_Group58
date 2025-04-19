@@ -1,38 +1,6 @@
 # EBU6304_Group58 – Software Engineering Group Project
 AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
 
-
-## Feature 9: GUI Layout
-
-- **UI Type**: Java Swing
-- **Components**:
-    - Text fields for user input
-    - Table to display stored card entries
-    - Buttons for adding and deleting cards
-- Responsive and user-friendly layout
-- Non-editable table to prevent accidental changes
-- **Developer**:  @jmmboy (Yudian Wang)
-
-
-## Feature 12: Card Management (Add, Delete & Validation)
-
-- **Classes**: `BankCardManager`, `AddCardListener`, `DeleteCardListener`
-- **Functions**:
-    - Add new card entries to a table with real-time input validation
-    - Delete selected card with confirmation prompt
-    - Auto-format 16-digit card numbers (e.g., `1234 5678 9012 3456`)
-    - Prevent accidental edits using a non-editable table
-
-- **Validation Rules**:
-    - **Card Number**: 16 digits only (e.g., `4111111111111111`)
-    - **Card Holder**: Full name, at least two words (e.g., `JOHN DOE`)
-    - **Expiry Date**: MM/YY format (e.g., `12/25`)
-    - **CVV**: 3-digit number (e.g., `123`)
-
-- Fully tested with real-time input handling
-- **Developer**:  @jmmboy (Yudian Wang)
-
-
 ## Feature #14: View Membership Expiry Time
 
 - **Classes**: `User`, `UserLoader`, `UserPanel`
