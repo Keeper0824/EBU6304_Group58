@@ -1,4 +1,4 @@
-package card_management;
+package src.main.java.card_management_story12;
 
 
 public class CreditCard {
