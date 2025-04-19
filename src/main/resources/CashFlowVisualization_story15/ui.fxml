@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.CashFlowVisualization_story15.CashFlowController">
+    <!-- Background Image -->
+    <ImageView fx:id="backgroundImage" fitWidth="1600" fitHeight="1100"/>
+
+    <!-- Arrow Image for Navigation -->
+    <ImageView fx:id="arrowImage" layoutX="30" layoutY="30" fitWidth="30" fitHeight="30" onMouseClicked="#goToPreviousPage"/>
+
+    <!-- Main Content Container -->
+    <VBox fx:id="mainContainer" layoutX="360" layoutY="50" spacing="20" alignment="CENTER">
+        <!-- Title -->
+        <Label text="Cash Flow Visualization" styleClass="title">
+            <font>
+                <Font name="Arial" size="28"/>
+            </font>
+        </Label>
+
+
+        <!-- Summary Cards -->
+        <HBox spacing="30" alignment="CENTER">
+            <VBox styleClass="summary-card" spacing="5">
+                <Label text="INCOME" styleClass="summary-title"/>
+                <Label fx:id="incomeLabel" styleClass="income-value" text=""/>
+            </VBox>
+
+            <VBox styleClass="summary-card" spacing="5">
+                <Label text="EXPENSE" styleClass="summary-title"/>
+                <Label fx:id="expenseLabel" styleClass="expense-value" text=""/>
+            </VBox>
+
+
+            <VBox styleClass="summary-card" spacing="5">
+                <Label text="NET" styleClass="summary-title"/>
+                <Label fx:id="netLabel" styleClass="net-value" text=""/>
+            </VBox>
+        </HBox>
+
+        <!-- Charts Container -->
+        <VBox fx:id="graphsContainer" spacing="30" styleClass="charts-container">
+            <PieChart fx:id="pieChart" title="Income vs Expense Ratio" legendVisible="true"
+                      prefWidth="800" prefHeight="400"/>
+
+            <BarChart fx:id="barChart" title="Monthly Cash Flow" legendVisible="true"
+                      prefWidth="800" prefHeight="400">
+                <xAxis>
+                    <CategoryAxis label="Category"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Amount ($)"/>
+                </yAxis>
+            </BarChart>
+        </VBox>
+    </VBox>
+</AnchorPane>
