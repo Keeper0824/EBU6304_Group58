@@ -18,32 +18,37 @@ public class UserSearchController {
         private final String email;
         private final String gender;
         private final String dateOfBirth;
+        private final boolean isVIP; // VIP 状态字段
 
-        public User(String nickname, String email, String gender, String dateOfBirth) {
+        public User(String nickname, String email, String gender, String dateOfBirth, boolean isVIP) {
             this.nickname = nickname;
             this.email = email;
             this.gender = gender;
             this.dateOfBirth = dateOfBirth;
+            this.isVIP = isVIP;
         }
 
         public String getNickname() { return nickname; }
         public String getEmail() { return email; }
         public String getGender() { return gender; }
         public String getDateOfBirth() { return dateOfBirth; }
+        public boolean isVIP() { return isVIP; } // 获取VIP状态
     }
 
     @FXML
     private TextField searchField;
 
     private ObservableList<User> userList = FXCollections.observableArrayList();
+    private ObservableList<User> vipList = FXCollections.observableArrayList(); // 存储VIP用户
+    private ObservableList<User> normalList = FXCollections.observableArrayList(); // 存储Normal用户
 
     @FXML
     private void initialize() {
         // 打印当前工作目录，用于调试
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
-        // 使用相对路径加载 CSV 文件
-        loadUsersFromCSV("AdminDashboard/users.csv");  // 相对路径
+        // 使用你提供的路径加载用户数据
+        loadUsersFromCSV("C:\\Users\\xiaodonx\\IdeaProjects\\te\\EBU6304_Group58\\AdminDashboard\\users.csv");  // 使用上传的文件路径
     }
 
     private void loadUsersFromCSV(String filePath) {
@@ -63,14 +68,23 @@ public class UserSearchController {
 
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                if (values.length == 5) {
-                    String nickname = values[0].trim();  // Nickname is a string
-                    String email = values[2].trim();
-                    String gender = values[3].trim();
-                    String dateOfBirth = values[4].trim();
+                if (values.length >= 6) {  // 确保CSV格式正确
 
-                    User user = new User(nickname, email, gender, dateOfBirth);
+                    String nickname = values[0].trim();  // Nickname is a string
+                    String email = values[1].trim();
+                    String gender = values[2].trim();
+                    String dateOfBirth = values[3].trim();
+
+                    // 根据CSV中的VIP状态判断用户是否是VIP
+                    boolean isVIP = values[5].trim().equalsIgnoreCase("VIP");
+
+                    User user = new User(nickname, email, gender, dateOfBirth, isVIP);
                     userList.add(user);
+                    if (isVIP) {
+                        vipList.add(user); // 如果是VIP用户，则加入VIP列表
+                    } else {
+                        normalList.add(user); // 如果是Normal用户，则加入Normal列表
+                    }
                 }
             }
         } catch (IOException e) {
@@ -87,6 +101,19 @@ public class UserSearchController {
             return;
         }
 
+        if (input.trim().equalsIgnoreCase("VIP")) {
+            // 如果输入是 "VIP"，显示所有 VIP 用户
+            showVIPList();
+            return;
+        }
+
+        if (input.trim().equalsIgnoreCase("normal")) {
+            // 如果输入是 "normal"，显示所有 Normal 用户
+            showNormalList();
+            return;
+        }
+
+        // 如果输入不是VIP或者normal，查询单个用户
         for (User user : userList) {
             if (user.getNickname().equalsIgnoreCase(input)) {
                 showUserInfo(user);
@@ -102,7 +129,26 @@ public class UserSearchController {
                 + "Email: " + user.getEmail() + "\n"
                 + "Gender: " + user.getGender() + "\n"
                 + "Date of Birth: " + user.getDateOfBirth();
+        if (user.isVIP()) {
+            info += "\nVIP Status: Yes";
+        }
         showAlert(Alert.AlertType.INFORMATION, "User Information", info);
+    }
+
+    private void showVIPList() {
+        StringBuilder vipNames = new StringBuilder("List of VIP Users:\n");
+        for (User vipUser : vipList) {
+            vipNames.append(vipUser.getNickname()).append("\n");
+        }
+        showAlert(Alert.AlertType.INFORMATION, "VIP Users", vipNames.toString());
+    }
+
+    private void showNormalList() {
+        StringBuilder normalNames = new StringBuilder("List of Normal Users:\n");
+        for (User normalUser : normalList) {
+            normalNames.append(normalUser.getNickname()).append("\n");
+        }
+        showAlert(Alert.AlertType.INFORMATION, "Normal Users", normalNames.toString());
     }
 
     private void showAlert(Alert.AlertType type, String title, String content) {
