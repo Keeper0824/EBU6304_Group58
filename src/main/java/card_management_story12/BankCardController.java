@@ -18,12 +18,6 @@ public class BankCardController {
     @FXML private VBox tableViewView;
     @FXML private TableView<CreditCard> tableView;
 
-    // 新增：和 input_form.fxml 里一一对应
-    @FXML private TextField cardNumberField;
-    @FXML private TextField cardHolderField;
-    @FXML private TextField expiryDateField;
-    @FXML private TextField cvvField;
-
     private ObservableList<CreditCard> cardData = FXCollections.observableArrayList();
 
     @FXML
@@ -35,13 +29,20 @@ public class BankCardController {
 
     private void loadViews() {
         try {
-            // 加载输入表单和表格视图（路径已修正）
-            VBox inputForm = FXMLLoader.load(
+            // Input Form：FXML 里已经有 fx:controller 了
+            FXMLLoader inputLoader = new FXMLLoader(
                     getClass().getResource("/src/main/resources/card_management_story12/input_form.fxml")
             );
-            VBox tableBox = FXMLLoader.load(
+            VBox inputForm = inputLoader.load();
+
+            // Table View：同理
+            FXMLLoader tableLoader = new FXMLLoader(
                     getClass().getResource("/src/main/resources/card_management_story12/table_view.fxml")
             );
+            VBox tableBox = tableLoader.load();
+
+            inputView.getChildren().setAll(inputForm);
+            tableViewView.getChildren().setAll(tableBox);
 
             // 清空容器并添加新内容
             inputView.getChildren().clear();

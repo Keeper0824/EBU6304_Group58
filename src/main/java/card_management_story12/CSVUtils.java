@@ -8,16 +8,8 @@ import java.util.List;
 
 public class CSVUtils {
     private final static String currentUser = Session.getCurrentNickname();
-    private static final String DATA_DIR = "data/";
-    private static final String CSV_FILE = DATA_DIR + currentUser + "cards.csv";
+    private static final String CSV_FILE = "data/1_cards.csv";
 
-    static {
-        // 自动创建数据存储目录
-        File dir = new File(DATA_DIR);
-        if (!dir.exists() && !dir.mkdirs()) {
-            System.err.println("Failed to create data directory: " + DATA_DIR);
-        }
-    }
 
     public static List<CreditCard> loadCards() {
         List<CreditCard> cards = new ArrayList<>();
