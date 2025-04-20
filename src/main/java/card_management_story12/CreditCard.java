@@ -13,7 +13,6 @@ public class CreditCard {
         this.cvv = cvv;
     }
 
-    // Getter方法需要与TableView的PropertyValueFactory对应
     public String getCardNumber() { return cardNumber; }
     public String getCardHolder() { return cardHolder; }
     public String getExpiryDate() { return expiryDate; }

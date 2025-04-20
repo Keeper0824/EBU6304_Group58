@@ -6,11 +6,11 @@
 <?import javafx.scene.image.ImageView?>
 
 <StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="card_management_story12.BankCardController">
+           fx:controller="src.main.java.card_management_story12.BankCardController">
     <children>
         <ImageView>
             <image>
-                <Image url="@/card_management/bg.png"/>
+                <Image url="@images/bg.png"/>
             </image>
         </ImageView>
         <VBox spacing="20" alignment="CENTER">

@@ -3,9 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <GridPane alignment="CENTER" hgap="20" vgap="20"
           xmlns="http://javafx.com/javafx/17"
-          xmlns:fx="http://javafx.com/fxml/1">
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="src.main.java.card_management_story12.BankCardController">
     <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
 
     <Label text="Card Number:" GridPane.columnIndex="0" GridPane.rowIndex="0"

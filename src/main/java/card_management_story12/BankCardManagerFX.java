@@ -8,7 +8,9 @@ import javafx.stage.Stage;
 public class BankCardManagerFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../../resources/card_mangement_story12/main_view.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/src/main/resources/card_management_story12/main_view.fxml")
+        );
         Scene scene = new Scene(loader.load(), 1600, 900);
         stage.setScene(scene);
         stage.setTitle("Bank Card Manager");
