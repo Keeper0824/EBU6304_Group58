@@ -41,7 +41,7 @@ public class LoginController {
         refreshCaptchaBtn.setOnAction(event -> generateCaptcha());
     }
 
-    // In LoginController.java, modify the handleLogin method
+
     @FXML
     private void handleLogin() {
         String email = emailField.getText();
@@ -108,7 +108,7 @@ public class LoginController {
         return null;
     }
 
-    // 其他方法保持不变...
+
     private void generateCaptcha() {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random random = new Random();
