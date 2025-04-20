@@ -16,10 +16,15 @@
     <!-- Background Image -->
     <ImageView fx:id="backgroundImage" fitWidth="1600" fitHeight="1100"/>
 
-    <!-- Back Button -->
-    <Button fx:id="backButton" text="Back to Main Menu" layoutX="30" layoutY="30"
-            style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
-                   -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+    <!-- Navigation Buttons -->
+    <HBox layoutX="30" layoutY="30" spacing="20">
+        <Button fx:id="backButton" text="Back to Main Menu"
+                style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                       -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        <Button fx:id="nextButton" text="Next View"
+                style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                       -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+    </HBox>
 
     <!-- Main Content Container -->
     <VBox fx:id="mainContainer" layoutX="360" layoutY="50" spacing="20" alignment="CENTER">

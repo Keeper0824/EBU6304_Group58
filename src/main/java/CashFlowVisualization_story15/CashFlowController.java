@@ -1,12 +1,17 @@
 package src.main.java.CashFlowVisualization_story15;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -20,12 +25,9 @@ import javafx.application.Platform;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javafx.scene.input.MouseEvent;
-
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import src.main.java.Login_story1_3.MainMenuApp;
 import src.main.java.Login_story1_3.User;
+import src.main.java.Session;
 
 public class CashFlowController {
 
@@ -46,25 +48,59 @@ public class CashFlowController {
     @FXML
     private VBox graphsContainer;
     @FXML
-    private ImageView arrowImage; // Arrow Image
+    private ImageView arrowImage;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button nextButton;
 
     private List<Transaction> transactions;
     private ScheduledExecutorService executorService;
-    private int currentLineIndex = 0;  // Declare and initialize currentLineIndex
-
-    @FXML
-    private Button backButton;
+    private int currentLineIndex = 0;
+    private final static String currentUser = Session.getCurrentNickname();
 
     @FXML
     public void initialize() {
         setupBackground();
         setupCharts();
         setupLabels();
-        setupBackButton();
+        setupButtons();
+        // 主动加载数据
+        try {
+            loadTransactionsFromCSV("data/"+currentUser+"_transaction.csv");
+        } catch (IOException e) {
+            System.err.println("Failed to load transactions: " + e.getMessage());
+        }
     }
 
-    private void setupBackButton() {
+    private void setupButtons() {
         backButton.setOnAction(e -> handleBackToMainMenu());
+        nextButton.setOnAction(e -> handleNextView());
+    }
+
+    private void handleNextView() {
+        try {
+            // Close current window
+            Stage currentStage = (Stage) nextButton.getScene().getWindow();
+            currentStage.close();
+
+            // Load the main_view.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/financial_story9/main_view.fxml"));
+            Parent root = loader.load();
+
+            // Set background style
+            root.setStyle("-fx-background-image: url('/src/main/resources/financial_story9/images/background.png');" +
+                    "-fx-background-size: cover;" +
+                    "-fx-background-position: center;");
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, 1600, 900));
+            stage.setTitle("Financial Analysis");
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Failed to load next view: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void handleBackToMainMenu() {
@@ -78,15 +114,8 @@ public class CashFlowController {
             new MainMenuApp(currentUser).start(new Stage());
         } catch (Exception e) {
             System.err.println("Failed to return to Main Menu: " + e.getMessage());
+            e.printStackTrace();
         }
-    }
-
-
-    @FXML
-    public void goToPreviousPage(MouseEvent event) {
-        // Add logic to navigate to the previous page (for now, just print to console)
-        System.out.println("Navigating to previous page...");
-        // Implement your page switch logic here (e.g., using SceneManager or Stage switching)
     }
 
     private void setupBackground() {
@@ -196,7 +225,7 @@ public class CashFlowController {
         // Skip header if present
         reader.readLine();
 
-        // 读取所有数据到 transactionsList
+        // Read all data into transactionsList
         while ((line = reader.readLine()) != null) {
             String[] fields = line.split(",");
             String type = fields[5].trim();  // 'income' or 'expense'
@@ -216,20 +245,20 @@ public class CashFlowController {
             @Override
             public void run() {
                 if (currentLineIndex < transactionsList.size()) {
-                    // 每次更新图表显示新的交易记录
+                    // Update chart with new transaction records
                     List<Transaction> newTransactionList = transactionsList.subList(0, currentLineIndex + 1);
 
-                    // 使用 Platform.runLater 确保图表更新发生在 JavaFX 主线程
+                    // Use Platform.runLater to ensure chart updates happen on JavaFX thread
                     Platform.runLater(() -> {
-                        setTransactions(newTransactionList);  // 更新交易列表
-                        updateCharts();  // 更新图表
+                        setTransactions(newTransactionList);  // Update transaction list
+                        updateCharts();  // Update charts
                     });
 
                     currentLineIndex++;
                 } else {
-                    timer.cancel();  // 所有数据已显示完毕，停止定时器
+                    timer.cancel();  // All data has been displayed, stop timer
                 }
             }
-        }, 0, 2000);  // 每 500 毫秒更新一次图表
+        }, 0, 2000);  // Update charts every 2000ms
     }
 }

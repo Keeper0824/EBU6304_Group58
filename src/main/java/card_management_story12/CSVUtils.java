@@ -8,15 +8,16 @@ import java.util.List;
 
 public class CSVUtils {
     private final static String currentUser = Session.getCurrentNickname();
-    private static final String CSV_FILE = "data/1_cards.csv";
+    private static final String CSV_FILE = "data/"+currentUser+"_cards.csv"; // 添加默认文件路径
 
-
+    // 修改loadCards方法签名（移除参数）
     public static List<CreditCard> loadCards() {
+        System.out.println(CSV_FILE);
         List<CreditCard> cards = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",", 4); // 安全分割防止字段含逗号
+                String[] data = line.split(",");
                 if (data.length == 4) {
                     cards.add(new CreditCard(
                             data[0].trim(),
@@ -26,37 +27,26 @@ public class CSVUtils {
                     ));
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("No existing data, starting fresh.");
         } catch (IOException e) {
-            System.err.println("Read error: " + e.getMessage());
+            System.out.println("No existing data file");
         }
         return cards;
     }
 
+    // 修改saveCards方法签名（移除path参数）
     public static void saveCards(List<CreditCard> cards) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSV_FILE))) {
             for (CreditCard card : cards) {
-                // 使用转义处理字段中的逗号（需实现escapeCsv方法）
-                String line = String.join(",",
-                        escapeCsv(card.getCardNumber()),
-                        escapeCsv(card.getCardHolder()),
-                        escapeCsv(card.getExpiryDate()),
-                        escapeCsv(card.getCvv())
-                );
-                bw.write(line);
+                bw.write(String.join(",",
+                        card.getCardNumber(),
+                        card.getCardHolder(),
+                        card.getExpiryDate(),
+                        card.getCvv()
+                ));
                 bw.newLine();
             }
         } catch (IOException e) {
-            System.err.println("Save failed: " + e.getMessage());
+            System.err.println("Save error: " + e.getMessage());
         }
-    }
-
-    private static String escapeCsv(String field) {
-        // 简单转义：如果包含逗号或换行，用双引号包裹
-        if (field.contains(",") || field.contains("\n")) {
-            return "\"" + field.replace("\"", "\"\"") + "\"";
-        }
-        return field;
     }
 }

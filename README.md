@@ -124,7 +124,7 @@ Stores user data in a CSV file and loads it into memory on initialization.
         - Uses `PieChart` and `BarChart` to visualize income vs. expense ratios and monthly cash flow trends.
 - Tested with JUnit to ensure new user functionality works correctly.  
   It successfully reads income/expense information from `InOutcome.csv` and renders analysis charts.
-- **Developer**: @Keeper0824 (HaoRan Sun)
+- **Developer**: @Keeper0824 (Haoran Sun)
 
 ## Feature #24: MainMenu Navigation
 
