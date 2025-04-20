@@ -17,6 +17,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class LoginController {
     @FXML
@@ -35,8 +39,6 @@ public class LoginController {
     @FXML
     public void initialize() {
         generateCaptcha();
-
-        // 设置刷新验证码按钮的事件处理
         refreshCaptchaBtn.setOnAction(event -> generateCaptcha());
     }
 
@@ -46,10 +48,9 @@ public class LoginController {
         String password = passwordField.getText();
         String userCaptcha = captchaField.getText();
 
-        // 首先验证验证码
         if (!userCaptcha.equalsIgnoreCase(currentCaptcha)) {
             showAlert("Error", "Invalid verification code!");
-            generateCaptcha(); // 重新生成验证码
+            generateCaptcha();
             return;
         }
 
@@ -58,10 +59,7 @@ public class LoginController {
         if (user != null) {
             showAlert("Success", "Login successful.");
             try {
-                // 打开主菜单界面并传递用户对象
                 new MainMenuApp(user).start(new Stage());
-
-                // 关闭当前窗口
                 ((Stage) emailField.getScene().getWindow()).close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -69,11 +67,34 @@ public class LoginController {
             }
         } else {
             showAlert("Login Failed", "Invalid email or password.");
-            generateCaptcha(); // 登录失败重新生成验证码
+            generateCaptcha();
         }
     }
 
-    // 生成4位数字字母混合的验证码
+    // 密码加密方法（与注册时使用的相同）
+    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(hash);
+    }
+
+    private User validateUser(String email, String password) {
+        List<User> users = loadUsersFromCSV();
+        try {
+            String encryptedPassword = encryptPassword(password);
+            for (User user : users) {
+                if (user.getEmail().equals(email) && user.getPassword().equals(encryptedPassword)) {
+                    return user;
+                }
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            showAlert("Error", "System error during login.");
+        }
+        return null;
+    }
+
+    // 其他方法保持不变...
     private void generateCaptcha() {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random random = new Random();
@@ -98,16 +119,6 @@ public class LoginController {
             e.printStackTrace();
             showAlert("Error", "Failed to open registration window.");
         }
-    }
-
-    private User validateUser(String email, String password) {
-        List<User> users = loadUsersFromCSV();
-        for (User user : users) {
-            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                return user;
-            }
-        }
-        return null;
     }
 
     private List<User> loadUsersFromCSV() {
