@@ -48,7 +48,7 @@ public class AddController {
 
 
     private void saveTransactionToCSV(Transaction transaction) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transaction.csv", true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/1_transaction.csv", true))) {
             // 将新记录追加到文件末尾
             bw.write(transaction.getId() + "," +transaction.getTransaction() + "," + transaction.getPrice() + "," + transaction.getClassification() + ","
                     + transaction.getDate()+"," + transaction.getIOType());
@@ -56,7 +56,7 @@ public class AddController {
         } catch (IOException e) {
             e.printStackTrace();
             // 可以在这里添加错误处理逻辑，例如显示错误消息
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Error saving transaction.csv to CSV file.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error saving 1_transaction.csv to CSV file.");
             alert.showAndWait();
         }
     }
@@ -78,7 +78,7 @@ public class AddController {
 
     private String getNextId() {
         String lastLine = "";
-        try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/1_transaction.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 lastLine = line;

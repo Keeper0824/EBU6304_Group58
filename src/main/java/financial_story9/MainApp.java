@@ -27,7 +27,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         try {
             // Load transaction data
-            loadData("data/transaction.csv");
+            loadData("data/1_transaction.csv");
 
             // Create main layout with background
             VBox root = new VBox(20);

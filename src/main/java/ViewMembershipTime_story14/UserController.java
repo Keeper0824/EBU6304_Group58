@@ -50,7 +50,9 @@ public class UserController {
                 }
             }
             else {
-                greetingText.setText("Hello " + user.getUsername() + ",\nYou are not our VIP member yet. Welcome to the VIP group!");
+                greetingText.setText("Hello " + user.getUsername() + ",\nYou are not our VIP member yet.");
+                membershipLabel.setText("Membership Expired");
+                membershipLabel.setStyle("-fx-text-fill: red;");
             }
 
             image1.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_2.png"));

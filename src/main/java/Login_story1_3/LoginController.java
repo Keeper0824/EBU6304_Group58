@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import src.main.java.Session;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -54,6 +55,7 @@ public class LoginController {
         User user = validateUser(email, password);
 
         if (user != null) {
+            Session.setCurrentNickname(user.getNickname());
             showAlert("Success", "Login successful.");
             try {
                 new MainMenuApp(user).start(new Stage());

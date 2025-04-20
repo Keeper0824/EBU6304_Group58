@@ -111,7 +111,7 @@ public class MainController {
 
     private void loadTransactions() {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/1_transaction.csv"))) {
             String line;
             br.readLine(); // 跳过标题行
             while ((line = br.readLine()) != null) {
@@ -168,7 +168,7 @@ public class MainController {
 
     private void deleteTransactionFromCSV(Transaction transaction) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/1_transaction.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (!line.equals(transaction.getId() + "," + transaction.getTransaction() + "," + transaction.getPrice() + "," + transaction.getClassification() + "," +
@@ -179,7 +179,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transaction.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/1_transaction.csv"))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();
@@ -227,7 +227,7 @@ public class MainController {
 
     private void updateTransactionInCSV(Transaction oldTransaction, Transaction newTransaction) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/1_transaction.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.equals(oldTransaction.getTransaction() + "," + oldTransaction.getPrice() + "," + oldTransaction.getClassification() + "," + oldTransaction.getDate()+ "," + oldTransaction.getIOType()  )) {
@@ -239,7 +239,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transaction.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/1_transaction.csv"))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();

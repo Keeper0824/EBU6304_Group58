@@ -17,7 +17,7 @@ public class CashFlowView extends Application {
 
         CashFlowController controller = loader.getController();
         // Load transactions from CSV
-        String csvFilePath = "data/transaction.csv";  // Replace with your CSV file path
+        String csvFilePath = "data/1_transaction.csv";  // Replace with your CSV file path
         try {
             controller.loadTransactionsFromCSV(csvFilePath);
         } catch (IOException e) {

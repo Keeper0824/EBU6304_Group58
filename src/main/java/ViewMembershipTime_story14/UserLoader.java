@@ -1,5 +1,7 @@
 package src.main.java.ViewMembershipTime_story14;
 
+import src.main.java.Session;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,25 +9,34 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class UserLoader {
+    private final static String currentUser = Session.getCurrentNickname();
+
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static User loadUserFromCSV(String path) {
+        // 在真正使用时再拿一次昵称
+        String currentNickname = Session.getCurrentNickname();
+        if (currentNickname == null) {
+            System.err.println("NO USER LOGIN!");
+            return null;
+        }
+
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            // 跳过表头
-            String line = br.readLine();
-            // 继续读，直到遇到非空行或到文件末尾
-            while ((line = br.readLine()) != null && line.trim().isEmpty()) {
-                // nothing, just skip blank
-            }
+            // ☆ 1. 跳过表头
+            br.readLine();
 
-            if (line != null) {
+            String line;
+            // ☆ 2. 从第二行开始，一行行遍历到文件末尾
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;     // 跳过空行
+
                 String[] parts = line.split(",");
-                // 至少要有 8 个字段，才能安全访问 parts[6] 和 parts[7]
-                if (parts.length >= 8) {
-                    String username       = parts[1].trim();
-                    String membershipType = parts[6].trim();  // VIP 或 Normal
+                if (parts.length < 8) continue;         // 列数不够也跳过
 
+                // ☆ 3. 找到匹配昵称就返回
+                if (parts[1].trim().equals(currentNickname)) {
+                    String membershipType = parts[6].trim();
                     LocalDate expiryDate = null;
                     if ("VIP".equalsIgnoreCase(membershipType)) {
                         String dateStr = parts[7].trim();
@@ -33,16 +44,14 @@ public class UserLoader {
                             expiryDate = LocalDate.parse(dateStr, DATE_FORMATTER);
                         }
                     }
-                    return new User(username, expiryDate);
-                } else {
-                    System.err.println("The CSV fields are insufficient. It is expected that there will be more than or equal to 8 columns. In reality:" + parts.length);
+                    return new User(currentNickname, expiryDate);
                 }
-            } else {
-                System.err.println("There are no data rows in the CSV file!");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // 全部遍历完都没 return，就说明找不到喵
         return null;
     }
 }

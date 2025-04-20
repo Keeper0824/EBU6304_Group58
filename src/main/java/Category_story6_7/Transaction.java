@@ -69,7 +69,7 @@ public class Transaction {
     @Override
     public String toString() {
         return "Transaction{" +
-                "transaction.csv='" + transaction + '\'' +
+                "1_transaction.csv='" + transaction + '\'' +
                 ", price=" + price +
                 ", classification='" + classification + '\'' +
                 ", date='" + date + '\'' +
