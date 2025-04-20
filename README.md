@@ -5,9 +5,9 @@ AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
 - **Class**: `RegistrationApp`
 - **Data**: `data/user.csv`
 - **Functions**:
-Create an account for the user, get the email address, nickname, gender, birthday
-Ability to store user information in a CSV file
-Once the registration is complete, you will be automatically returned to the login screen
+  Create an account for the user, get the email address, nickname, gender, birthday
+  Ability to store user information in a CSV file
+  Once the registration is complete, you will be automatically returned to the login screen
 - Tested with JUnit
 - Developer: @lshmy(Muchi Wei)
 
@@ -15,8 +15,8 @@ Once the registration is complete, you will be automatically returned to the log
 - **Class**: `UserManagementApp`
 - **Data**: `data/user.csv`
 - **Functions**:
-You can jump to the Modify Information page on the user interface, and users can view their current information
-Users can modify their information below, but the email address cannot be modified as a login credential for the time being
+  You can jump to the Modify Information page on the user interface, and users can view their current information
+  Users can modify their information below, but the email address cannot be modified as a login credential for the time being
 - Tested with JUnit
 - **Developer**: @lshmy(Muchi Wei)
 
@@ -25,8 +25,8 @@ Users can modify their information below, but the email address cannot be modifi
 - **Classes**: `LoginApp`, `LoginConController`, `RegistrationApp`, `RegistrationController`, `User`
 - **Data**: `data/user.csv`
 - **Description**:
-Enforces multi-factor authentication (password + verification code) during login.
-Applies SHA-256 hashing to user passwords during registration.
+  Enforces multi-factor authentication (password + verification code) during login.
+  Applies SHA-256 hashing to user passwords during registration.
 - Tested with JUnit to ensure the user can login successfully with password and verification code. The password in csv file are all encrypted.
 - **Developer**: @hzxuan6628(Zhengxuan Han)
 
@@ -34,10 +34,10 @@ Applies SHA-256 hashing to user passwords during registration.
 - **Class**: `UserSearchApp` and `UserSearchController`
 - **Data**: `data/user.csv`
 - **Description**:
-Implements a user search functionality where users can be searched by their nickname.
-Loads user data (nickname, email, gender, date of birth) from a CSV file during initialization.
-Displays user information in a dialog box when a matching nickname is found.
-If no matching user is found, an informational alert is shown.
+  Implements a user search functionality where users can be searched by their nickname.
+  Loads user data (nickname, email, gender, date of birth) from a CSV file during initialization.
+  Displays user information in a dialog box when a matching nickname is found.
+  If no matching user is found, an informational alert is shown.
 - Tested with JUnit to ensure correct user search functionality by nickname. The user data is loaded from an encrypted CSV file.
 - **Developer**: @xiaodonx(Kaiyu Liu)
 
@@ -46,8 +46,8 @@ If no matching user is found, an informational alert is shown.
 - **Classes**: `Transaction`, `mainApp`, `addController`
 - **Data**: `data/transaction.csv`
 - **Description**:
-It can add consumption data, including Transaction, Price, Classification and Date.
-The data can be saved in a csv file and used for analysis.
+  It can add consumption data, including Transaction, Price, Classification and Date.
+  The data can be saved in a csv file and used for analysis.
 - Verified with JUnit unit testing.
 - **Developer**: @hzxuan6628(Zhengxuan Han)
 
@@ -56,9 +56,9 @@ The data can be saved in a csv file and used for analysis.
 - **Class**: `Transaction`, `addController`
 - **Data**: `data/transaction.csv`
 - **Functions**:
-Collecting transaction data, get Transaction, Price, Classification, Date
-Ability to store transaction information in a CSV file
-Once the collection is complete, you will be automatically returned to the form and refresh
+  Collecting transaction data, get Transaction, Price, Classification, Date
+  Ability to store transaction information in a CSV file
+  Once the collection is complete, you will be automatically returned to the form and refresh
 - **Developer**: @Wei13461(Wei Chen)
 
 ## Feature #7: View Categories
@@ -66,38 +66,62 @@ Once the collection is complete, you will be automatically returned to the form 
 - **Class**: `mainApp`, `mainController`, `Transaction`
 - **Data**: `data/transaction.csv`
 - **Functions**:
-Load data from transaction csv file
-Use a form to show different attributes of the transaction data
-Provide buttons to edit, delete or add data
-Save changes to csv file
+  Load data from transaction csv file
+  Use a form to show different attributes of the transaction data
+  Provide buttons to edit, delete or add data
+  Save changes to csv file
 - Tested with JUnit
 - **Developer**: @Wei13461(Wei Chen)
 
-## Feature #8: Expense Editing  
+## Feature #8: Expense Editing
 
 - **Class**: `Transaction`, `editController`
 - **Data**: `data/transaction.csv`
 - **Functions**:
-Show the current data of certain transaction
-Collecting the changed transaction data
-Ability to store transaction information in a CSV file
-Once the collection is complete, you will be automatically returned to the form and refresh
+  Show the current data of certain transaction
+  Collecting the changed transaction data
+  Ability to store transaction information in a CSV file
+  Once the collection is complete, you will be automatically returned to the form and refresh
 - Tested with JUnit
 - **Developer**:@Wei13461(Wei Chen)
 
+## Feature #9: GUI Layout
 
+- **UI Type**: Java Swing
+- **Components**:
+    - Text fields for user input
+    - Table to display stored card entries
+    - Buttons for adding and deleting cards
+- **Responsive and User-Friendly Layout**
+- **Read-Only Table**: Prevents accidental modifications
+- **Developer**: @jmmboy (Yudian Wang)
 
+## Feature #12: Card Management (Add, Delete & Validation)
 
+- **Classes**: `BankCardManager`, `AddCardListener`, `DeleteCardListener`
 
+- **Functions**:
+    - Add new card entries to the table with real-time input validation
+    - Delete selected cards with a confirmation prompt
+    - Auto-format 16-digit card numbers (e.g., `1234 5678 9012 3456`)
+    - Use a read-only table to prevent accidental edits
 
+- **Validation Rules**:
+    - **Card Number**: 16 digits only (e.g., `4111111111111111`)
+    - **Card Holder**: Full name, at least two words (e.g., `JOHN DOE`)
+    - **Expiry Date**: MM/YY format (e.g., `12/25`)
+    - **CVV**: 3-digit number (e.g., `123`)
+
+- **Testing**: Fully tested with real-time input handling
+- **Developer**: @jmmboy (Yudian Wang)
 
 ## Feature #13: View Categories
 - **Class**: `UserSearchApp` and `UserSearchController`
 - **Data**: `data/user.csv`
 - **Description**:
-Allows users to search by nickname, and displays user details (nickname, email, gender, date of birth).
-Supports searching for VIP and Normal users by entering "VIP" or "normal".
-Stores user data in a CSV file and loads it into memory on initialization.
+  Allows users to search by nickname, and displays user details (nickname, email, gender, date of birth).
+  Supports searching for VIP and Normal users by entering "VIP" or "normal".
+  Stores user data in a CSV file and loads it into memory on initialization.
 - Tested with JUnit to ensure correct functionality of user search by nickname. The user data is stored in the CSV file.
 - **Developer**: @xiaodonx(Kaiyu Liu)
 
