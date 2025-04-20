@@ -13,6 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.io.*;
 
 public class RegistrationController {
     @FXML private TextField nicknameField;
@@ -41,8 +42,12 @@ public class RegistrationController {
             // 加密密码
             String encryptedPassword = encryptPassword(passwordField.getText());
 
+            // 自动计算新 ID
+            String newId = getNextUserId();
+
             // 创建用户对象
             User newUser = new User(
+                    newId,
                     nicknameField.getText(),
                     encryptedPassword, // 存储加密后的密码
                     emailField.getText(),
@@ -99,11 +104,14 @@ public class RegistrationController {
         System.out.println("Saving user: " + user.getNickname());
         try {
             List<String> userData = new ArrayList<>();
+            userData.add(user.getID());
             userData.add(user.getNickname());
             userData.add(user.getPassword()); // 存储的是加密后的密码
             userData.add(user.getEmail());
             userData.add(user.getGender());
             userData.add(user.getDateOfBirth());
+            userData.add("Normal");
+            userData.add("null");
 
             String[] userArray = userData.toArray(new String[0]);
             String csvContent = String.join(",", userArray);
@@ -156,4 +164,34 @@ public class RegistrationController {
             });
         });
     }
+
+    /**
+     * 从 user.csv 读取最后一个 ID，然后返回 lastId+1，
+     * 如果文件只有表头或出错，就返回 "1"
+     */
+    private String getNextUserId() {
+        String lastLine = "";
+        try (BufferedReader br = new BufferedReader(new FileReader("data/user.csv"))) {
+            String line;
+            br.readLine(); // 跳过表头
+            while ((line = br.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    lastLine = line;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!lastLine.isEmpty()) {
+            String[] parts = lastLine.split(",");
+            try {
+                int lastId = Integer.parseInt(parts[0].trim());
+                return String.valueOf(lastId + 1);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        return "1";
+    }
+
 }

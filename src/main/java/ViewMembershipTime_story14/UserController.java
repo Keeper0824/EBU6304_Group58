@@ -28,19 +28,25 @@ public class UserController {
     // Method to initialize the UI with User information
     public void initialize() {
         // Load user data from CSV
-        User user = UserLoader.loadUserFromCSV("data/userVIP.csv");  // Replace with actual CSV file path
+        User user = UserLoader.loadUserFromCSV("data/user.csv");  // Replace with actual CSV file path
 
         if (user != null) {
-            // Update the greeting text dynamically
-            greetingText.setText("Hello " + user.getUsername() + ",\nYour VIP expires on " + user.getMembershipExpiryDate());
+            if (user.getMembershipExpiryDate() != null) {
+                // Update the greeting text dynamically
+                greetingText.setText("Hello " + user.getUsername() + ",\nYour VIP expires on " + user.getMembershipExpiryDate());
 
-            // Update the membership label with expiration information
-            if (user.isMembershipActive()) {
-                membershipLabel.setText("Membership expires on: " + user.getMembershipExpiryDate() +
-                        " (" + user.getRemainingDays() + " days left)");
-            } else {
-                membershipLabel.setText("Membership Expired");
-                membershipLabel.setStyle("-fx-text-fill: red;");
+                // Update the membership label with expiration information
+                if (user.isMembershipActive()) {
+                    membershipLabel.setText("Membership expires on: " + user.getMembershipExpiryDate() +
+                            " (" + user.getRemainingDays() + " days left)");
+                } else {
+                    membershipLabel.setText("Membership Expired");
+                    membershipLabel.setStyle("-fx-text-fill: red;");
+                }
+            }
+            else{
+                // Update the greeting text dynamically
+                greetingText.setText("Hello " + user.getUsername() + ",\nYou are not out VIP mumber yet. Welcome to the VIP group!");
             }
 
              image1.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_2.png"));

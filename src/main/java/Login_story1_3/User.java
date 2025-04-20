@@ -4,18 +4,28 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class User {
+    private final StringProperty ID;
     private final StringProperty nickname;
     private final StringProperty password;
     private final StringProperty email;
     private final StringProperty gender;
     private final StringProperty dateOfBirth;
 
-    public User(String nickname, String password, String email, String gender, String dateOfBirth) {
+    public User(String ID,String nickname, String password, String email, String gender, String dateOfBirth) {
+        this.ID = new SimpleStringProperty(ID);
         this.nickname = new SimpleStringProperty(nickname);
         this.password = new SimpleStringProperty(password);
         this.email = new SimpleStringProperty(email);
         this.gender = new SimpleStringProperty(gender);
         this.dateOfBirth = new SimpleStringProperty(dateOfBirth);
+    }
+
+    public String getID() {
+        return ID.get();
+    }
+
+    public void setID(String ID) {
+        this.ID.set(ID);
     }
 
     public String getNickname() {
@@ -56,6 +66,10 @@ public class User {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth.set(dateOfBirth);
+    }
+
+    public StringProperty IDProperty() {
+        return ID;
     }
 
     public StringProperty nicknameProperty() {

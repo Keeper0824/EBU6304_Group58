@@ -51,7 +51,7 @@ public class UserSearchController {
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
 
         // 使用你提供的路径加载用户数据
-        loadUsersFromCSV("data/users.csv");  // 使用上传的文件路径
+        loadUsersFromCSV("data/user.csv");  // 使用上传的文件路径
     }
 
     private void loadUsersFromCSV(String filePath) {
@@ -71,16 +71,16 @@ public class UserSearchController {
 
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                if (values.length >= 6) {  // 确保CSV格式正确
+                if (values.length >= 8) {  // 确保CSV格式正确
 
                     String ID = values[0].trim();
                     String nickname = values[1].trim();  // Nickname is a string
-                    String email = values[2].trim();
-                    String gender = values[3].trim();
-                    String dateOfBirth = values[4].trim();
+                    String email = values[3].trim();
+                    String gender = values[4].trim();
+                    String dateOfBirth = values[5].trim();
 
                     // 根据CSV中的VIP状态判断用户是否是VIP
-                    boolean isVIP = values[5].trim().equalsIgnoreCase("VIP");
+                    boolean isVIP = values[6].trim().equalsIgnoreCase("VIP");
 
                     User user = new User(ID, nickname, email, gender, dateOfBirth, isVIP);
                     userList.add(user);
