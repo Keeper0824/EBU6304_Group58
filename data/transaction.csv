@@ -4,4 +4,4 @@ ID,Transaction,Price,Classification,Date,IOType
 3,Stock,3000.0,Finance Management,2025-03-15,income
 4,Iphone 15(1TB),9900,Entertainment,2025-03-18,expense
 5,Nike T-shirt,350,Shopping,2025-03-21,expense
-6,Salary,30000.0,Salary,2025-04-01,expense
+6,Salary,30000.0,Salary,2025-04-01,income
