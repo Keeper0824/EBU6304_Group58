@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="src.main.java.Login_story1_3.UserManagementController">
+
+    <!-- 背景图片 -->
+    <ImageView fitWidth="1600" fitHeight="900" preserveRatio="false">
+        <image>
+            <Image url="@images/3.jpg" />
+        </image>
+    </ImageView>
+
+    <!-- 主内容区域 -->
+    <VBox alignment="CENTER" spacing="20"
+          style="-fx-background-color: rgba(255,255,255,0.8); -fx-background-radius: 15; -fx-padding: 30;"
+          AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="100"
+          AnchorPane.leftAnchor="400" AnchorPane.rightAnchor="400">
+
+        <!-- 标题 -->
+        <Label text="User Information" style="-fx-font-size: 36px; -fx-font-weight: bold;"/>
+
+        <!-- 表格 -->
+        <TableView fx:id="userTable" prefHeight="300" prefWidth="800"
+                   style="-fx-font-size: 18px;">
+            <columns>
+                <TableColumn text="Nickname" prefWidth="200">
+                    <cellValueFactory><PropertyValueFactory property="nickname"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Email" prefWidth="300">
+                    <cellValueFactory><PropertyValueFactory property="email"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Gender" prefWidth="150">
+                    <cellValueFactory><PropertyValueFactory property="gender"/></cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Date of Birth" prefWidth="150">
+                    <cellValueFactory><PropertyValueFactory property="dateOfBirth"/></cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+
+        <!-- 表单 -->
+        <GridPane alignment="CENTER" hgap="20" vgap="20"
+                  style="-fx-font-size: 20px;">
+            <Label text="Nickname:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="nicknameField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                       style="-fx-font-size: 20px; -fx-min-width: 300px;"/>
+
+            <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="emailField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                       style="-fx-font-size: 20px; -fx-min-width: 300px;"/>
+
+            <Label text="Gender:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <ChoiceBox fx:id="genderChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                       style="-fx-font-size: 20px; -fx-min-width: 300px;"/>
+
+            <Label text="Date of Birth:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <DatePicker fx:id="dobPicker" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                        style="-fx-font-size: 20px; -fx-min-width: 300px;"/>
+        </GridPane>
+
+        <!-- 按钮区域 -->
+        <HBox spacing="30" alignment="CENTER">
+            <Button text="Update" onAction="#handleUpdate"
+                    style="-fx-font-size: 20px; -fx-min-width: 150px; -fx-min-height: 50px;"/>
+            <Button text="Back" onAction="#handleBack"
+                    style="-fx-font-size: 20px; -fx-min-width: 150px; -fx-min-height: 50px;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
