@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class RegistrationController {
     @FXML private TextField nicknameField;
@@ -19,7 +23,6 @@ public class RegistrationController {
 
     @FXML
     private void initialize() {
-
         // 设置日期选择器的默认限制（可选）
         dateOfBirthPicker.setDayCellFactory(picker -> new DateCell() {
             public void updateItem(LocalDate date, boolean empty) {
@@ -35,16 +38,19 @@ public class RegistrationController {
             // 验证字段
             if (!validateFields()) return;
 
+            // 加密密码
+            String encryptedPassword = encryptPassword(passwordField.getText());
+
             // 创建用户对象
             User newUser = new User(
                     nicknameField.getText(),
-                    passwordField.getText(),
+                    encryptedPassword, // 存储加密后的密码
                     emailField.getText(),
                     genderChoiceBox.getValue(),
                     dateOfBirthPicker.getValue().toString()
             );
 
-            // 保存用户（这里应该实现您的保存逻辑）
+            // 保存用户
             saveUser(newUser);
 
             // 显示成功提示
@@ -62,6 +68,14 @@ public class RegistrationController {
         }
     }
 
+    // 密码加密方法
+    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(hash);
+    }
+
+    // 其他方法保持不变...
     @FXML
     private void handleBack() {
         switchToLoginScreen();
@@ -83,12 +97,10 @@ public class RegistrationController {
 
     private void saveUser(User user) {
         System.out.println("Saving user: " + user.getNickname());
-        // 实现您的用户保存逻辑
-        // 例如：保存到数据库或文件
         try {
             List<String> userData = new ArrayList<>();
             userData.add(user.getNickname());
-            userData.add(user.getPassword());
+            userData.add(user.getPassword()); // 存储的是加密后的密码
             userData.add(user.getEmail());
             userData.add(user.getGender());
             userData.add(user.getDateOfBirth());
@@ -96,9 +108,8 @@ public class RegistrationController {
             String[] userArray = userData.toArray(new String[0]);
             String csvContent = String.join(",", userArray);
 
-            // 指定文件路径
             String filePath = "user.csv";
-            FileWriter writer = new FileWriter(filePath, true); // 追加模式
+            FileWriter writer = new FileWriter(filePath, true);
             writer.append(csvContent);
             writer.append("\n");
             writer.flush();
