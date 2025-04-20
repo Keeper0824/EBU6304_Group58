@@ -171,8 +171,8 @@ public class CashFlowController {
         // 读取所有数据到 transactionsList
         while ((line = reader.readLine()) != null) {
             String[] fields = line.split(",");
-            String type = fields[0].trim();  // 'income' or 'expense'
-            double amount = Double.parseDouble(fields[1].trim());  // Amount in the second column
+            String type = fields[5].trim();  // 'income' or 'expense'
+            double amount = Double.parseDouble(fields[2].trim());  // Amount in the second column
 
             transactionsList.add(new Transaction(type, amount));
         }

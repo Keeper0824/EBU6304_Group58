@@ -12,6 +12,8 @@
     <TextField fx:id="classificationField" promptText="Classification"/>
     <Label text="Date"/>
     <TextField fx:id="dateField" promptText="Date"/>
+    <Label text="Type"/>
+    <TextField fx:id="IOTypeField" promptText="Date"/>
     <HBox alignment="CENTER" spacing="10">
         <Button text="Save" onAction="#handleSave"/>
         <Button text="Cancel" onAction="#handleCancel"/>

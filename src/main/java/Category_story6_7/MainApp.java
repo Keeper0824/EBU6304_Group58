@@ -12,8 +12,8 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/src/main/resources/Category_story6_7/main.fxml"));
-         Scene scene = new Scene(fxmlLoader.load(), 1600, 900);
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/src/main/resources/Category_story6_7/main.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1600, 900);
         primaryStage.setTitle("Transaction Management System");
         primaryStage.setScene(scene);
         primaryStage.show();

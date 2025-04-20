@@ -31,29 +31,28 @@ public class MainController {
     private TableColumn<Transaction, String> classificationColumn;
     @FXML
     private TableColumn<Transaction, String> dateColumn;
+    @FXML
+    private TableColumn<Transaction, String> IOColumn;
 
     private ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
     public void initialize() {
-        transactionColumn.setCellValueFactory(new PropertyValueFactory<>("transaction.csv"));
+        transactionColumn.setCellValueFactory(new PropertyValueFactory<>("transaction"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         classificationColumn.setCellValueFactory(new PropertyValueFactory<>("classification"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        IOColumn.setCellValueFactory(new PropertyValueFactory<>("IOType"));
 
-        // 设置列宽
-        transactionColumn.setPrefWidth(320);
-        priceColumn.setPrefWidth(320);
-        classificationColumn.setPrefWidth(320);
-        dateColumn.setPrefWidth(320);
-        actionsColumn.setPrefWidth(320);
+        // 让所有列自动平铺，去掉右侧空白
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        // 禁用列的自动调整大小
-        transactionColumn.setResizable(false);
-        priceColumn.setResizable(false);
-        classificationColumn.setResizable(false);
-        dateColumn.setResizable(false);
-        actionsColumn.setResizable(false);
-
+        // 全部文字居中
+        transactionColumn.setStyle("-fx-alignment: CENTER;");
+        priceColumn        .setStyle("-fx-alignment: CENTER;");
+        classificationColumn.setStyle("-fx-alignment: CENTER;");
+        dateColumn         .setStyle("-fx-alignment: CENTER;");
+        IOColumn           .setStyle("-fx-alignment: CENTER;");
+        actionsColumn      .setStyle("-fx-alignment: CENTER;");
 
         loadTransactions();
 
@@ -82,18 +81,18 @@ public class MainController {
 
     private void loadTransactions() {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/transactions_6.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.csv"))) {
             String line;
             br.readLine(); // 跳过标题行
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                if (data.length == 4) { // 确保数据行有四列
+                if (data.length == 6) { // 确保数据行有四列
                     try {
-                        double price = Double.parseDouble(data[1]); // 尝试解析价格
-                        Transaction transaction = new Transaction(data[0], price, data[2], data[3]);
+                        double price = Double.parseDouble(data[2]); // 尝试解析价格
+                        Transaction transaction = new Transaction(data[0],data[1], price, data[3], data[4],data[5]);
                         transactions.add(transaction);
                     } catch (NumberFormatException e) {
-                        System.err.println("Invalid price format: " + data[1]);
+                        System.err.println("Invalid price format: " + data[2]);
                     }
                 }
             }
@@ -139,17 +138,18 @@ public class MainController {
 
     private void deleteTransactionFromCSV(Transaction transaction) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/transactions_6.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (!line.equals(transaction.getTransaction() + "," + transaction.getPrice() + "," + transaction.getClassification() + "," + transaction.getDate())) {
+                if (!line.equals(transaction.getId() + "," + transaction.getTransaction() + "," + transaction.getPrice() + "," + transaction.getClassification() + "," +
+                        transaction.getDate() + "," + transaction.getIOType())) {
                     lines.add(line);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transactions_6.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transaction.csv"))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();
@@ -197,11 +197,11 @@ public class MainController {
 
     private void updateTransactionInCSV(Transaction oldTransaction, Transaction newTransaction) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/transactions_6.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/transaction.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.equals(oldTransaction.getTransaction() + "," + oldTransaction.getPrice() + "," + oldTransaction.getClassification() + "," + oldTransaction.getDate())) {
-                    lines.add(newTransaction.getTransaction() + "," + newTransaction.getPrice() + "," + newTransaction.getClassification() + "," + newTransaction.getDate());
+                if (line.equals(oldTransaction.getTransaction() + "," + oldTransaction.getPrice() + "," + oldTransaction.getClassification() + "," + oldTransaction.getDate()+ "," + oldTransaction.getIOType()  )) {
+                    lines.add(newTransaction.getTransaction() + "," + newTransaction.getPrice() + "," + newTransaction.getClassification() + "," + newTransaction.getDate()+ "," + newTransaction.getIOType()  );
                 } else {
                     lines.add(line);
                 }
@@ -209,7 +209,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transactions_6.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/transaction.csv"))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();

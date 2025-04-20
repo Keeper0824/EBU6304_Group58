@@ -16,6 +16,8 @@ public class EditController {
     private TextField classificationField;
     @FXML
     private TextField dateField;
+    @FXML
+    private TextField IOTypeField;
 
     private Transaction transaction;
     private boolean isEdited = false;
@@ -29,6 +31,7 @@ public class EditController {
         priceField.setText(String.valueOf(transaction.getPrice()));
         classificationField.setText(transaction.getClassification());
         dateField.setText(transaction.getDate());
+        IOTypeField.setText(transaction.getIOType());
     }
 
     @FXML
@@ -38,15 +41,19 @@ public class EditController {
         double price = Double.parseDouble(priceField.getText());
         String classification = classificationField.getText();
         String date = dateField.getText();
+        String IOType = IOTypeField.getText();
+
 
         // 保存原始的 transaction.csv 值
         String originalTransaction = this.transaction.getTransaction();
+        String id = this.transaction.getId();
 
         // 更新交易对象
         this.transaction.setTransaction(newTransaction);
         this.transaction.setPrice(price);
         this.transaction.setClassification(classification);
         this.transaction.setDate(date);
+        this.transaction.setIOType(IOType);
 
         System.out.println("Updated Transaction: " + this.transaction);
 
@@ -54,7 +61,7 @@ public class EditController {
         isEdited = true;
 
         // 写入 CSV 文件
-        String filePath = "data/transactions_6.csv"; // CSV 文件路径
+        String filePath = "data/transaction.csv"; // CSV 文件路径
         List<String[]> lines = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -65,9 +72,9 @@ public class EditController {
                 String[] values = line.split(",");
 
                 // 使用原始的 transaction.csv 值进行匹配
-                if (values.length >= 4 && values[0].equals(originalTransaction) && values[3].equals(date)) {
+                if (values.length >= 6 && values[1].equals(originalTransaction) && values[4].equals(date)) {
                     // 更新为新的值
-                    lines.add(new String[]{newTransaction, String.valueOf(price), classification, date});
+                    lines.add(new String[]{id, newTransaction, String.valueOf(price), classification, date, IOType});
                     found = true;
                 } else {
                     // 保留原始行
