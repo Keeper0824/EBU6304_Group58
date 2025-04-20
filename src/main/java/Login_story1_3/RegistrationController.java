@@ -82,7 +82,7 @@ public class RegistrationController {
         return Base64.getEncoder().encodeToString(hash);
     }
 
-    // 其他方法保持不变...
+
     @FXML
     private void handleBack() {
         switchToLoginScreen();
