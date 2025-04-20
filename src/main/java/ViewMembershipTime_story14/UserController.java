@@ -46,7 +46,7 @@ public class UserController {
             }
             else{
                 // Update the greeting text dynamically
-                greetingText.setText("Hello " + user.getUsername() + ",\nYou are not out VIP mumber yet. Welcome to the VIP group!");
+                greetingText.setText("Hello " + user.getUsername() + ",\nYou are not out VIP mumber yet.");
             }
 
              image1.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_2.png"));

@@ -58,7 +58,7 @@ public class MainMenuController {
 
     @FXML
     private void handleVIPCenter(ActionEvent event) {
-        loadNewWindow("VIP Center", "VIPCenter.fxml", event);
+        loadNewWindow("VIP Center", "src/main/resources/ViewMembershipTime_story14/ui.fxml", event);
     }
 
     @FXML
