@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.ViewMembershipTime_story14.UserController" prefHeight="900.0" prefWidth="1600.0">
+    <!-- Background container -->
+    <AnchorPane>
+
+        <!-- Main content container (VBox) to center everything vertically and horizontally -->
+        <VBox alignment="CENTER" spacing="20" layoutX="450" layoutY="150" styleClass="content-container">
+
+            <!-- Greeting text -->
+            <Text fx:id="greetingText" styleClass="greeting-text" />
+
+            <!-- Due Date text -->
+            <Text fx:id="dueDateText" styleClass="due-date-text" />
+
+            <!-- Membership status label -->
+            <Label fx:id="membershipLabel" styleClass="membership-label"/>
+
+        </VBox>
+
+        <!-- Back button in top-left corner -->
+        <Button fx:id="backButton" text="Back to Main Menu" layoutX="20" layoutY="20"
+                style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                       -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+
+        <!-- Main content images -->
+        <ImageView fx:id="image1" layoutX="206" layoutY="459" fitWidth="455" fitHeight="293" />
+        <ImageView fx:id="image2" layoutX="851" layoutY="459" fitWidth="455" fitHeight="293" />
+    </AnchorPane>
+</AnchorPane>
