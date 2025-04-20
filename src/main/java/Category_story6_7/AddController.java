@@ -49,7 +49,7 @@ public class AddController {
         } catch (IOException e) {
             e.printStackTrace();
             // 可以在这里添加错误处理逻辑，例如显示错误消息
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Error saving transaction to CSV file.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error saving transaction.csv to CSV file.");
             alert.showAndWait();
         }
     }

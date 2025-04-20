@@ -35,7 +35,7 @@ public class MainController {
     private ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
     public void initialize() {
-        transactionColumn.setCellValueFactory(new PropertyValueFactory<>("transaction"));
+        transactionColumn.setCellValueFactory(new PropertyValueFactory<>("transaction.csv"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         classificationColumn.setCellValueFactory(new PropertyValueFactory<>("classification"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));

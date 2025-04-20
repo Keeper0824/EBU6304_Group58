@@ -34,12 +34,12 @@ public class EditController {
     @FXML
     private void handleSave() {
         // 获取表单数据
-        String newTransaction = transactionField.getText(); // 新的 transaction 值
+        String newTransaction = transactionField.getText(); // 新的 transaction.csv 值
         double price = Double.parseDouble(priceField.getText());
         String classification = classificationField.getText();
         String date = dateField.getText();
 
-        // 保存原始的 transaction 值
+        // 保存原始的 transaction.csv 值
         String originalTransaction = this.transaction.getTransaction();
 
         // 更新交易对象
@@ -64,7 +64,7 @@ public class EditController {
                 System.out.println("CSV Line: " + line); // 打印 CSV 文件中的每一行
                 String[] values = line.split(",");
 
-                // 使用原始的 transaction 值进行匹配
+                // 使用原始的 transaction.csv 值进行匹配
                 if (values.length >= 4 && values[0].equals(originalTransaction) && values[3].equals(date)) {
                     // 更新为新的值
                     lines.add(new String[]{newTransaction, String.valueOf(price), classification, date});
