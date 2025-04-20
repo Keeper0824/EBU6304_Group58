@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javafx.stage.Stage;
+import src.main.java.Login_story1_3.LoginApp;
+
 public class UserSearchController {
 
     public static class User {
@@ -20,14 +23,16 @@ public class UserSearchController {
         private final String gender;
         private final String dateOfBirth;
         private final boolean isVIP; // VIP 状态字段
+        private final String expireDate;
 
-        public User(String id, String nickname, String email, String gender, String dateOfBirth, boolean isVIP) {
+        public User(String id, String nickname, String email, String gender, String dateOfBirth, boolean isVIP, String expireDate) {
             this.id = id;
             this.nickname = nickname;
             this.email = email;
             this.gender = gender;
             this.dateOfBirth = dateOfBirth;
             this.isVIP = isVIP;
+            this.expireDate = expireDate;
         }
 
         public String getID() {return id;}
@@ -36,6 +41,7 @@ public class UserSearchController {
         public String getGender() { return gender; }
         public String getDateOfBirth() { return dateOfBirth; }
         public boolean isVIP() { return isVIP; } // 获取VIP状态
+        public String getExpireDate() { return expireDate; }
     }
 
     @FXML
@@ -44,6 +50,18 @@ public class UserSearchController {
     private ObservableList<User> userList = FXCollections.observableArrayList();
     private ObservableList<User> vipList = FXCollections.observableArrayList(); // 存储VIP用户
     private ObservableList<User> normalList = FXCollections.observableArrayList(); // 存储Normal用户
+
+    // In UserSearchController.java, add this method
+    @FXML
+    private void handleLogout() {
+        try {
+            new LoginApp().start(new Stage());
+            ((Stage) searchField.getScene().getWindow()).close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to return to login screen.");
+        }
+    }
 
     @FXML
     private void initialize() {
@@ -78,11 +96,12 @@ public class UserSearchController {
                     String email = values[3].trim();
                     String gender = values[4].trim();
                     String dateOfBirth = values[5].trim();
+                    String expireDate = values[7].trim();
 
                     // 根据CSV中的VIP状态判断用户是否是VIP
                     boolean isVIP = values[6].trim().equalsIgnoreCase("VIP");
 
-                    User user = new User(ID, nickname, email, gender, dateOfBirth, isVIP);
+                    User user = new User(ID, nickname, email, gender, dateOfBirth, isVIP,expireDate);
                     userList.add(user);
                     if (isVIP) {
                         vipList.add(user); // 如果是VIP用户，则加入VIP列表
@@ -136,6 +155,10 @@ public class UserSearchController {
                 + "Date of Birth: " + user.getDateOfBirth();
         if (user.isVIP()) {
             info += "\nVIP Status: Yes";
+            info += "\nExpireDate:  "+ user.getExpireDate();
+        }
+        else {
+            info += "\nVIP Status: No";
         }
         showAlert(Alert.AlertType.INFORMATION, "User Information", info);
     }

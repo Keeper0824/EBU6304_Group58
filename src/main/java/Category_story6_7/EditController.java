@@ -3,11 +3,14 @@ package src.main.java.Category_story6_7;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import src.main.java.Session;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditController {
+    private final static String currentUser = Session.getCurrentNickname();
     @FXML
     private TextField transactionField;
     @FXML
@@ -37,14 +40,13 @@ public class EditController {
     @FXML
     private void handleSave() {
         // 获取表单数据
-        String newTransaction = transactionField.getText(); // 新的 1_transaction.csv 值
+        String newTransaction = transactionField.getText();
         double price = Double.parseDouble(priceField.getText());
         String classification = classificationField.getText();
         String date = dateField.getText();
         String IOType = IOTypeField.getText();
 
 
-        // 保存原始的 1_transaction.csv 值
         String originalTransaction = this.transaction.getTransaction();
         String id = this.transaction.getId();
 
@@ -61,7 +63,7 @@ public class EditController {
         isEdited = true;
 
         // 写入 CSV 文件
-        String filePath = "data/1_transaction.csv"; // CSV 文件路径
+        String filePath = "data/"+currentUser+"_transaction.csv"; // CSV 文件路径
         List<String[]> lines = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -71,7 +73,6 @@ public class EditController {
                 System.out.println("CSV Line: " + line); // 打印 CSV 文件中的每一行
                 String[] values = line.split(",");
 
-                // 使用原始的 1_transaction.csv 值进行匹配
                 if (values.length >= 6 && values[1].equals(originalTransaction) && values[4].equals(date)) {
                     // 更新为新的值
                     lines.add(new String[]{id, newTransaction, String.valueOf(price), classification, date, IOType});

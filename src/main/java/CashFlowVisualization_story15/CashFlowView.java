@@ -1,5 +1,7 @@
 package src.main.java.CashFlowVisualization_story15;
 
+import src.main.java.Session;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +12,8 @@ import java.io.IOException;
 
 public class CashFlowView extends Application {
 
+    private final static String currentUser = Session.getCurrentNickname();
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/CashFlowVisualization_story15/ui.fxml"));
@@ -17,7 +21,7 @@ public class CashFlowView extends Application {
 
         CashFlowController controller = loader.getController();
         // Load transactions from CSV
-        String csvFilePath = "data/1_transaction.csv";  // Replace with your CSV file path
+        String csvFilePath = "data/" + currentUser + "_transaction.csv";
         try {
             controller.loadTransactionsFromCSV(csvFilePath);
         } catch (IOException e) {

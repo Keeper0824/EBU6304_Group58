@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="card_management_story12.BankCardController">
+    <children>
+        <ImageView>
+            <image>
+                <Image url="@/card_management/bg.png"/>
+            </image>
+        </ImageView>
+        <VBox spacing="20" alignment="CENTER">
+            <VBox fx:id="inputView" style="-fx-background-color: rgba(255,255,255,0.7);"
+                  maxWidth="1000">
+                <!-- 输入表单将通过代码动态加载 -->
+            </VBox>
+            <VBox fx:id="tableViewView" visible="false"
+                  style="-fx-background-color: rgba(255,255,255,0.7);">
+                <!-- 表格视图将通过代码动态加载 -->
+            </VBox>
+        </VBox>
+    </children>
+</StackPane>

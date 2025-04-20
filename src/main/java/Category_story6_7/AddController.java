@@ -3,6 +3,7 @@ package src.main.java.Category_story6_7;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import src.main.java.Session;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.*;
 
 public class AddController {
+    private final static String currentUser = Session.getCurrentNickname();
     @FXML
     private TextField transactionField;
     @FXML
@@ -48,7 +50,7 @@ public class AddController {
 
 
     private void saveTransactionToCSV(Transaction transaction) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/1_transaction.csv", true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/"+currentUser+"_transaction.csv", true))) {
             // 将新记录追加到文件末尾
             bw.write(transaction.getId() + "," +transaction.getTransaction() + "," + transaction.getPrice() + "," + transaction.getClassification() + ","
                     + transaction.getDate()+"," + transaction.getIOType());
@@ -56,7 +58,7 @@ public class AddController {
         } catch (IOException e) {
             e.printStackTrace();
             // 可以在这里添加错误处理逻辑，例如显示错误消息
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Error saving 1_transaction.csv to CSV file.");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error saving "+ currentUser +"_transaction.csv to CSV file.");
             alert.showAndWait();
         }
     }
@@ -78,7 +80,7 @@ public class AddController {
 
     private String getNextId() {
         String lastLine = "";
-        try (BufferedReader br = new BufferedReader(new FileReader("data/1_transaction.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/"+currentUser+"_transaction.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 lastLine = line;

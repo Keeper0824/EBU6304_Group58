@@ -16,12 +16,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import src.main.java.Login_story1_3.MainMenuApp;
 import src.main.java.Login_story1_3.User;
+import src.main.java.Session;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
+    private final static String currentUser = Session.getCurrentNickname();
     @FXML
     private TableColumn<Transaction, Void> actionsColumn;
     @FXML
@@ -110,27 +112,56 @@ public class MainController {
 
 
     private void loadTransactions() {
-        ObservableList<Transaction> transactions = FXCollections.observableArrayList();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/1_transaction.csv"))) {
+        // 1. 动态拼路径
+        String csvFilePath = "data/" + currentUser + "_transaction.csv";
+        File csvFile = new File(csvFilePath);
+
+        // 2. 如果文件不存在，就创建父目录和文件，并写入表头
+        if (!csvFile.exists()) {
+            try {
+                csvFile.getParentFile().mkdirs(); // 确保 data/ 目录存在
+                try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFile))) {
+                    // 根据你的 Transaction 字段顺序写表头
+                    bw.write("Id,Transaction,Price,Classification,Date,IOType");
+                    bw.newLine();
+                }
+                System.out.println("已为用户 " + currentUser + " 创建新的交易文件：" + csvFilePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert("Error", "无法创建交易文件：" + e.getMessage());
+                return;
+            }
+        }
+
+        // 3. 读取并加载交易
+        ObservableList<Transaction> list = FXCollections.observableArrayList();
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             String line;
-            br.readLine(); // 跳过标题行
+            br.readLine(); // 跳过表头
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
                 String[] data = line.split(",");
-                if (data.length == 6) { // 确保数据行有四列
+                if (data.length == 6) {
                     try {
-                        double price = Double.parseDouble(data[2]); // 尝试解析价格
-                        Transaction transaction = new Transaction(data[0],data[1], price, data[3], data[4],data[5]);
-                        transactions.add(transaction);
+                        double price = Double.parseDouble(data[2]);
+                        Transaction tx = new Transaction(
+                                data[0], data[1], price, data[3], data[4], data[5]
+                        );
+                        list.add(tx);
                     } catch (NumberFormatException e) {
-                        System.err.println("Invalid price format: " + data[2]);
+                        System.err.println("Invalid price: " + data[2]);
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert("Error", "加载交易时出错：" + e.getMessage());
         }
-        tableView.setItems(transactions);
+
+        // 4. 将数据绑定到表格
+        tableView.setItems(list);
     }
+
 
     @FXML
     private void handleAdd(ActionEvent event) {
@@ -168,7 +199,7 @@ public class MainController {
 
     private void deleteTransactionFromCSV(Transaction transaction) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/1_transaction.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/"+currentUser+"_transaction.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (!line.equals(transaction.getId() + "," + transaction.getTransaction() + "," + transaction.getPrice() + "," + transaction.getClassification() + "," +
@@ -179,7 +210,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/1_transaction.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/"+currentUser+"_transaction.csv"))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();
@@ -227,7 +258,7 @@ public class MainController {
 
     private void updateTransactionInCSV(Transaction oldTransaction, Transaction newTransaction) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/1_transaction.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/"+currentUser+"_transaction.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.equals(oldTransaction.getTransaction() + "," + oldTransaction.getPrice() + "," + oldTransaction.getClassification() + "," + oldTransaction.getDate()+ "," + oldTransaction.getIOType()  )) {
@@ -239,7 +270,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/1_transaction.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/"+currentUser+"_transaction.csv"))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();

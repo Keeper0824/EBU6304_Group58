@@ -1,6 +1,5 @@
 package src.main.java.card_management_story12;
 
-
 public class CreditCard {
     private final String cardNumber;
     private final String cardHolder;

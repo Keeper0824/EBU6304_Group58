@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import src.main.java.Query_story4_13.UserSearchApp;
 import src.main.java.Session;
 
 import java.io.BufferedReader;
@@ -40,6 +41,7 @@ public class LoginController {
         refreshCaptchaBtn.setOnAction(event -> generateCaptcha());
     }
 
+    // In LoginController.java, modify the handleLogin method
     @FXML
     private void handleLogin() {
         String email = emailField.getText();
@@ -50,6 +52,19 @@ public class LoginController {
             showAlert("Error", "Invalid verification code!");
             generateCaptcha();
             return;
+        }
+
+        // Special case for Administration@qq.com
+        if (email.equals("Administration@qq.com") && password.equals("000000")) {
+            try {
+                new UserSearchApp().start(new Stage());
+                ((Stage) emailField.getScene().getWindow()).close();
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Error", "Failed to open user search window.");
+                return;
+            }
         }
 
         User user = validateUser(email, password);
