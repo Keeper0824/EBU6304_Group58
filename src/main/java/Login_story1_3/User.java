@@ -10,14 +10,19 @@ public class User {
     private final StringProperty email;
     private final StringProperty gender;
     private final StringProperty dateOfBirth;
+    private final StringProperty membershipType;
+    private final StringProperty expiryDate;
 
-    public User(String ID,String nickname, String password, String email, String gender, String dateOfBirth) {
+
+    public User(String ID,String nickname, String password, String email, String gender, String dateOfBirth, String membershipType, String expiryDate) {
         this.ID = new SimpleStringProperty(ID);
         this.nickname = new SimpleStringProperty(nickname);
         this.password = new SimpleStringProperty(password);
         this.email = new SimpleStringProperty(email);
         this.gender = new SimpleStringProperty(gender);
         this.dateOfBirth = new SimpleStringProperty(dateOfBirth);
+        this.membershipType = new SimpleStringProperty(membershipType);
+        this.expiryDate = new SimpleStringProperty(expiryDate);
     }
 
     public String getID() {
@@ -27,6 +32,18 @@ public class User {
     public void setID(String ID) {
         this.ID.set(ID);
     }
+
+    public String getMembershipType() {
+        return membershipType.get();
+    }
+
+    public void setMembershipType(String membershipType) {}
+
+    public String getExpiryDate() {
+        return expiryDate.get();
+    }
+
+    public void setExpiryDate(String expiryDate) {}
 
     public String getNickname() {
         return nickname.get();
@@ -90,5 +107,13 @@ public class User {
 
     public StringProperty dateOfBirthProperty() {
         return dateOfBirth;
+    }
+
+    public StringProperty expiryDateProperty() {
+        return expiryDate;
+    }
+
+    public StringProperty membershipTypeProperty() {
+        return membershipType;
     }
 }

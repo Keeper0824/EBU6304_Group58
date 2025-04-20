@@ -52,7 +52,9 @@ public class RegistrationController {
                     encryptedPassword, // 存储加密后的密码
                     emailField.getText(),
                     genderChoiceBox.getValue(),
-                    dateOfBirthPicker.getValue().toString()
+                    dateOfBirthPicker.getValue().toString(),
+                    "Normal",
+                    "null"
             );
 
             // 保存用户

@@ -150,7 +150,7 @@ public class UserManagementController {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length == 8) {
-                    User user = new User(data[0], data[1], data[2], data[3], data[4],data[5]);
+                    User user = new User(data[0], data[1], data[2], data[3], data[4],data[5],data[6],data[7]);
                     users.add(user);
                 }
             }
@@ -165,7 +165,8 @@ public class UserManagementController {
     private void saveUsersToCSV(List<User> users) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/user.csv"))) {
             for (User user : users) {
-                bw.write(String.join(",", user.getID(),user.getNickname(), user.getPassword(), user.getEmail(), user.getGender(), user.getDateOfBirth(),"Normal","null"));
+                bw.write(String.join(",", user.getID(),user.getNickname(), user.getPassword(), user.getEmail(), user.getGender(), user.getDateOfBirth(),
+                        user.getMembershipType(), user.getExpiryDate()));
                 bw.newLine();
             }
         } catch (IOException e) {
