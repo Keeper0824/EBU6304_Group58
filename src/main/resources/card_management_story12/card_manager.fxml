@@ -51,6 +51,9 @@
             <Button text="Show Cards" onAction="#handleShowCards"
                     style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
                            -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            <Button text="Back to Main" onAction="#handleBackToMain"
+                    style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                           -fx-background-color: #f44336; -fx-text-fill: white;"/>
         </HBox>
     </VBox>
 
@@ -85,8 +88,13 @@
                 </TableColumn>
             </columns>
         </TableView>
-        <Button text="Return" onAction="#handleReturn"
-                style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
-                       -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        <HBox spacing="30" alignment="CENTER">
+            <Button text="Return" onAction="#handleReturn"
+                    style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                           -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            <Button text="Back to Main" onAction="#handleBackToMain"
+                    style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                           -fx-background-color: #f44336; -fx-text-fill: white;"/>
+        </HBox>
     </VBox>
 </StackPane>

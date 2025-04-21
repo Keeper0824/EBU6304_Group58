@@ -9,6 +9,9 @@ import javafx.scene.layout.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import src.main.java.Login_story1_3.MainMenuApp;
+import src.main.java.Login_story1_3.User;
 
 import java.util.regex.Pattern;
 
@@ -71,6 +74,21 @@ public class BankCardController {
                 case "CVV": col.setPrefWidth(80); break;
             }
         });
+    }
+
+    @FXML
+    private void handleBackToMain() {
+        try {
+            // Close current window
+            Stage currentStage = (Stage) rootContainer.getScene().getWindow();
+            currentStage.close();
+
+            // Return to main menu with the current user
+            User currentUser = MainMenuApp.getCurrentUser();
+            new MainMenuApp(currentUser).start(new Stage());
+        } catch (Exception e) {
+            System.err.println("Failed to return to main menu: " + e.getMessage());
+        }
     }
 
     // 事件处理方法
