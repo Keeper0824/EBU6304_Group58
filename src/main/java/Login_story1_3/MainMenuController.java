@@ -9,7 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import src.main.java.CashFlowVisualization_story15.CashFlowView;
-import src.main.java.card_management_story12.BankCardManagerFX;
 
 public class MainMenuController {
     private User currentUser;
@@ -85,20 +84,20 @@ public class MainMenuController {
         }
     }
 
-    @FXML
-    private void handleCards(ActionEvent event) {
-        try {
-            // Close current window
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.close();
-
-            // Launch the Bank Card Manager
-            new BankCardManagerFX().start(new Stage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to open Cards Management: " + e.getMessage());
-        }
-    }
+//    @FXML
+//    private void handleCards(ActionEvent event) {
+//        try {
+//            // Close current window
+//            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//            currentStage.close();
+//
+//            // Launch the Bank Card Manager
+//            new BankCardManagerFX().start(new Stage());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            showAlert("Error", "Failed to open Cards Management: " + e.getMessage());
+//        }
+//    }
 
     @FXML
     private void handleTransaction(ActionEvent event) {

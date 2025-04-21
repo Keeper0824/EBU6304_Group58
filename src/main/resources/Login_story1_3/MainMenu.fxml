@@ -23,7 +23,7 @@
                 <Button onAction="#handleUserInformation" style="-fx-font-size: 24px; -fx-min-width: 300px; -fx-min-height: 60px; -fx-background-radius: 30;" text="User Information" />
                 <Button onAction="#handleVIPCenter" style="-fx-font-size: 24px; -fx-min-width: 300px; -fx-min-height: 60px; -fx-background-radius: 30;" text="VIP Center" />
                 <Button onAction="#handleCharts" style="-fx-font-size: 24px; -fx-min-width: 300px; -fx-min-height: 60px; -fx-background-radius: 30;" text="Charts" />
-                <Button onAction="#handleCards" style="-fx-font-size: 24px; -fx-min-width: 300px; -fx-min-height: 60px; -fx-background-radius: 30;" text="Cards" />
+<!--                <Button onAction="#handleCards" style="-fx-font-size: 24px; -fx-min-width: 300px; -fx-min-height: 60px; -fx-background-radius: 30;" text="Cards" />-->
                 <Button onAction="#handleTransaction" style="-fx-font-size: 24px; -fx-min-width: 300px; -fx-min-height: 60px; -fx-background-radius: 30;" text="Transaction" />
                 <Button onAction="#handleLogout" style="-fx-font-size: 24px; -fx-min-width: 300px; -fx-min-height: 60px; -fx-background-radius: 30;" text="Logout" />
         </VBox>

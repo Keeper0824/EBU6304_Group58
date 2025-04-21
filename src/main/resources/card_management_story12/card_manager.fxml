@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<StackPane xmlns="http://javafx.com/javafx/21.0.7"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="src.main.java.card_management_story12.BankCardController"
+           fx:id="rootContainer">
+
+    <!-- 输入表单视图 -->
+    <VBox fx:id="inputView" alignment="CENTER" spacing="20"
+          style="-fx-background-color: rgba(255,255,255,0.7);">
+        <padding>
+            <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+        </padding>
+        <GridPane alignment="CENTER" hgap="20" vgap="20">
+            <!-- Card Number -->
+            <Label text="Card Number:" style="-fx-font-size: 16pt; -fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="cardNumberField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                       style="-fx-font-size: 16pt; -fx-pref-width: 500; -fx-pref-height: 45;"/>
+
+            <!-- Card Holder -->
+            <Label text="Card Holder:" GridPane.rowIndex="1" GridPane.columnIndex="0"
+                   style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+            <TextField fx:id="cardHolderField" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                       style="-fx-font-size: 16pt; -fx-pref-width: 500; -fx-pref-height: 45;"/>
+
+            <!-- Expiry Date -->
+            <Label text="Expiry Date (MM/YY):" GridPane.rowIndex="2" GridPane.columnIndex="0"
+                   style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+            <TextField fx:id="expiryDateField" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                       style="-fx-font-size: 16pt; -fx-pref-width: 500; -fx-pref-height: 45;"/>
+
+            <!-- CVV -->
+            <Label text="CVV:" GridPane.rowIndex="3" GridPane.columnIndex="0"
+                   style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+            <TextField fx:id="cvvField" GridPane.rowIndex="3" GridPane.columnIndex="1"
+                       style="-fx-font-size: 16pt; -fx-pref-width: 500; -fx-pref-height: 45;"/>
+        </GridPane>
+
+        <HBox spacing="30" alignment="CENTER">
+            <padding>
+                <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+            </padding>
+            <Button text="Add Card" onAction="#handleAddCard"
+                    style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                           -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            <Button text="Show Cards" onAction="#handleShowCards"
+                    style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                           -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+
+    <!-- 表格视图 -->
+    <VBox fx:id="tableViewView" alignment="CENTER" visible="false"
+          style="-fx-background-color: rgba(255,255,255,0.7);">
+        <padding>
+            <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+        </padding>
+        <TableView fx:id="cardTable" style="-fx-font-size: 16pt; -fx-background-color: white;"
+                   fixedCellSize="40">
+            <columns>
+                <TableColumn text="Card Number" prefWidth="300">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="cardNumber" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Card Holder" prefWidth="200">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="cardHolder" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="Expiry Date" prefWidth="150">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="expiryDate" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn text="CVV" prefWidth="80">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="cvv" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+        <Button text="Return" onAction="#handleReturn"
+                style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
+                       -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+    </VBox>
+</StackPane>
