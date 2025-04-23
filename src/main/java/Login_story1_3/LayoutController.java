@@ -17,6 +17,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import src.main.java.Session;
 
 import java.io.IOException;
 
@@ -102,6 +103,7 @@ public class LayoutController {
     @FXML
     private void onLogout(ActionEvent e) {
         try {
+            Session.setCurrentNickname(null);
             // 加载 Login.fxml
             Parent root = FXMLLoader.load(getClass().getResource("/src/main/resources/Login_story1_3/Login.fxml"));
             Scene scene = new Scene(root);

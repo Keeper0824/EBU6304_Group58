@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class FinancialController {
     private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final static String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname();
 
     @FXML private PieChart pieChart;
     @FXML private BarChart<String, Number> barChart;

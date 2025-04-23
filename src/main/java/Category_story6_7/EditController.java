@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditController {
-    private final static String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname();
     @FXML
     private TextField transactionField;
     @FXML

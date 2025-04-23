@@ -15,7 +15,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class AddController {
-    private final static String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname();
     @FXML
     private TextField transactionField;
     @FXML
