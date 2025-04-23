@@ -1,29 +1,32 @@
 package src.main.java.card_management_story12;
 
-
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import src.main.java.Login_story1_3.MainMenuApp;
-import src.main.java.Login_story1_3.User;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 import java.util.regex.Pattern;
 
 public class BankCardController {
+
     @FXML private StackPane rootContainer;
-    @FXML private VBox inputView;
-    @FXML private VBox tableViewView;
+    @FXML private VBox inputView;      // 卡片录入界面
+    @FXML private VBox gifView;        // 显示GIF的界面
+    @FXML private VBox tableViewView;  // 表格视图
     @FXML private TableView<CreditCard> cardTable;
     @FXML private TextField cardNumberField;
     @FXML private TextField cardHolderField;
     @FXML private TextField expiryDateField;
     @FXML private TextField cvvField;
+    @FXML private ImageView gifImageView;  // 用于显示GIF
 
     private ObservableList<CreditCard> cardData = FXCollections.observableArrayList();
 
@@ -76,19 +79,12 @@ public class BankCardController {
         });
     }
 
-    @FXML
-    private void handleBackToMain() {
-        try {
-            // Close current window
-            Stage currentStage = (Stage) rootContainer.getScene().getWindow();
-            currentStage.close();
 
-            // Return to main menu with the current user
-            User currentUser = MainMenuApp.getCurrentUser();
-            new MainMenuApp(currentUser).start(new Stage());
-        } catch (Exception e) {
-            System.err.println("Failed to return to main menu: " + e.getMessage());
-        }
+    @FXML
+    private void handleBackToCardEntry() {
+        // 切换回卡片录入视图
+        gifView.setVisible(false);  // 隐藏GIF视图
+        inputView.setVisible(true); // 显示卡片录入视图
     }
 
     // 事件处理方法
@@ -100,6 +96,7 @@ public class BankCardController {
         String cvv = cvvField.getText().trim();
 
         if (validateInput(cardNumber, cardHolder, expiryDate, cvv)) {
+            // 添加新卡
             cardData.add(new CreditCard(
                     cardNumber.replaceAll("\\s+", ""),
                     cardHolder,
@@ -107,10 +104,39 @@ public class BankCardController {
                     cvv
             ));
             CSVUtils.saveCards(cardData);
+
+            // 清空输入框
             clearFields();
+
+            // 切换到GIF视图
+            showGifView();
         }
     }
 
+    private void showGifView() {
+        // 隐藏卡片录入视图，显示GIF视图
+        inputView.setVisible(false);
+        gifView.setVisible(true);
+
+        // 加载 GIF 动图
+        Image gifImage = new Image(getClass().getResource("/src/main/resources/card_management_story12/images/imageonline-co-gifimage.gif").toExternalForm());
+        gifImageView.setImage(gifImage);
+
+        // 设置播放时间为 4.5 秒
+        PauseTransition pause = new PauseTransition(Duration.seconds(4.5));
+        pause.setOnFinished(event -> {
+            // 播放完 GIF 后切换回卡片录入界面
+            returnToPreviousPage();
+        });
+        pause.play();
+    }
+
+    // 将此方法设置为静态方法，以便从其他类中调用
+    public void returnToPreviousPage() {
+        // 使用实例变量来切换视图
+        inputView.setVisible(true);  // 显示卡片录入视图
+        gifView.setVisible(false);   // 隐藏GIF视图
+    }
     @FXML
     private void handleShowCards() {
         inputView.setVisible(false);
@@ -122,6 +148,17 @@ public class BankCardController {
     private void handleReturn() {
         inputView.setVisible(true);
         tableViewView.setVisible(false);
+    }
+
+    @FXML
+    private void handleBackToMain() {
+        try {
+            // 当前窗口关闭
+            Stage currentStage = (Stage) rootContainer.getScene().getWindow();
+            currentStage.close();
+        } catch (Exception e) {
+            System.err.println("返回主菜单失败: " + e.getMessage());
+        }
     }
 
     // 验证逻辑
