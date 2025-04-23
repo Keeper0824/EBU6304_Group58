@@ -1,11 +1,13 @@
 package src.main.java.Category_story6_7;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import src.main.java.Session;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,25 +18,45 @@ public class EditController {
     @FXML
     private TextField priceField;
     @FXML
-    private TextField classificationField;
+    private ComboBox<String> classificationField;
     @FXML
-    private TextField dateField;
+    private DatePicker dateField;
     @FXML
-    private TextField IOTypeField;
+    private ComboBox<String> IOTypeField;
 
     private Transaction transaction;
     private boolean isEdited = false;
     private Transaction transaction1;
 
+    @FXML
+    private void initialize() {
+        // 初始化分类下拉列表
+        classificationField.getItems().addAll(
+                "Income",
+                "Food",
+                "Clothing",
+                "Household equipment and services",
+                "Medical care",
+                "Transportation and Communication",
+                "Entertainment",
+                "Educational supplies and services",
+                "Residence",
+                "Other goods and services"
+        );
+
+        // 初始化IO类型下拉列表
+        IOTypeField.getItems().addAll("Income", "Expense");
+    }
+
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
-        transaction1=transaction;
+        transaction1 = transaction;
         // 初始化表单数据
         transactionField.setText(transaction.getTransaction());
         priceField.setText(String.valueOf(transaction.getPrice()));
-        classificationField.setText(transaction.getClassification());
-        dateField.setText(transaction.getDate());
-        IOTypeField.setText(transaction.getIOType());
+        classificationField.setValue(transaction.getClassification());
+        dateField.setValue(LocalDate.parse(transaction.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        IOTypeField.setValue(transaction.getIOType());
     }
 
     @FXML
@@ -42,10 +64,10 @@ public class EditController {
         // 获取表单数据
         String newTransaction = transactionField.getText();
         double price = Double.parseDouble(priceField.getText());
-        String classification = classificationField.getText();
-        String date = dateField.getText();
-        String IOType = IOTypeField.getText();
-
+        String classification = classificationField.getValue();
+        LocalDate date = dateField.getValue();  // 获取 DatePicker 的值
+        String formattedDate = formatDate(date);  // 格式化日期
+        String IOType = IOTypeField.getValue();
 
         String originalTransaction = this.transaction.getTransaction();
         String id = this.transaction.getId();
@@ -54,7 +76,7 @@ public class EditController {
         this.transaction.setTransaction(newTransaction);
         this.transaction.setPrice(price);
         this.transaction.setClassification(classification);
-        this.transaction.setDate(date);
+        this.transaction.setDate(formattedDate);  // 使用格式化后的日期
         this.transaction.setIOType(IOType);
 
         System.out.println("Updated Transaction: " + this.transaction);
@@ -73,9 +95,9 @@ public class EditController {
                 System.out.println("CSV Line: " + line); // 打印 CSV 文件中的每一行
                 String[] values = line.split(",");
 
-                if (values.length >= 6 && values[1].equals(originalTransaction) && values[4].equals(date)) {
+                if (values.length >= 6 && values[1].equals(originalTransaction)) {
                     // 更新为新的值
-                    lines.add(new String[]{id, newTransaction, String.valueOf(price), classification, date, IOType});
+                    lines.add(new String[]{id, newTransaction, String.valueOf(price), classification, formattedDate, IOType});
                     found = true;
                 } else {
                     // 保留原始行
@@ -102,6 +124,14 @@ public class EditController {
         // 关闭编辑窗口
         Stage stage = (Stage) transactionField.getScene().getWindow();
         stage.close();
+    }
+
+    private String formatDate(LocalDate date) {
+        if (date == null) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(formatter);
     }
 
     @FXML
