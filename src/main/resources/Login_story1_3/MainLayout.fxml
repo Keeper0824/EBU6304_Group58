@@ -83,8 +83,8 @@
 
                 <Pane fx:id="cardWrapper"
                       styleClass="card-wrapper"
-                      prefWidth="1280" prefHeight="720"
-                      maxWidth="1280" maxHeight="720">
+                      prefWidth="1280" prefHeight="800"
+                      maxWidth="1280" maxHeight="800">
                     <!-- 这个 AnchorPane 上会挂我们 Scale 变换 -->
                     <AnchorPane fx:id="cardContainer" styleClass="card-container"
                                 AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"

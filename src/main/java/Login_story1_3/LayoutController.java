@@ -36,21 +36,21 @@ public class LayoutController {
         // 用 Platform.runLater 保证所有控件都 ready 之后再调用
         Platform.runLater(() -> onDashboard());
         // 在 cardContainer 上附加比例变换
-        cardContainer.getTransforms().add(scale);
-
-
-        // 监听容器大小变化 & 内容真实大小，动态调整 scaleX, scaleY
-        ChangeListener<Number> listener = new ChangeListener<>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> obs, Number oldVal, Number newVal) {
-                adjustScale();
-            }
-        };
-        // 监听 wrapper 和 content 的大小
-        cardWrapper.widthProperty().addListener(listener);
-        cardWrapper.heightProperty().addListener(listener);
-        cardContainer.widthProperty().addListener(listener);
-        cardContainer.heightProperty().addListener(listener);
+//        cardContainer.getTransforms().add(scale);
+//
+//
+//        // 监听容器大小变化 & 内容真实大小，动态调整 scaleX, scaleY
+//        ChangeListener<Number> listener = new ChangeListener<>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Number> obs, Number oldVal, Number newVal) {
+//                adjustScale();
+//            }
+//        };
+//        // 监听 wrapper 和 content 的大小
+//        cardWrapper.widthProperty().addListener(listener);
+//        cardWrapper.heightProperty().addListener(listener);
+//        cardContainer.widthProperty().addListener(listener);
+//        cardContainer.heightProperty().addListener(listener);
     }
 
 

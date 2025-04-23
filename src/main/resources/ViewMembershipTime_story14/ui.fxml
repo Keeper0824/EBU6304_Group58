@@ -12,10 +12,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.ViewMembershipTime_story14.UserController">
+<AnchorPane style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);-fx-padding: 0 0 0 0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.ViewMembershipTime_story14.UserController">
 
     <!-- 主内容容器 -->
-    <VBox alignment="CENTER" prefHeight="700" prefWidth="1200" spacing="30" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 20; -fx-padding: 50;">
+    <VBox alignment="CENTER" prefHeight="590" prefWidth="1200" spacing="30" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 20;">
 
         <!-- 标题 -->
         <Label style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d;" text="VIP MEMBERSHIP">

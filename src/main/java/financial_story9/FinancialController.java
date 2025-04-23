@@ -73,8 +73,8 @@ public class FinancialController {
         barChart.getData().clear();
 
         // 设置图表字体
-        pieChart.setStyle("-fx-font-size: 20px;");
-        barChart.setStyle("-fx-font-size: 20px;");
+        pieChart.setStyle("-fx-font-size: 16px; -fx-font-weight: bold");
+        barChart.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 0 -20 0 0;");
 
         // 饼图数据
         categoryExpenses.forEach((category, amount) ->
@@ -98,15 +98,15 @@ public class FinancialController {
         yAxis.setAutoRanging(true);
 
         // 设置坐标轴字体
-        xAxis.setStyle("-fx-tick-label-font-size: 16px; -fx-label-padding: 10;");
-        yAxis.setStyle("-fx-tick-label-font-size: 16px; -fx-label-padding: 10;");
+        xAxis.setStyle("-fx-tick-label-font-size: 8px; -fx-label-padding: 10;");
+        yAxis.setStyle("-fx-tick-label-font-size: 8px; -fx-label-padding: 10;");
 
         // 设置图例字体
         barChart.lookupAll(".chart-legend").forEach(legend ->
-                legend.setStyle("-fx-font-size: 16px;")
+                legend.setStyle("-fx-font-size: 10px;")
         );
         pieChart.lookupAll(".chart-legend").forEach(legend ->
-                legend.setStyle("-fx-font-size: 16px;")
+                legend.setStyle("-fx-font-size: 10px;")
         );
 
         // ✅ 设置柱子间距，使其居中对齐
