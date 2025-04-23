@@ -1,82 +1,46 @@
-/* Base Style */
-* {
-    -fx-font-family: "Arial", sans-serif;
-    -fx-font-size: 18px;
-    -fx-base: #e0e0e0;
-}
-
-/* Background for the window */
-/* Set background image for AnchorPane */
+/* VIP 中心专用样式 */
 .root {
-    -fx-background-image: url("images/background_14_1.png"); /* Set the path to your image */
-    -fx-background-size: cover; /* Adjust to cover the entire window */
-    -fx-background-position: center center; /* Center the image */
-    -fx-background-repeat: no-repeat; /* Do not repeat the image */
+    -fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);
 }
 
-
-/* Greeting text style */
-.greeting-text {
-    -fx-font-size: 36px;
-    -fx-font-weight: bold;
-    -fx-fill: #333;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0, 0, 3);
-}
-
-/* Due date text style */
-.due-date-text {
-    -fx-font-size: 28px;
-    -fx-fill: #555;
-}
-
-/* Membership label style */
+/* 会员状态标签 */
 .membership-label {
-    -fx-font-size: 24px;
-    -fx-fill: #333;
-    -fx-text-fill: #333;
+    -fx-font-size: 32px;
     -fx-font-weight: bold;
-    -fx-padding: 10px;
-    -fx-background-radius: 5px;
-    -fx-background-color: #e6e6e6;
-    -fx-border-color: #d4d4d4;
-    -fx-border-width: 2px;
-}
-
-.membership-label:focused {
-    -fx-background-color: #c7c7c7;
-}
-
-/* Active membership color */
-.membership-label {
-    -fx-text-fill: green;
-}
-
-/* Expired membership color */
-.membership-label.expired {
-    -fx-text-fill: red;
-    -fx-background-color: #f8d7da;
-    -fx-border-color: #f5c6cb;
-}
-
-/* Content container for centering the elements */
-.content-container {
+    -fx-background-radius: 30;
+    -fx-padding: 15 30;
     -fx-alignment: center;
-    -fx-spacing: 20;
-    -fx-padding: 40;
-    -fx-pref-width: 100%;
-    -fx-pref-height: 100%;
 }
 
-/* Arrow and Text style */
-.vip-text {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333; /* Adjust text color */
-    -fx-padding: 5px;
+/* 有效会员样式 */
+.membership-label.active {
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
+    -fx-effect: dropshadow(gaussian, rgba(74, 172, 254, 0.5), 10, 0, 0, 5);
 }
 
-/* Optional: Add some padding or margin for the entire section */
-.hbox {
-    -fx-padding: 10px;
-    -fx-background-color: #f0f0f0;
+/* 过期会员样式 */
+.membership-label.expired {
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to right, #ff758c, #ff7eb3);
+    -fx-effect: dropshadow(gaussian, rgba(255, 117, 140, 0.5), 10, 0, 0, 5);
+}
+
+/* 按钮悬停效果 */
+.button:hover {
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);
+}
+
+/* 特权卡片效果 */
+.vbox {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);
+}
+
+.vbox:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);
+    -fx-translate-y: -5;
 }
