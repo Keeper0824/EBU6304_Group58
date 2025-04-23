@@ -9,11 +9,6 @@
       fx:controller="src.main.java.financial_story9.FinancialController"
       spacing="20">
 
-    <HBox spacing="20" alignment="CENTER_LEFT">
-        <Button fx:id="returnButton" text="Return to Previous View"
-                style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
-                       -fx-background-color: #FF9800; -fx-text-fill: white;"/>
-    </HBox>
 
     <PieChart fx:id="pieChart" title="Expense Category Distribution"
               legendVisible="true" animated="false"
