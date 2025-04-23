@@ -8,7 +8,11 @@ import src.main.java.Session;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class AddController {
     private final static String currentUser = Session.getCurrentNickname();
@@ -19,7 +23,7 @@ public class AddController {
     @FXML
     private TextField classificationField;
     @FXML
-    private TextField dateField;
+    private DatePicker dateField;
     @FXML
     private TextField IOTypeField;
 
@@ -33,7 +37,8 @@ public class AddController {
         String transaction = transactionField.getText();
         double price = Double.parseDouble(priceField.getText());
         String classification = classificationField.getText();
-        String date = dateField.getText();
+        LocalDate localDate = dateField.getValue();
+        String date = formatDate(localDate);
         String IOType = IOTypeField.getText();
         added = true;
 
@@ -47,7 +52,6 @@ public class AddController {
         Stage stage = (Stage) transactionField.getScene().getWindow();
         stage.close();
     }
-
 
     private void saveTransactionToCSV(Transaction transaction) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/"+currentUser+"_transaction.csv", true))) {
@@ -98,8 +102,14 @@ public class AddController {
                 e.printStackTrace();
             }
         }
-        return "1"; // 如果文件为空或出错，就从1开始喵
+        return "1"; // 如果文件为空或出错，就从1开始
     }
 
-
+    private String formatDate(LocalDate localDate) {
+        if (localDate == null) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return localDate.format(formatter);
+    }
 }
