@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import src.main.java.Session;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -17,7 +19,8 @@ public class UserManagementController {
     @FXML private ChoiceBox<String> genderChoiceBox;
     @FXML private DatePicker dobPicker;
 
-    private User currentUser;
+    private User currentUser2;
+//    private final static String currentUser = Session.getCurrentNickname();
 
     // 初始化方法
     @FXML
@@ -55,7 +58,7 @@ public class UserManagementController {
 
     // 设置当前用户
     public void setUser(User user) {
-        this.currentUser = user;
+        this.currentUser2 = user;
         Platform.runLater(() -> {
             userTable.getItems().clear();
             userTable.getItems().add(user);
@@ -66,18 +69,18 @@ public class UserManagementController {
     // 更新表单字段
     private void updateFormFields() {
         try {
-            if (currentUser != null) {
-                nicknameField.setText(currentUser.getNickname());
-                emailField.setText(currentUser.getEmail());
-                genderChoiceBox.setValue(currentUser.getGender());
+            if (currentUser2 != null) {
+                nicknameField.setText(currentUser2.getNickname());
+                emailField.setText(currentUser2.getEmail());
+                genderChoiceBox.setValue(currentUser2.getGender());
 
                 // 安全解析日期
-                if (currentUser.getDateOfBirth() != null && !currentUser.getDateOfBirth().isEmpty()) {
-                    dobPicker.setValue(LocalDate.parse(currentUser.getDateOfBirth()));
+                if (currentUser2.getDateOfBirth() != null && !currentUser2.getDateOfBirth().isEmpty()) {
+                    dobPicker.setValue(LocalDate.parse(currentUser2.getDateOfBirth()));
                 }
             }
         } catch (DateTimeParseException e) {
-            showAlert("Error", "Invalid date format: " + currentUser.getDateOfBirth());
+            showAlert("Error", "Invalid date format: " + currentUser2.getDateOfBirth());
             dobPicker.setValue(null);
         }
     }
@@ -95,12 +98,12 @@ public class UserManagementController {
             }
 
             // 更新用户信息
-            currentUser.setNickname(nicknameField.getText());
-            currentUser.setGender(genderChoiceBox.getValue());
-            currentUser.setDateOfBirth(dobPicker.getValue().toString());
+            currentUser2.setNickname(nicknameField.getText());
+            currentUser2.setGender(genderChoiceBox.getValue());
+            currentUser2.setDateOfBirth(dobPicker.getValue().toString());
 
             // 保存更改
-            saveUserChanges(currentUser);
+            saveUserChanges(currentUser2);
 
             // 刷新表格
             Platform.runLater(() -> {
