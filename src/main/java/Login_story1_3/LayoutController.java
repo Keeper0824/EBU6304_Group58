@@ -5,6 +5,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -14,6 +16,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 public class LayoutController {
@@ -96,8 +101,19 @@ public class LayoutController {
 
     @FXML
     private void onLogout(ActionEvent e) {
-        // 你原来的登出逻辑，或者直接切回 Login.fxml
-        loadView("/src/main/resources/Login_story1_3/Login.fxml","");
+        try {
+            // 加载 Login.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/src/main/resources/Login_story1_3/Login.fxml"));
+            Scene scene = new Scene(root);
+
+            // 获取当前舞台并设置新场景
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            showError("Failed to logout");
+        }
     }
 
 
