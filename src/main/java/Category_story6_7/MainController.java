@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
-    private final static String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname();
     @FXML
     private TableColumn<Transaction, Void> actionsColumn;
     @FXML

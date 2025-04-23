@@ -57,7 +57,7 @@ public class CashFlowController {
     private List<Transaction> transactions;
     private ScheduledExecutorService executorService;
     private int currentLineIndex = 0;
-    private final static String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname();
 
     @FXML
     public void initialize() {

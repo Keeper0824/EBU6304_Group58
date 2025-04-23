@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVUtils {
-    private final static String currentUser = Session.getCurrentNickname();
-    private static final String CSV_FILE = "data/" + currentUser + "_cards.csv";
-
     public static List<CreditCard> loadCards() {
+        String currentUser = Session.getCurrentNickname();
+        String CSV_FILE = "data/" + currentUser + "_cards.csv";
         List<CreditCard> cards = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             String line;
@@ -32,6 +31,8 @@ public class CSVUtils {
     }
 
     public static void saveCards(List<CreditCard> cards) {
+        String currentUser = Session.getCurrentNickname();
+        String CSV_FILE = "data/" + currentUser + "_cards.csv";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSV_FILE))) {
             for (CreditCard card : cards) {
                 bw.write(String.join(",",
