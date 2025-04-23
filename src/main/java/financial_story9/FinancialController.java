@@ -103,10 +103,10 @@ public class FinancialController {
 
         // 设置图例字体
         barChart.lookupAll(".chart-legend").forEach(legend ->
-                legend.setStyle("-fx-font-size: 10px;")
+                legend.setStyle("-fx-font-size: 12px;")
         );
         pieChart.lookupAll(".chart-legend").forEach(legend ->
-                legend.setStyle("-fx-font-size: 10px;")
+                legend.setStyle("-fx-font-size: 12px;")
         );
 
         // ✅ 设置柱子间距，使其居中对齐

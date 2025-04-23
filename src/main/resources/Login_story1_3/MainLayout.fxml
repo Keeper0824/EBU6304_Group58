@@ -17,7 +17,7 @@
 <!--                        <Image url="@../images/avatar.png"/>-->
 <!--                    </image>-->
 <!--                </ImageView>-->
-                <Label fx:id="usernameLabel" text="User001" styleClass="nav-username"/>
+                <Label fx:id="usernameLabel" text="Guest" styleClass="nav-username"/>
             </HBox>
 
             <!-- 2. HOME 区 -->

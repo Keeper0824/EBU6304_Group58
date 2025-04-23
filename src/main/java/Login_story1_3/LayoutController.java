@@ -1,5 +1,6 @@
 package src.main.java.Login_story1_3;
 
+import src.main.java.Session;
 import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -23,9 +24,13 @@ import java.io.IOException;
 
 
 public class LayoutController {
-    @FXML private StackPane contentPane;
-    @FXML private Pane cardWrapper;
-    @FXML private AnchorPane cardContainer;
+    @FXML
+    private StackPane contentPane;
+    @FXML
+    private Pane cardWrapper;
+    @FXML
+    private AnchorPane cardContainer;
+    @FXML private Label usernameLabel;  // FXML 中的 Label 控件
     // 缩放 Transform
     private Scale scale = new Scale(1, 1, 0, 0);
     // 根据需求，你也可以保留 currentUser 字段，这里省略
@@ -33,6 +38,13 @@ public class LayoutController {
 
     @FXML
     public void initialize() {
+        // 从 Session 获取当前用户名，并设置到 Label 中
+        String currentUser = Session.getCurrentNickname();
+        if (currentUser != null) {
+            usernameLabel.setText(currentUser);
+        } else {
+            usernameLabel.setText("Guest");  // 如果没有用户名则显示 "Guest"
+        }
         // 用 Platform.runLater 保证所有控件都 ready 之后再调用
         Platform.runLater(() -> onDashboard());
         // 在 cardContainer 上附加比例变换
@@ -75,29 +87,30 @@ public class LayoutController {
     private void onDashboard() {
         loadView("/src/main/resources/CashFlowVisualization_story15/ui.fxml", "Dashboard");
     }
+
     @FXML
     private void onUserInfo(ActionEvent e) {
-        loadView("/src/main/resources/Login_story1_3/UserManagement.fxml","UserManagement");
+        loadView("/src/main/resources/Login_story1_3/UserManagement.fxml", "UserManagement");
     }
 
     @FXML
     private void onVipCenter(ActionEvent e) {
-        loadView("/src/main/resources/ViewMembershipTime_story14/ui.fxml","Membership");
+        loadView("/src/main/resources/ViewMembershipTime_story14/ui.fxml", "Membership");
     }
 
     @FXML
     private void onCharts(ActionEvent e) {
-        loadView("/src/main/resources/financial_story9/main_view.fxml","Chart");
+        loadView("/src/main/resources/financial_story9/main_view.fxml", "Chart");
     }
 
     @FXML
     private void onCards(ActionEvent e) {
-        loadView("/src/main/resources/card_management_story12/card_manager.fxml","CardManager");
+        loadView("/src/main/resources/card_management_story12/card_manager.fxml", "CardManager");
     }
 
     @FXML
     private void onTransaction(ActionEvent e) {
-        loadView("/src/main/resources/Category_story6_7/main.fxml","Transaction");
+        loadView("/src/main/resources/Category_story6_7/main.fxml", "Transaction");
     }
 
     @FXML
@@ -150,7 +163,8 @@ public class LayoutController {
      * 通用加载方法，第一个参数是 fxml 路径，第二个是你想显示的标题
      */
 
-    @FXML private Label sectionTitle;
+    @FXML
+    private Label sectionTitle;
 
     private void loadView(String fxmlPath, String title) {
         try {

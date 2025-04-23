@@ -12,7 +12,7 @@
     <!-- 饼图 -->
     <PieChart fx:id="pieChart" title="Expense Category Distribution"
               legendVisible="true" animated="false"
-              prefWidth="700" prefHeight="590"
+              prefWidth="700" prefHeight="560"
               style="-fx-font-size: 12px;">
     </PieChart>
     </VBox>
