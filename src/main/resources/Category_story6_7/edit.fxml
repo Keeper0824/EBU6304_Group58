@@ -5,15 +5,15 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.Category_story6_7.EditController"
       alignment="CENTER" spacing="10" prefWidth="400" prefHeight="300">
     <Label text="Transaction"/>
-    <TextField fx:id="transactionField" promptText="Transaction"/>
+    <TextField fx:id="transactionField" promptText="Transaction" prefWidth="300" maxWidth="300"/>
     <Label text="Price"/>
-    <TextField fx:id="priceField" promptText="Price"/>
+    <TextField fx:id="priceField" promptText="Price" prefWidth="300" maxWidth="300"/>
     <Label text="Classification"/>
-    <TextField fx:id="classificationField" promptText="Classification"/>
+    <TextField fx:id="classificationField" promptText="Classification" prefWidth="300" maxWidth="300"/>
     <Label text="Date"/>
-    <TextField fx:id="dateField" promptText="Date"/>
+    <DatePicker fx:id="dateField" promptText="Date" prefWidth="300" maxWidth="300"/>
     <Label text="Type"/>
-    <TextField fx:id="IOTypeField" promptText="Date"/>
+    <TextField fx:id="IOTypeField" promptText="Date" prefWidth="300" maxWidth="300"/>
     <HBox alignment="CENTER" spacing="10">
         <Button text="Save" onAction="#handleSave"/>
         <Button text="Cancel" onAction="#handleCancel"/>
