@@ -7,11 +7,16 @@ import src.main.java.Session;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class ConsumptionForecastController {
 
     @FXML
     private Label forecastLabel;
+    @FXML
+    private Label healthScoreLabel;
+    @FXML
+    private Label suggestionsLabel;
 
     @FXML
     private void initialize() {
@@ -21,7 +26,7 @@ public class ConsumptionForecastController {
 
             // 获取当前用户昵称
             //String nickname = Session.getCurrentNickname();
-            String nickname ="Keeper";
+            String nickname = "Keeper";
             System.out.println("【2】当前用户昵称: " + nickname);
 
             // 构建文件路径
@@ -33,9 +38,9 @@ public class ConsumptionForecastController {
             System.out.println("【4】成功加载交易记录数: " + transactions.size());
 
             // 打印前5条交易记录（用于验证数据）
-            if(!transactions.isEmpty()) {
+            if (!transactions.isEmpty()) {
                 System.out.println("【5】前5条交易记录样例:");
-                for(int i=0; i<Math.min(5, transactions.size()); i++) {
+                for (int i = 0; i < Math.min(5, transactions.size()); i++) {
                     Transaction t = transactions.get(i);
                     System.out.printf("  - %s | %s | ¥%.2f | %s%n",
                             t.getDate(), t.getDescription(), t.getPrice(), t.getClassification());
@@ -49,8 +54,16 @@ public class ConsumptionForecastController {
             double forecast = AIModelAPI.predictNextMonthConsumption(transactions);
             System.out.println("【7】API返回的预测值: " + forecast);
 
+            // 获取健康评分和建议
+            Map<String, String> scoreAndSuggestions = ConsumptionHealthAnalyzer.getHealthScoreAndSuggestions(transactions);
+            String score = scoreAndSuggestions.get("score");
+            String suggestions = scoreAndSuggestions.get("suggestions");
+
             // 更新UI
             forecastLabel.setText("您的下个月预计消费金额是: ¥" + String.format("%.2f", forecast));
+            healthScoreLabel.setText("您的消费健康评分为: " + score);
+            suggestionsLabel.setText("消费建议: " + suggestions);
+
             System.out.println("【8】预测结果显示完成");
             System.out.println("=== 消费预测流程结束 ===\n");
 
@@ -58,6 +71,8 @@ public class ConsumptionForecastController {
             System.err.println("\n【ERROR】初始化过程中出现错误:");
             e.printStackTrace();
             forecastLabel.setText("加载数据时出错，请检查控制台日志");
+            healthScoreLabel.setText("加载数据时出错，请检查控制台日志");
+            suggestionsLabel.setText("加载数据时出错，请检查控制台日志");
         }
     }
 }
