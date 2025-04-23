@@ -18,15 +18,35 @@ public class EditController {
     @FXML
     private TextField priceField;
     @FXML
-    private TextField classificationField;
+    private ComboBox<String> classificationField;
     @FXML
     private DatePicker dateField;
     @FXML
-    private TextField IOTypeField;
+    private ComboBox<String> IOTypeField;
 
     private Transaction transaction;
     private boolean isEdited = false;
     private Transaction transaction1;
+
+    @FXML
+    private void initialize() {
+        // 初始化分类下拉列表
+        classificationField.getItems().addAll(
+                "Income",
+                "Food",
+                "Clothing",
+                "Household equipment and services",
+                "Medical care",
+                "Transportation and Communication",
+                "Entertainment",
+                "Educational supplies and services",
+                "Residence",
+                "Other goods and services"
+        );
+
+        // 初始化IO类型下拉列表
+        IOTypeField.getItems().addAll("Income", "Expense");
+    }
 
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
@@ -34,9 +54,9 @@ public class EditController {
         // 初始化表单数据
         transactionField.setText(transaction.getTransaction());
         priceField.setText(String.valueOf(transaction.getPrice()));
-        classificationField.setText(transaction.getClassification());
+        classificationField.setValue(transaction.getClassification());
         dateField.setValue(LocalDate.parse(transaction.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        IOTypeField.setText(transaction.getIOType());
+        IOTypeField.setValue(transaction.getIOType());
     }
 
     @FXML
@@ -44,10 +64,10 @@ public class EditController {
         // 获取表单数据
         String newTransaction = transactionField.getText();
         double price = Double.parseDouble(priceField.getText());
-        String classification = classificationField.getText();
+        String classification = classificationField.getValue();
         LocalDate date = dateField.getValue();  // 获取 DatePicker 的值
         String formattedDate = formatDate(date);  // 格式化日期
-        String IOType = IOTypeField.getText();
+        String IOType = IOTypeField.getValue();
 
         String originalTransaction = this.transaction.getTransaction();
         String id = this.transaction.getId();

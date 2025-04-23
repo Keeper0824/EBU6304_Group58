@@ -21,14 +21,34 @@ public class AddController {
     @FXML
     private TextField priceField;
     @FXML
-    private TextField classificationField;
+    private ComboBox<String> classificationField;
     @FXML
     private DatePicker dateField;
     @FXML
-    private TextField IOTypeField;
+    private ComboBox<String> IOTypeField;
 
     private boolean added = false;
     private Transaction newTransaction;
+
+    @FXML
+    private void initialize() {
+        // 初始化分类下拉列表
+        classificationField.getItems().addAll(
+                "Income",
+                "Food",
+                "Clothing",
+                "Household equipment and services",
+                "Medical care",
+                "Transportation and Communication",
+                "Entertainment",
+                "Educational supplies and services",
+                "Residence",
+                "Other goods and services"
+        );
+
+        // 初始化IO类型下拉列表
+        IOTypeField.getItems().addAll("Income", "Expense");
+    }
 
     @FXML
     private void handleSave() {
@@ -36,10 +56,10 @@ public class AddController {
         String id = getNextId(); // 使用新方法获取ID
         String transaction = transactionField.getText();
         double price = Double.parseDouble(priceField.getText());
-        String classification = classificationField.getText();
+        String classification = classificationField.getValue();
         LocalDate localDate = dateField.getValue();
         String date = formatDate(localDate);
-        String IOType = IOTypeField.getText();
+        String IOType = IOTypeField.getValue();
         added = true;
 
         // 创建新的 Transaction 对象
