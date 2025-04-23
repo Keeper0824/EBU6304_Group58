@@ -1,37 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.Button?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.ViewMembershipTime_story14.UserController" prefHeight="900.0" prefWidth="1600.0">
-    <!-- Background container -->
-    <AnchorPane>
+<AnchorPane style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.ViewMembershipTime_story14.UserController">
 
-        <!-- Main content container (VBox) to center everything vertically and horizontally -->
-        <VBox alignment="CENTER" spacing="20" layoutX="450" layoutY="150" styleClass="content-container">
+    <!-- 主内容容器 -->
+    <VBox alignment="CENTER" prefHeight="700" prefWidth="1200" spacing="30" style="-fx-background-color: rgba(255,255,255,0.9); -fx-background-radius: 20; -fx-padding: 50;">
 
-            <!-- Greeting text -->
-            <Text fx:id="greetingText" styleClass="greeting-text" />
+        <!-- 标题 -->
+        <Label style="-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d;" text="VIP MEMBERSHIP">
+            <effect>
+                <DropShadow color="#3a4a6d99" radius="10" spread="0.3" />
+            </effect>
+        </Label>
 
-            <!-- Due Date text -->
-            <Text fx:id="dueDateText" styleClass="due-date-text" />
+        <!-- 会员信息卡片 -->
+        <VBox alignment="CENTER" spacing="20" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 5);">
 
-            <!-- Membership status label -->
-            <Label fx:id="membershipLabel" styleClass="membership-label"/>
+            <!-- 用户信息 -->
+            <HBox alignment="CENTER" spacing="20">
+<!--                <ImageView fitHeight="167.0" fitWidth="151.0" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@images/1.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+                <VBox alignment="CENTER_LEFT" spacing="5">
+                    <Text fx:id="greetingText" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d;" />
+                    <Label style="-fx-font-size: 18px; -fx-text-fill: #7d8fb3;" text="Premium Member" />
+                </VBox>
+            </HBox>
+
+            <!-- 会员状态 -->
+            <VBox alignment="CENTER" spacing="10">
+                <Label fx:id="membershipLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-padding: 15 30;" />
+                <Text fx:id="dueDateText" style="-fx-font-size: 24px; -fx-text-fill: #7d8fb3;" />
+            </VBox>
 
         </VBox>
 
-        <!-- Back button in top-left corner -->
-        <Button fx:id="backButton" text="Back to Main Menu" layoutX="20" layoutY="20"
-                style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
-                       -fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        <!-- 会员特权 -->
+        <GridPane alignment="CENTER" hgap="30" vgap="20">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="250" />
+                <ColumnConstraints prefWidth="250" />
+                <ColumnConstraints prefWidth="250" />
+            </columnConstraints>
 
-        <!-- Main content images -->
-        <ImageView fx:id="image1" layoutX="206" layoutY="459" fitWidth="455" fitHeight="293" />
-        <ImageView fx:id="image2" layoutX="851" layoutY="459" fitWidth="455" fitHeight="293" />
-    </AnchorPane>
+            <!-- 特权1 -->
+            <VBox alignment="CENTER" prefHeight="175.0" prefWidth="267.0" spacing="10" GridPane.columnIndex="0">
+                <ImageView fitHeight="118.0" fitWidth="104.0" preserveRatio="true">
+                    <image>
+                        <Image url="@images/2.png" />
+                    </image>
+                </ImageView>
+                <Label prefWidth="158.0" style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Exclusive Deals" />
+                <Label prefHeight="30.0" prefWidth="264.0" style="-fx-font-size: 16px; -fx-text-fill: #7d8fb3; -fx-wrap-text: true; -fx-alignment: center;" text="Special discounts" />
+            </VBox>
+
+            <!-- 特权2 -->
+            <VBox alignment="CENTER" spacing="10" GridPane.columnIndex="1">
+                <ImageView fitHeight="103.0" fitWidth="104.0" preserveRatio="true">
+                    <image>
+                        <Image url="@images/2.png" />
+                    </image>
+                </ImageView>
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Priority Support" />
+                <Label style="-fx-font-size: 16px; -fx-text-fill: #7d8fb3; -fx-wrap-text: true; -fx-alignment: center;" text="24/7 dedicated customer service" />
+            </VBox>
+
+            <!-- 特权3 -->
+            <VBox alignment="CENTER" spacing="10" GridPane.columnIndex="2">
+                <ImageView fitHeight="117.0" fitWidth="105.0" preserveRatio="true">
+                    <image>
+                        <Image url="@images/2.png" />
+                    </image>
+                </ImageView>
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Early Access" />
+                <Label style="-fx-font-size: 16px; -fx-text-fill: #7d8fb3; -fx-wrap-text: true; -fx-alignment: center;" text="Be the first to try new features" />
+            </VBox>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+    </VBox>
 </AnchorPane>
