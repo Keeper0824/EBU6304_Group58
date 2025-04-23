@@ -2,12 +2,9 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.AI_story11_21_22.ConsumptionForecastController" alignment="CENTER" spacing="20">
-    <padding>
-        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
-    </padding>
-    <Label text="Consumption Forecast" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-    <Label fx:id="forecastLabel" text="Your forecast will appear here." style="-fx-font-size: 16px;"/>
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.AI_story11_21_22.ConsumptionForecastController">
+    <Label fx:id="forecastLabel" text="预测金额将显示在这里" />
+    <Label fx:id="healthScoreLabel" text="健康评分将显示在这里" />
+    <Label fx:id="suggestionsLabel" text="消费建议将显示在这里" />
 </VBox>
