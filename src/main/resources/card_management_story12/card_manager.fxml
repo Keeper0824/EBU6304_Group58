@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.ImageView?>
 
 <StackPane xmlns="http://javafx.com/javafx/21.0.7"
            xmlns:fx="http://javafx.com/fxml/1"
@@ -51,9 +52,20 @@
             <Button text="Show Cards" onAction="#handleShowCards"
                     style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
                            -fx-background-color: #2196F3; -fx-text-fill: white;"/>
-            <Button text="Back to Main" onAction="#handleBackToMain"
+        </HBox>
+    </VBox>
+
+    <!-- 显示GIF动画的视图 -->
+    <VBox fx:id="gifView" alignment="CENTER" visible="false"
+          style="-fx-background-color: rgba(255,255,255,0.7);">
+        <padding>
+            <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+        </padding>
+        <ImageView fx:id="gifImageView" fitWidth="500" fitHeight="300"/>
+        <HBox spacing="30" alignment="CENTER">
+            <Button text="Back to Card Entry" onAction="#handleBackToCardEntry"
                     style="-fx-font-size: 14pt; -fx-pref-width: 200; -fx-pref-height: 45;
-                           -fx-background-color: #f44336; -fx-text-fill: white;"/>
+                           -fx-background-color: #4CAF50; -fx-text-fill: white;"/>
         </HBox>
     </VBox>
 
@@ -97,4 +109,5 @@
                            -fx-background-color: #f44336; -fx-text-fill: white;"/>
         </HBox>
     </VBox>
+
 </StackPane>
