@@ -62,7 +62,7 @@ public class CashFlowController {
     @FXML
     public void initialize() {
         //setupBackground();
-        //setupCharts();
+        setupCharts();
         setupLabels();
 //        setupButtons();
         // 主动加载数据

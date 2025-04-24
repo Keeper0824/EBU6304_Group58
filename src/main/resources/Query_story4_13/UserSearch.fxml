@@ -13,6 +13,12 @@
       prefHeight="900"
       spacing="20">
 
+
+    <!-- 大标题 -->
+
+    <Label text="AI-Empowered Personal Finance Tracker" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d; -fx-padding: 0 0 40 0;"/>
+    <Label text="User Querader" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d; -fx-padding: 0 0 350 0;"/>
+
     <HBox spacing="20" alignment="CENTER">
         <TextField fx:id="searchField"
                    promptText="Enter ID or nickname"

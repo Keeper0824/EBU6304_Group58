@@ -2,6 +2,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="src.main.java.Login_story1_3.LayoutController"
@@ -12,11 +13,11 @@
 
             <!-- 1. 用户头像 + 名字 -->
             <HBox spacing="10" alignment="CENTER_LEFT" styleClass="nav-user-info">
-<!--                <ImageView fx:id="avatar" fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true">-->
-<!--                    <image>-->
-<!--                        <Image url="@../images/avatar.png"/>-->
-<!--                    </image>-->
-<!--                </ImageView>-->
+                <ImageView fx:id="avatar" fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true" >
+                    <image>
+                        <Image url="@images/TouXiang.png"/>
+                    </image>
+                </ImageView>
                 <Label fx:id="usernameLabel" text="Guest" styleClass="nav-username"/>
             </HBox>
 
@@ -48,13 +49,13 @@
 
 
             <!-- 【1】 顶部栏：通知铃铛 + 访问按钮 -->
-            <HBox styleClass="top-bar" spacing="10" alignment="CENTER_LEFT">
+            <HBox styleClass="top-bar" spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 0 20 0 0;">
                 <Button fx:id="notificationBtn" onAction="#onNotification" styleClass="icon-button">
                     <graphic>
                         <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
-<!--                            <image>-->
-<!--                                <Image url="@../images/bell.png"/>-->
-<!--                            </image>-->
+                            <image>
+                                <Image url="@images/TongZhi.png"/>
+                            </image>
                         </ImageView>
                     </graphic>
                 </Button>

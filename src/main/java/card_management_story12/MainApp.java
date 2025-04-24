@@ -14,9 +14,9 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/card_management_story12/card_manager.fxml"));
             Scene scene = new Scene(loader.load());
 
-            // 设置页面大小为 1600x900
+            // 设置页面大小为 1600x1000
             primaryStage.setWidth(1600);
-            primaryStage.setHeight(900);
+            primaryStage.setHeight(1000);
 
             // 显示主窗口
             primaryStage.setScene(scene);

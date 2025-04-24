@@ -12,8 +12,8 @@
 
 /* ========== 顶部用户信息 ========== */
 .nav-user-info {
-    -fx-padding: 0 0 20 20;   /* 下 20px, 左 20px */
-    -fx-translate-x: 30px;    /* 根据需要微调整体偏移 */
+    -fx-padding: 0 0 20 0;   /* 下 20px, 左 20px */
+    -fx-translate-x: 0px;    /* 根据需要微调整体偏移 */
 }
 .nav-username {
     -fx-text-fill: #ecf0f1;
@@ -99,6 +99,7 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-cursor: hand;
+    -fx-padding: 0 0 0 0;
 }
 .link-button {
     -fx-font-size: 14px;
