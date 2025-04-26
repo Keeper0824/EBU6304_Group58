@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.AI_story11_21_22.ConsumptionForecastController">
-    <Label fx:id="forecastLabel" text="预测金额将显示在这里" />
-    <Label fx:id="healthScoreLabel" text="健康评分将显示在这里" />
-    <Label fx:id="suggestionsLabel" text="消费建议将显示在这里" />
+<VBox alignment="CENTER" prefHeight="590" prefWidth="1200" spacing="15" style="-fx-background-color: #f5f7fa;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.AI_story11_21_22.ConsumptionForecastController">
+
+    <!-- 标题 -->
+    <Label styleClass="title-label" text="消费预测与分析">
+        <font>
+            <Font name="System Bold" size="22.0" />
+        </font>
+        <padding>
+            <Insets bottom="10" />
+        </padding>
+    </Label>
+
+    <!-- 预测卡片 -->
+    <VBox alignment="CENTER" prefHeight="120" prefWidth="1000" spacing="5" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 0);">
+        <Label styleClass="card-title-label" text="下月消费预测" />
+        <Label fx:id="forecastLabel" styleClass="forecast-value-label" text="¥0.00" />
+        <Label styleClass="card-subtitle-label" text="基于历史消费数据的AI预测" />
+    </VBox>
+
+    <!-- 健康评分和建议卡片 -->
+    <HBox alignment="CENTER" prefWidth="1000" spacing="20">
+        <VBox alignment="CENTER" prefHeight="425.0" prefWidth="503.0" spacing="5" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 0);">
+            <Label styleClass="card-title-label" text="消费健康评分" />
+            <Label fx:id="healthScoreLabel" styleClass="score-value-label" text="0" />
+            <Label styleClass="card-subtitle-label" text="满分100分" />
+        </VBox>
+
+        <VBox alignment="TOP_CENTER" prefHeight="180" prefWidth="480" spacing="5" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 0);">
+            <Label styleClass="card-title-label" text="消费建议" />
+            <Label fx:id="suggestionsLabel" maxWidth="450" prefHeight="318.0" prefWidth="450.0" styleClass="suggestion-text-label" wrapText="true" />
+        </VBox>
+    </HBox>
+
+    <!-- 底部留白 -->
+    <Region VBox.vgrow="ALWAYS" />
+
+    <stylesheets>
+        <URL value="@consumption-forecast.css" />
+    </stylesheets>
 </VBox>

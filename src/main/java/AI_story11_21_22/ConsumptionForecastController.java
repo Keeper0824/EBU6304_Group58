@@ -25,13 +25,20 @@ public class ConsumptionForecastController {
             System.out.println("【1】开始初始化预测界面...");
 
             // 获取当前用户昵称
-            //String nickname = Session.getCurrentNickname();
-            String nickname = "Keeper";
+            String nickname = Session.getCurrentNickname();
+            if (nickname == null || nickname.isEmpty()) {
+                throw new IOException("未获取到当前用户信息，请先登录");
+            }
             System.out.println("【2】当前用户昵称: " + nickname);
 
             // 构建文件路径
             String filePath = "data/" + nickname + "_transaction.csv";
-            System.out.println("【3】尝试加载交易文件: " + new File(filePath).getAbsolutePath());
+            File transactionFile = new File(filePath);
+            System.out.println("【3】尝试加载交易文件: " + transactionFile.getAbsolutePath());
+
+            if (!transactionFile.exists()) {
+                throw new IOException("找不到用户的交易数据文件: " + filePath);
+            }
 
             // 加载交易数据
             List<Transaction> transactions = DataPreprocessor.loadTransactions(filePath);
@@ -47,6 +54,7 @@ public class ConsumptionForecastController {
                 }
             } else {
                 System.out.println("【5】警告: 没有加载到任何交易记录");
+                throw new IOException("交易记录为空");
             }
 
             // 调用预测API
@@ -70,9 +78,15 @@ public class ConsumptionForecastController {
         } catch (IOException | InterruptedException e) {
             System.err.println("\n【ERROR】初始化过程中出现错误:");
             e.printStackTrace();
-            forecastLabel.setText("加载数据时出错，请检查控制台日志");
-            healthScoreLabel.setText("加载数据时出错，请检查控制台日志");
-            suggestionsLabel.setText("加载数据时出错，请检查控制台日志");
+
+            String errorMessage = "加载数据时出错: " + e.getMessage();
+            if (e instanceof IOException && e.getMessage().contains("文件不存在")) {
+                errorMessage = "找不到用户的交易记录，请先添加交易数据";
+            }
+
+            forecastLabel.setText(errorMessage);
+            healthScoreLabel.setText("");
+            suggestionsLabel.setText("");
         }
     }
 }

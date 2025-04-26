@@ -31,6 +31,7 @@
             <Button text="Transaction" onAction="#onTransaction" styleClass="nav-button"/>
             <Button text="Charts"      onAction="#onCharts"      styleClass="nav-button"/>
             <Button text="VIP Center"  onAction="#onVipCenter"   styleClass="nav-button"/>
+            <Button text="AI Forecast" onAction="#onAIForecast"  styleClass="nav-button"/>  <!-- 新增的AI按钮 -->
 
             <!-- 4. SETTING 区 -->
             <Label text="SETTING" styleClass="nav-section-label"/>

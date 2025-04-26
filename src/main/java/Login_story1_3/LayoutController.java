@@ -114,6 +114,11 @@ public class LayoutController {
     }
 
     @FXML
+    private void onAIForecast(ActionEvent e) {
+        loadView("/src/main/resources/AI_story11_21_22/ConsumptionForecast.fxml", "AI Forecast");
+    }
+
+    @FXML
     private void onLogout(ActionEvent e) {
         try {
             Session.setCurrentNickname(null);
