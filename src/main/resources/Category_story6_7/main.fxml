@@ -8,25 +8,31 @@
       alignment="TOP_CENTER"
       spacing="20">             <!-- 表格和按钮间距 -->
 
-<!-- 用 HBox 把 TableView 居中包裹 -->
-<HBox alignment="CENTER">
-    <TableView fx:id="tableView" prefWidth="1200" prefHeight="560" style="-fx-font-size: 16;">
-        <columns>
-            <TableColumn text="Transaction" fx:id="transactionColumn" prefWidth="200" style="-fx-font-size: 16;"/>
-            <TableColumn text="Price" fx:id="priceColumn" prefWidth="100" style="-fx-font-size: 16;"/>
-            <TableColumn text="Classification" fx:id="classificationColumn" prefWidth="200" style="-fx-font-size: 16;"/>
-            <TableColumn text="Date" fx:id="dateColumn" prefWidth="200" style="-fx-font-size: 16;"/>
-            <TableColumn text="Type" fx:id="IOColumn" prefWidth="200" style="-fx-font-size: 16;"/>
-            <TableColumn text="Actions" fx:id="actionsColumn" prefWidth="100" style="-fx-font-size: 16;"/>
-        </columns>
-    </TableView>
-</HBox>
+    <!-- 用 HBox 把 TableView 居中包裹 -->
+    <HBox alignment="CENTER">
+        <TableView fx:id="tableView" prefWidth="1200" prefHeight="560" style="-fx-font-size: 16;">
+            <columns>
+                <TableColumn text="Transaction" fx:id="transactionColumn" prefWidth="200" style="-fx-font-size: 16;"/>
+                <TableColumn text="Price" fx:id="priceColumn" prefWidth="100" style="-fx-font-size: 16;"/>
+                <TableColumn text="Classification" fx:id="classificationColumn" prefWidth="200" style="-fx-font-size: 16;"/>
+                <TableColumn text="Date" fx:id="dateColumn" prefWidth="200" style="-fx-font-size: 16;"/>
+                <TableColumn text="Type" fx:id="IOColumn" prefWidth="200" style="-fx-font-size: 16;"/>
+                <TableColumn text="Actions" fx:id="actionsColumn" prefWidth="100" style="-fx-font-size: 16;"/>
+            </columns>
+        </TableView>
+    </HBox>
 
-<HBox alignment="CENTER" spacing="10">
-    <Button text="Add" onAction="#handleAdd" style="-fx-font-size: 16;"/>
-    <Button text="Delete" onAction="#handleDelete" style="-fx-font-size: 16;"/>
-    <Button text="Refresh" onAction="#handleRefresh" style="-fx-font-size: 16;"/>
-</HBox>
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="Add" onAction="#handleAdd" style="-fx-font-size: 16;"/>
+        <Button text="Delete" onAction="#handleDelete" style="-fx-font-size: 16;"/>
+        <Button text="Refresh" onAction="#handleRefresh" style="-fx-font-size: 16;"/>
+    </HBox>
+
+    <!-- Budget comparison section -->
+    <HBox alignment="CENTER" spacing="10">
+        <Label text="Monthly Budget:" style="-fx-font-size: 16;"/>
+        <TextField fx:id="budgetField" style="-fx-font-size: 16;" prefWidth="150"/>
+        <Button text="Compare" onAction="#handleCompare" style="-fx-font-size: 16;"/>
+    </HBox>
 
 </VBox>
-
