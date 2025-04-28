@@ -153,8 +153,7 @@ public class LayoutController {
 
     @FXML
     private void onNotification() {
-        // 你想弹什么就写什么
-        new Alert(Alert.AlertType.INFORMATION, "You have no new notifications~").showAndWait();
+        loadView("/src/main/resources/Reminder_story_19_20/ReminderView.fxml", "Notification");
     }
 
     @FXML
