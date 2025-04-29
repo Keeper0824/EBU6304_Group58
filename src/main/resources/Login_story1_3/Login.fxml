@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="src.main.java.Login_story1_3.LoginController">
+
+    <!-- 背景图 -->
+    <ImageView fx:id="bgImageView" fitHeight="900" fitWidth="1600" preserveRatio="false">
+        <image>
+            <Image url="@images/2.jpg"/>
+        </image>
+    </ImageView>
+
+    <!-- 半透明遮罩 -->
+    <Pane style="-fx-background-color: rgba(255,255,255,0); "/>
+
+    <!-- 大标题 -->
+
+    <Label text="AI-Empowered Personal Finance Tracker" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d; -fx-padding: 0 0 450 0;"/>
+
+
+    <!-- 内容面板 -->
+    <GridPane alignment="CENTER" hgap="20" maxHeight="741.0" maxWidth="952.0" prefHeight="741.0" prefWidth="952.0"
+              style="-fx-background-color: rgba(255,255,255,0); -fx-background-radius: 15;" vgap="30">
+        <padding>
+            <Insets bottom="40" left="40" right="40" top="40"/>
+        </padding>
+
+        <!-- 邮箱 -->
+        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Email:" GridPane.columnIndex="0"
+               GridPane.rowIndex="0"/>
+        <TextField fx:id="emailField" promptText="Enter your email" style="-fx-font-size: 18px; -fx-pref-height: 40px;"
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <!-- 密码 -->
+        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Password:" GridPane.columnIndex="0"
+               GridPane.rowIndex="1"/>
+        <PasswordField fx:id="passwordField" promptText="Enter your password"
+                       style="-fx-font-size: 18px; -fx-pref-height: 40px;" GridPane.columnIndex="1"
+                       GridPane.rowIndex="1"/>
+
+        <!-- 验证码 -->
+        <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Verification Code:" GridPane.columnIndex="0"
+               GridPane.rowIndex="2"/>
+        <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="captchaField" promptText="Enter the code"
+                       style="-fx-font-size: 18px; -fx-pref-height: 40px; -fx-pref-width: 200px;"/>
+            <Label fx:id="captchaLabel"
+                   style="-fx-font-size: 28px; -fx-font-weight: bold;                   -fx-background-color: #f0f0f0; -fx-padding: 10px;                   -fx-border-color: #ccc; -fx-border-width: 1px;                   -fx-min-width: 140px; -fx-alignment: center;                   -fx-text-fill: #3366ff; -fx-font-family: 'Arial Black';"/>
+            <Button fx:id="refreshCaptchaBtn" prefWidth="125.0"
+                    style="-fx-font-size: 14px; -fx-pref-height: 40px; -fx-pref-width: 80px;" text="Refresh"/>
+        </HBox>
+
+        <!-- 按钮 -->
+        <HBox spacing="400" alignment="CENTER_RIGHT"
+              GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2">
+            <Button text="Login" onAction="#handleLogin"
+                    style="-fx-font-size: 24px; -fx-pref-width: 180px; -fx-pref-height: 60px;"/>
+            <Button text="Register" onAction="#handleRegister"
+                    style="-fx-font-size: 24px; -fx-pref-width: 180px; -fx-pref-height: 60px;"/>
+        </HBox>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+    </GridPane>
+
+</StackPane>

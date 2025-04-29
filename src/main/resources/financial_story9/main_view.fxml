@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="src.main.java.financial_story9.FinancialController"
+      spacing="40" alignment="CENTER">
+
+    <VBox style="-fx-padding: 30 0 0 0;">
+    <!-- 饼图 -->
+    <PieChart fx:id="pieChart" title="Expense Category Distribution"
+              legendVisible="true" animated="false"
+              prefWidth="700" prefHeight="560"
+              style="-fx-font-size: 12px;">
+    </PieChart>
+    </VBox>
+
+    <!-- 柱状图 -->
+    <!-- 添加内边距来增加上下空间 -->
+    <VBox style="-fx-padding: 30 0 0 0;">
+    <BarChart fx:id="barChart" title="Monthly Income vs. Expense Comparison"
+              prefWidth="500" prefHeight="590" animated="false"
+              style="-fx-font-size: 12px;">
+        <xAxis>
+            <CategoryAxis fx:id="xAxis" label="Month" style="-fx-font-size: 12px;"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis fx:id="yAxis" label="Amount" autoRanging="false"
+                        tickUnit="5000" lowerBound="0" upperBound="50000"
+                        style="-fx-font-size: 12px;"/>
+        </yAxis>
+    </BarChart>
+    </VBox>
+
+</HBox>
+
+
+
