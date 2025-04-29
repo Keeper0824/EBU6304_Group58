@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="src.main.java.Reminder_story_19_20.ScheduleListController"
+            stylesheets="@style.css">
+
+    <!-- 白色卡片容器 -->
+    <VBox alignment="TOP_CENTER"
+          spacing="20"
+          AnchorPane.topAnchor="20"
+          AnchorPane.bottomAnchor="20"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20" prefHeight="590" prefWidth="1200"
+          style="-fx-background-color: rgba(255,255,255,0.9);
+                 -fx-background-radius: 15;
+                 -fx-padding: 30;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 5);">
+
+        <!-- 标题 -->
+        <Label text="Notification"
+               style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d;">
+            <effect>
+                <DropShadow color="#3a4a6d99"
+                            radius="10"
+                            spread="0.3"/>
+            </effect>
+        </Label>
+
+        <!-- 列表 -->
+        <ListView fx:id="scheduleList" styleClass="card-list" />
+
+    </VBox>
+</AnchorPane>
