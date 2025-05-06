@@ -57,14 +57,14 @@ public class CashFlowController {
     private List<Transaction> transactions;
     private ScheduledExecutorService executorService;
     private int currentLineIndex = 0;
-    private final static String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname();
 
     @FXML
     public void initialize() {
-        setupBackground();
+        //setupBackground();
         setupCharts();
         setupLabels();
-        setupButtons();
+//        setupButtons();
         // 主动加载数据
         try {
             loadTransactionsFromCSV("data/"+currentUser+"_transaction.csv");
@@ -73,55 +73,55 @@ public class CashFlowController {
         }
     }
 
-    private void setupButtons() {
-        backButton.setOnAction(e -> handleBackToMainMenu());
-        nextButton.setOnAction(e -> handleNextView());
-    }
+//    private void setupButtons() {
+//        backButton.setOnAction(e -> handleBackToMainMenu());
+//        nextButton.setOnAction(e -> handleNextView());
+//    }
 
-    private void handleNextView() {
-        try {
-            // Close current window
-            Stage currentStage = (Stage) nextButton.getScene().getWindow();
-            currentStage.close();
-
-            // Load the main_view.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/financial_story9/main_view.fxml"));
-            Parent root = loader.load();
-
-            // Set background style
-            root.setStyle("-fx-background-image: url('/src/main/resources/financial_story9/images/background.png');" +
-                    "-fx-background-size: cover;" +
-                    "-fx-background-position: center;");
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root, 1600, 900));
-            stage.setTitle("Financial Analysis");
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Failed to load next view: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    private void handleBackToMainMenu() {
-        try {
-            // Close current window
-            Stage currentStage = (Stage) backButton.getScene().getWindow();
-            currentStage.close();
-
-            // Open Main Menu with the current user
-            User currentUser = MainMenuApp.getCurrentUser();
-            new MainMenuApp(currentUser).start(new Stage());
-        } catch (Exception e) {
-            System.err.println("Failed to return to Main Menu: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+//    private void handleNextView() {
+//        try {
+//            // Close current window
+//            Stage currentStage = (Stage) nextButton.getScene().getWindow();
+//            currentStage.close();
+//
+//            // Load the main_view.fxml
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/financial_story9/main_view.fxml"));
+//            Parent root = loader.load();
+//
+//            // Set background style
+//            root.setStyle("-fx-background-image: url('/src/main/resources/financial_story9/images/background.png');" +
+//                    "-fx-background-size: cover;" +
+//                    "-fx-background-position: center;");
+//
+//            Stage stage = new Stage();
+//            stage.setScene(new Scene(root, 1600, 900));
+//            stage.setTitle("Financial Analysis");
+//            stage.show();
+//        } catch (IOException e) {
+//            System.err.println("Failed to load next view: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void handleBackToMainMenu() {
+//        try {
+//            // Close current window
+//            Stage currentStage = (Stage) backButton.getScene().getWindow();
+//            currentStage.close();
+//
+//            // Open Main Menu with the current user
+//            User currentUser = MainMenuApp.getCurrentUser();
+//            new MainMenuApp(currentUser).start(new Stage());
+//        } catch (Exception e) {
+//            System.err.println("Failed to return to Main Menu: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+//    }
 
     private void setupBackground() {
         try {
             backgroundImage.setImage(new javafx.scene.image.Image("/src/main/resources/CashFlowVisualization_story15/images/background.png"));
-            arrowImage.setImage(new javafx.scene.image.Image("/src/main/resources/CashFlowVisualization_story15/images/arrow.png"));
+//            arrowImage.setImage(new javafx.scene.image.Image("/src/main/resources/CashFlowVisualization_story15/images/arrow.png"));
         } catch (Exception e) {
             System.err.println("Error loading background image: " + e.getMessage());
             backgroundImage.setStyle("-fx-background-color: linear-gradient(to bottom right, #2c3e50, #3498db);");

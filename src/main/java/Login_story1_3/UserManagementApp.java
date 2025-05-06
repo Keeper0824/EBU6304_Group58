@@ -32,7 +32,7 @@ public class UserManagementApp extends Application {
         }
 
         primaryStage.setTitle("User Management");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root, 1200, 590));
         primaryStage.show();
     }
 

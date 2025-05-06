@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="src.main.java.Login_story1_3.LayoutController"
+            prefWidth="1600" prefHeight="900">
+
+    <left>
+        <VBox fx:id="navBar" alignment="TOP_LEFT" spacing="15" styleClass="nav-bar">
+
+            <!-- 1. 用户头像 + 名字 -->
+            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="nav-user-info">
+                <ImageView fx:id="avatar" fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true" >
+                    <image>
+                        <Image url="@images/TouXiang.png"/>
+                    </image>
+                </ImageView>
+                <Label fx:id="usernameLabel" text="Guest" styleClass="nav-username"/>
+            </HBox>
+
+            <!-- 2. HOME 区 -->
+            <Label text="HOME" styleClass="nav-section-label"/>
+<!--            <Button text="Dashboard" styleClass="nav-button"/>-->
+            <Button text="Dashboard" onAction="#onDashboard" styleClass="nav-button"/>
+
+            <!-- 3. FUNCTION 区 -->
+            <Label text="FUNCTION" styleClass="nav-section-label"/>
+            <Button text="Transaction" onAction="#onTransaction" styleClass="nav-button"/>
+            <Button text="Charts"      onAction="#onCharts"      styleClass="nav-button"/>
+            <Button text="VIP Center"  onAction="#onVipCenter"   styleClass="nav-button"/>
+            <Button text="AI Forecast" onAction="#onAIForecast"  styleClass="nav-button"/>  <!-- 新增的AI按钮 -->
+
+            <!-- 4. SETTING 区 -->
+            <Label text="SETTING" styleClass="nav-section-label"/>
+            <Button text="User Information" onAction="#onUserInfo" styleClass="nav-button"/>
+            <Button text="Cards"            onAction="#onCards"    styleClass="nav-button"/>
+            <Button text="Logout"           onAction="#onLogout"   styleClass="nav-button"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+
+    <center>
+        <!-- 统一一个 VBox，把顶栏和内容都包进去 -->
+        <VBox fx:id="rightContainer" styleClass="right-bg" spacing="20">
+
+
+            <!-- 【1】 顶部栏：通知铃铛 + 访问按钮 -->
+            <HBox styleClass="top-bar" spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 0 20 0 0;">
+                <Button fx:id="notificationBtn" onAction="#onNotification" styleClass="icon-button">
+                    <graphic>
+                        <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
+                            <image>
+                                <Image url="@images/TongZhi.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- “访问”按钮 -->
+                <Button fx:id="visitBtn"
+                        text="Visit Site"
+                        onAction="#onVisitSite"
+                        styleClass="link-button"/>
+            </HBox>
+
+            <!-- 【2】 原来的黄白分割结构 -->
+            <VBox styleClass="yellow-section" spacing="0">
+                <HBox alignment="CENTER_LEFT" spacing="10" styleClass="section-header">
+                    <Region prefWidth="4" styleClass="section-line"/>
+                    <!-- 这才是你要的标题标签 -->
+                    <Label fx:id="sectionTitle" text="Dashboard" styleClass="section-title"/>
+                </HBox>
+<!--                <AnchorPane styleClass="card-container">-->
+<!--                    <StackPane fx:id="contentPane"-->
+<!--                               AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"-->
+<!--                               AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"/>-->
+<!--                </AnchorPane>-->
+
+                <Pane fx:id="cardWrapper"
+                      styleClass="card-wrapper"
+                      prefWidth="1280" prefHeight="800"
+                      maxWidth="1280" maxHeight="800">
+                    <!-- 这个 AnchorPane 上会挂我们 Scale 变换 -->
+                    <AnchorPane fx:id="cardContainer" styleClass="card-container"
+                                AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                                AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+                        <!-- 真正用来装载其他 FXML 的容器 -->
+                        <StackPane fx:id="contentPane" />
+                    </AnchorPane>
+                </Pane>
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>

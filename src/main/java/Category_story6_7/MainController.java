@@ -19,11 +19,20 @@ import src.main.java.Login_story1_3.User;
 import src.main.java.Session;
 
 import java.io.*;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
 
 public class MainController {
-    private final static String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname();
     @FXML
     private TableColumn<Transaction, Void> actionsColumn;
     @FXML
@@ -38,6 +47,8 @@ public class MainController {
     private TableColumn<Transaction, String> dateColumn;
     @FXML
     private TableColumn<Transaction, String> IOColumn;
+    @FXML
+    private TextField budgetField;
 
     private ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
@@ -53,11 +64,11 @@ public class MainController {
 
         // 全部文字居中
         transactionColumn.setStyle("-fx-alignment: CENTER;");
-        priceColumn        .setStyle("-fx-alignment: CENTER;");
+        priceColumn.setStyle("-fx-alignment: CENTER;");
         classificationColumn.setStyle("-fx-alignment: CENTER;");
-        dateColumn         .setStyle("-fx-alignment: CENTER;");
-        IOColumn           .setStyle("-fx-alignment: CENTER;");
-        actionsColumn      .setStyle("-fx-alignment: CENTER;");
+        dateColumn.setStyle("-fx-alignment: CENTER;");
+        IOColumn.setStyle("-fx-alignment: CENTER;");
+        actionsColumn.setStyle("-fx-alignment: CENTER;");
 
         loadTransactions();
 
@@ -110,11 +121,16 @@ public class MainController {
         alert.showAndWait();
     }
 
-
     private void loadTransactions() {
         // 1. 动态拼路径
         String csvFilePath = "data/" + currentUser + "_transaction.csv";
         File csvFile = new File(csvFilePath);
+
+        // 检查currentUser是否为空或null
+        if (currentUser == null || currentUser.isEmpty()) {
+            showAlert("Error", "当前用户信息获取失败，无法加载交易数据");
+            return;
+        }
 
         // 2. 如果文件不存在，就创建父目录和文件，并写入表头
         if (!csvFile.exists()) {
@@ -141,16 +157,18 @@ public class MainController {
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
                 String[] data = line.split(",");
-                if (data.length == 6) {
-                    try {
-                        double price = Double.parseDouble(data[2]);
-                        Transaction tx = new Transaction(
-                                data[0], data[1], price, data[3], data[4], data[5]
-                        );
-                        list.add(tx);
-                    } catch (NumberFormatException e) {
-                        System.err.println("Invalid price: " + data[2]);
-                    }
+                if (data.length != 6) {
+                    System.err.println("CSV文件格式错误，该行数据字段数量不正确: " + line);
+                    continue;
+                }
+                try {
+                    double price = Double.parseDouble(data[2]);
+                    Transaction tx = new Transaction(
+                            data[0], data[1], price, data[3], data[4], data[5]
+                    );
+                    list.add(tx);
+                } catch (NumberFormatException e) {
+                    System.err.println("价格数据格式错误: " + data[2]);
                 }
             }
         } catch (IOException e) {
@@ -161,7 +179,6 @@ public class MainController {
         // 4. 将数据绑定到表格
         tableView.setItems(list);
     }
-
 
     @FXML
     private void handleAdd(ActionEvent event) {
@@ -199,7 +216,8 @@ public class MainController {
 
     private void deleteTransactionFromCSV(Transaction transaction) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/"+currentUser+"_transaction.csv"))) {
+        String csvFilePath = "data/" + currentUser + "_transaction.csv";
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (!line.equals(transaction.getId() + "," + transaction.getTransaction() + "," + transaction.getPrice() + "," + transaction.getClassification() + "," +
@@ -210,7 +228,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/"+currentUser+"_transaction.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();
@@ -258,11 +276,12 @@ public class MainController {
 
     private void updateTransactionInCSV(Transaction oldTransaction, Transaction newTransaction) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/"+currentUser+"_transaction.csv"))) {
+        String csvFilePath = "data/" + currentUser + "_transaction.csv";
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if (line.equals(oldTransaction.getTransaction() + "," + oldTransaction.getPrice() + "," + oldTransaction.getClassification() + "," + oldTransaction.getDate()+ "," + oldTransaction.getIOType()  )) {
-                    lines.add(newTransaction.getTransaction() + "," + newTransaction.getPrice() + "," + newTransaction.getClassification() + "," + newTransaction.getDate()+ "," + newTransaction.getIOType()  );
+                if (line.equals(oldTransaction.getTransaction() + "," + oldTransaction.getPrice() + "," + oldTransaction.getClassification() + "," + oldTransaction.getDate() + "," + oldTransaction.getIOType())) {
+                    lines.add(newTransaction.getTransaction() + "," + newTransaction.getPrice() + "," + newTransaction.getClassification() + "," + newTransaction.getDate() + "," + newTransaction.getIOType());
                 } else {
                     lines.add(line);
                 }
@@ -270,7 +289,7 @@ public class MainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/"+currentUser+"_transaction.csv"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath))) {
             for (String line : lines) {
                 bw.write(line);
                 bw.newLine();
@@ -280,4 +299,128 @@ public class MainController {
         }
     }
 
+    @FXML
+    private void handleCompare(ActionEvent event) {
+        try {
+            double budget = Double.parseDouble(budgetField.getText());
+            if (budget <= 0) {
+                showAlert("Error", "Budget must be a positive number");
+                return;
+            }
+
+            // Get current month's expenses
+            List<Transaction> currentExpenses = getCurrentMonthExpenses();
+            if (currentExpenses.isEmpty()) {
+                showAlert("Info", "No expenses recorded for current month");
+                return;
+            }
+
+            // Call AI for analysis
+            String analysis = analyzeBudgetWithAI(budget, currentExpenses);
+
+            // Show the analysis result
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Budget Analysis");
+            alert.setHeaderText("Budget Comparison Result");
+            alert.setContentText(analysis);
+            alert.showAndWait();
+
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Please enter a valid budget number");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to analyze budget: " + e.getMessage());
+        }
+    }
+
+    private List<Transaction> getCurrentMonthExpenses() {
+        List<Transaction> expenses = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        int currentMonth = now.getMonthValue();
+        int currentYear = now.getYear();
+
+        for (Transaction tx : tableView.getItems()) {
+            try {
+                LocalDate txDate = LocalDate.parse(tx.getDate());
+                if (tx.getIOType().equalsIgnoreCase("expense") && txDate.getMonthValue() == currentMonth && txDate.getYear() == currentYear) {
+                    expenses.add(tx);
+                }
+            } catch (Exception e) {
+                System.err.println("交易日期格式错误，无法解析: " + tx.getDate());
+            }
+        }
+        return expenses;
+    }
+
+    private String analyzeBudgetWithAI(double budget, List<Transaction> expenses) throws Exception {
+        // Group expenses by category
+        Map<String, Double> categorySpending = new HashMap<>();
+        double totalSpent = 0;
+
+        for (Transaction tx : expenses) {
+            String category = tx.getClassification();
+            double amount = tx.getPrice();
+            categorySpending.put(category, categorySpending.getOrDefault(category, 0.0) + amount);
+            totalSpent += amount;
+        }
+
+        // Prepare prompt for AI
+        StringBuilder prompt = new StringBuilder();
+        prompt.append("I have set a monthly budget of ¥").append(budget)
+                .append(". My actual spending this month is ¥").append(totalSpent)
+                .append(". Here's the breakdown by category:\n");
+
+        for (Map.Entry<String, Double> entry : categorySpending.entrySet()) {
+            prompt.append("- ").append(entry.getKey()).append(": ¥").append(entry.getValue())
+                    .append(" (").append(String.format("%.1f", (entry.getValue() / totalSpent) * 100))
+                    .append("% of total spending)\n");
+        }
+
+        prompt.append("\nPlease analyze my spending compared to my budget and provide specific recommendations. ")
+                .append("Focus on categories where I might be overspending. ")
+                .append("Also suggest how I could better allocate my budget next month. ")
+                .append("Keep the response concise but insightful.");
+
+        // Call AI API
+        HttpClient client = HttpClient.newHttpClient();
+        ObjectMapper mapper = new ObjectMapper();
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("model", "qwen2.5-72b-instruct");
+
+        List<Map<String, String>> messages = new ArrayList<>();
+        Map<String, String> message = new HashMap<>();
+        message.put("role", "user");
+        message.put("content", prompt.toString());
+        messages.add(message);
+        requestBody.put("messages", messages);
+
+        requestBody.put("max_tokens", 500);
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + "sk-10283adb0b75447fa0d33a27ac317074")
+                    .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(requestBody)))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            Map<String, Object> responseMap = mapper.readValue(response.body(), Map.class);
+            List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
+
+            if (choices != null &&!choices.isEmpty()) {
+                Map<String, Object> choice = choices.get(0);
+                Map<String, Object> messageMap = (Map<String, Object>) choice.get("message");
+                return (String) messageMap.get("content");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("AI分析请求失败: " + e.getMessage());
+        }
+
+
+        return "Sorry, couldn't get analysis from AI. Please try again later.";
+    }
 }

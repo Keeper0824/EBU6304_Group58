@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import src.main.java.CashFlowVisualization_story15.CashFlowView;
-import src.main.java.card_management_story12.BankCardManagerFX;
+import src.main.java.card_management_story12.MainApp;
 
 public class MainMenuController {
     private User currentUser;
@@ -92,11 +92,16 @@ public class MainMenuController {
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.close();
 
-            // Launch the Bank Card Manager
-            new BankCardManagerFX().start(new Stage());
+            // Launch the Card Management interface with callback to return to main menu
+            Stage cardStage = new Stage();
+            MainApp cardApp = new MainApp();
+            cardApp.start(cardStage);
+
+            // Store current user in MainMenuApp for when we return
+            MainMenuApp.setCurrentUser(currentUser);
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to open Cards Management: " + e.getMessage());
+            showAlert("Error", "Failed to open Card Management: " + e.getMessage());
         }
     }
 

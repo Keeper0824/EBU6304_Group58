@@ -73,8 +73,14 @@ public class LoginController {
             Session.setCurrentNickname(user.getNickname());
             showAlert("Success", "Login successful.");
             try {
-                new MainMenuApp(user).start(new Stage());
-                ((Stage) emailField.getScene().getWindow()).close();
+                // 关闭当前登录窗口
+                Stage currentStage = (Stage) emailField.getScene().getWindow();
+                currentStage.close();
+
+                // 启动 MainLayout.fxml（通过 Main.java 的方式）
+                Main mainApp = new Main();
+                Stage mainStage = new Stage();
+                mainApp.start(mainStage);
             } catch (Exception e) {
                 e.printStackTrace();
                 showAlert("Error", "Failed to open main menu window.");

@@ -32,7 +32,7 @@ public class UserController {
     @FXML
     public void initialize() {
         // Initialize back button
-        backButton.setOnAction(e -> handleBackToMainMenu());
+        //backButton.setOnAction(e -> handleBackToMainMenu());
 
         // Load user data from CSV
         src.main.java.ViewMembershipTime_story14.User user = UserLoader.loadUserFromCSV("data/user.csv");
@@ -48,31 +48,30 @@ public class UserController {
                     membershipLabel.setText("Membership Expired");
                     membershipLabel.setStyle("-fx-text-fill: red;");
                 }
-            }
-            else {
+            } else {
                 greetingText.setText("Hello " + user.getUsername() + ",\nYou are not our VIP member yet.");
                 membershipLabel.setText("Membership Expired");
                 membershipLabel.setStyle("-fx-text-fill: red;");
             }
 
-            image1.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_2.png"));
-            image2.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_3.png"));
+            //image1.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_2.png"));
+            //image2.setImage(new javafx.scene.image.Image("/src/main/resources/ViewMembershipTime_story14/images/background_14_3.png"));
         } else {
             membershipLabel.setText("No user found.");
         }
     }
-
-    private void handleBackToMainMenu() {
-        try {
-            // Close current window
-            Stage currentStage = (Stage) backButton.getScene().getWindow();
-            currentStage.close();
-
-            // Open Main Menu with the current user
-            User currentUser = MainMenuApp.getCurrentUser();
-            new MainMenuApp(currentUser).start(new Stage());
-        } catch (Exception e) {
-            System.err.println("Failed to return to Main Menu: " + e.getMessage());
-        }
-    }
 }
+//    private void handleBackToMainMenu() {
+//        try {
+//            // Close current window
+//            Stage currentStage = (Stage) backButton.getScene().getWindow();
+//            currentStage.close();
+//
+//            // Open Main Menu with the current user
+//            User currentUser = MainMenuApp.getCurrentUser();
+//            new MainMenuApp(currentUser).start(new Stage());
+//        } catch (Exception e) {
+//            System.err.println("Failed to return to Main Menu: " + e.getMessage());
+//        }
+//    }
+//}

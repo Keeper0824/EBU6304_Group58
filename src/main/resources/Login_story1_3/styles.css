@@ -1,0 +1,293 @@
+/* ========== 全局布局 ========== */
+.nav-bar {
+    -fx-pref-width: 240px;
+    -fx-padding: 30 10 30 60;  /* 上 30px, 右 10px, 下 30px, 左 60px */
+    -fx-background-color: linear-gradient(to bottom, #34495e, #2c3e50);
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 4);
+}
+.right-bg {
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 20 40;
+}
+
+/* ========== 顶部用户信息 ========== */
+.nav-user-info {
+    -fx-padding: 0 0 20 0;   /* 下 20px, 左 20px */
+    -fx-translate-x: 0px;    /* 根据需要微调整体偏移 */
+}
+.nav-username {
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* ========== 分割线 ========== */
+.nav-divider {
+    -fx-background-color: white;
+    -fx-pref-height: 4px;
+    -fx-max-width: 160px;
+    -fx-padding: 10 0 20 0;   /* 上 10px, 下 20px */
+}
+
+/* ========== 区块标题 ========== */
+.nav-section-label {
+    -fx-text-fill: #bdc3c7;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 20 0 5 15;   /* 上 20px, 下 5px, 左 15px */
+    -fx-translate-x: -25px;   /* 微调缩进 */
+}
+
+/* ========== 导航按钮 ========== */
+.nav-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ecf0f1;
+    -fx-background-color: rgba(236,240,241,0.2);
+    -fx-background-radius: 20;
+    -fx-min-width: 160px;
+    -fx-min-height: 45px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease;
+    -fx-translate-x: -30px;   /* 微调整体偏移 */
+}
+.nav-button:hover {
+    -fx-background-color: rgba(236,240,241,0.4);
+    -fx-text-fill: white;
+}
+.nav-button:pressed {
+    -fx-background-color: rgba(236,240,241,0.6);
+    -fx-text-fill: white;
+}
+
+/* ========== 右侧内容分区 ========== */
+.yellow-section {
+    -fx-padding: 0;
+}
+.section-header {
+    -fx-padding: 10 0;
+}
+.section-line {
+    -fx-background-color: #3498db;
+    -fx-background-radius: 2;
+}
+.section-header > .section-line {
+    /* 保证竖线宽度 */
+    -fx-pref-width: 4px;
+}
+.section-title {
+    -fx-font-size: 24px;
+    -fx-text-fill: #333333;
+    -fx-font-weight: bold;
+}
+
+/* 卡片容器 */
+.card-container {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);
+    -fx-border-radius: 10;
+}
+
+/* ========== 顶部工具栏 ========== */
+.top-bar {
+    -fx-padding: 10 20;
+    -fx-background-color: transparent;
+}
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 0 0 0 0;
+}
+.link-button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+    -fx-background-color: transparent;
+    -fx-border-color: #3498db;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 6 12;
+    -fx-cursor: hand;
+}
+.link-button:hover {
+    -fx-background-color: rgba(52,152,219,0.1);
+}
+.card-wrapper {
+    -fx-alignment: center;      /* 居中显示 */
+    -fx-padding: 10;            /* 留点内边距 */
+}
+
+
+/*!* —— 用户名下拉菜单 —— *!*/
+/*.nav-user-menu {*/
+/*    -fx-font-size: 18px;*/
+/*    -fx-text-fill: #ecf0f1;*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-border-color: #ecf0f1;*/
+/*    -fx-border-radius: 20;*/
+/*    -fx-background-radius: 20;*/
+/*    -fx-min-width: 160px;*/
+/*    -fx-min-height: 45px;*/
+/*    -fx-padding: 0 0 0 25;*/
+/*    -fx-cursor: hand;*/
+/*}*/
+/*.nav-user-menu:hover {*/
+/*    -fx-border-color: #3498db;*/
+/*    -fx-text-fill: #3498db;*/
+/*}*/
+
+/*!* 顶部用户信息块 *!*/
+/*.nav-user-info {*/
+/*    -fx-padding: 0 0 20 15;*/
+/*}*/
+/*.nav-user-info ImageView {*/
+/*    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);*/
+/*}*/
+/*.nav-username {*/
+/*    -fx-text-fill: #ecf0f1;*/
+/*    -fx-font-size: 16px;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
+
+/*!* 区块标题 *!*/
+/*.nav-section-label {*/
+/*    -fx-text-fill: #bdc3c7;          !* 浅灰色 *!*/
+/*    -fx-font-size: 14px;*/
+/*    -fx-font-weight: bold;*/
+/*    -fx-padding: 20 0 5 15;          !* 上距留白，下距小间隙，左内边距对齐按钮 *!*/
+/*}*/
+
+/*!* 通用导航按钮（包含 MenuButton） *!*/
+/*.nav-button {*/
+/*    -fx-font-size: 16px;*/
+/*    -fx-font-weight: bold;*/
+/*    -fx-text-fill: #ecf0f1;*/
+/*    -fx-background-color: rgba(236, 240, 241, 0.2);*/
+/*    -fx-background-radius: 20;*/
+/*    -fx-min-width: 160px;*/
+/*    -fx-min-height: 45px;*/
+/*    -fx-cursor: hand;*/
+/*    -fx-transition: all 0.2s ease;*/
+/*}*/
+
+/*!* 悬停/按下效果 *!*/
+/*.nav-button:hover {*/
+/*    -fx-background-color: rgba(236, 240, 241, 0.4);*/
+/*    -fx-text-fill: white;*/
+/*}*/
+/*.nav-button:pressed {*/
+/*    -fx-background-color: rgba(236, 240, 241, 0.6);*/
+/*    -fx-text-fill: white;*/
+/*}*/
+
+/*!* 如果想让 MenuButton 的箭头也透明，可以加： *!*/
+/*.menu-button .arrow-button {*/
+/*    -fx-background-color: transparent;*/
+/*}*/
+
+/*!* 侧栏容器保持你原先的渐变/阴影 *!*/
+/*.nav-bar {*/
+/*    -fx-pref-width: 240px;*/
+/*    !* 上 30px 右 10px 下 30px 左 60px：把所有子控件整体向右推 *!*/
+/*    -fx-padding: 30 10 30 60;*/
+/*    -fx-background-color: linear-gradient(to bottom, #34495e, #2c3e50);*/
+/*    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 4);*/
+/*}*/
+
+
+
+
+/*!* 整个右侧背景，浅灰色 *!*/
+/*.right-bg {*/
+/*    -fx-background-color: #f5f5f5;*/
+/*    -fx-padding: 20 40;*/
+/*}*/
+
+/*!* 黄白分割外壳：先灰后白 *!*/
+/*.yellow-section {*/
+/*    -fx-background-color: transparent; !* 用内部两个子节点撑开 *!*/
+/*    -fx-padding: 0;*/
+/*}*/
+
+/*!* 小节标题，左侧一条 4px 蓝色竖线 *!*/
+/*.section-header {*/
+/*    -fx-padding: 10 0;*/
+/*}*/
+/*.section-header > Label {*/
+/*    -fx-font-weight: bold;*/
+/*}*/
+
+/*!* 白色卡片，圆角+阴影 *!*/
+/*.card-container {*/
+/*    -fx-background-color: white;*/
+/*    -fx-background-radius: 10;*/
+/*    -fx-padding: 20;*/
+/*    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);*/
+/*    -fx-border-radius: 10;*/
+/*}*/
+
+/*!* 竖线颜色 *!*/
+/*.section-header > Region {*/
+/*    -fx-background-color: #3498db;*/
+/*    -fx-background-radius: 2;*/
+/*}*/
+
+/*!* 用户信息块右移 *!*/
+/*.nav-user-info {*/
+/*    -fx-translate-x: 30px;*/
+/*}*/
+
+/*!* 区段标题也一起偏移 *!*/
+/*.nav-section-label {*/
+/*    -fx-translate-x: 20px;*/
+/*    -fx-padding: 20 0 5 0;*/
+/*}*/
+
+/*!* 主按钮整体再往右平移 *!*/
+/*.nav-button {*/
+/*    -fx-translate-x: -30px;*/
+/*}*/
+
+/*.nav-section-label {*/
+/*    -fx-translate-x: -25px;*/
+/*}*/
+
+
+/*!* 顶部栏容器 *!*/
+/*.top-bar {*/
+/*    -fx-padding: 10 20;*/
+/*    -fx-background-color: transparent;*/
+/*}*/
+
+/*!* 铃铛图标按钮：去掉背景＆边框 *!*/
+/*.icon-button {*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-border-color: transparent;*/
+/*    -fx-cursor: hand;*/
+/*}*/
+
+/*!* 右上角链接按钮 *!*/
+/*.link-button {*/
+/*    -fx-font-size: 14px;*/
+/*    -fx-font-weight: bold;*/
+/*    -fx-text-fill: #3498db;*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-border-color: #3498db;*/
+/*    -fx-border-radius: 4;*/
+/*    -fx-background-radius: 4;*/
+/*    -fx-padding: 6 12;*/
+/*    -fx-cursor: hand;*/
+/*}*/
+/*.link-button:hover {*/
+/*    -fx-background-color: rgba(52,152,219,0.1);*/
+/*}*/
+
+/*.section-title {*/
+/*    -fx-font-size: 24px;        !* 原来 18px，现在大一号 *!*/
+/*    -fx-text-fill: #333333;*/
+/*    -fx-font-weight: bold;*/
+/*}*/
+

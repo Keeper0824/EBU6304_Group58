@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import src.main.java.Session;
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -11,27 +13,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserManagementController {
-    @FXML private TableView<User> userTable;
     @FXML private TextField nicknameField;
     @FXML private TextField emailField;
     @FXML private ChoiceBox<String> genderChoiceBox;
     @FXML private DatePicker dobPicker;
 
+    // 拿到 Session 里存的昵称
+    private static final String sessionNickname = Session.getCurrentNickname();
     private User currentUser;
 
-    // 初始化方法
     @FXML
     private void initialize() {
-        // 初始化性别选择框
+        // 1. 初始化性别选项
         genderChoiceBox.getItems().addAll("Male", "Female", "Other");
 
-        // 设置表格选择监听器
-        userTable.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldSelection, newSelection) -> {
-                    if (newSelection != null) {
-                        Platform.runLater(this::updateFormFields);
-                    }
-                });
+        // 2. 自加载：根据 sessionNickname 从 CSV 里找出对应的 User
+        List<User> all = loadUsersFromCSV();
+        for (User u : all) {
+            if (sessionNickname.equals(u.getNickname())) {
+                currentUser = u;
+                break;
+            }
+        }
+
+        // 3. 如果找到了，就填数据
+        if (currentUser != null) {
+            updateFormFields();
+        } else {
+            showAlert("Error", "No user found for: " + sessionNickname);
+        }
     }
 
     // 添加回调接口
@@ -45,7 +55,7 @@ public class UserManagementController {
     private void handleBack() {
         if (returnToMainMenuCallback != null) {
             // 关闭当前窗口
-            Stage stage = (Stage) userTable.getScene().getWindow();
+            Stage stage = (Stage) nicknameField.getScene().getWindow();
             stage.close();
 
             // 执行回调打开主菜单
@@ -56,11 +66,7 @@ public class UserManagementController {
     // 设置当前用户
     public void setUser(User user) {
         this.currentUser = user;
-        Platform.runLater(() -> {
-            userTable.getItems().clear();
-            userTable.getItems().add(user);
-            updateFormFields();
-        });
+        Platform.runLater(this::updateFormFields);
     }
 
     // 更新表单字段
@@ -102,13 +108,7 @@ public class UserManagementController {
             // 保存更改
             saveUserChanges(currentUser);
 
-            // 刷新表格
-            Platform.runLater(() -> {
-                userTable.refresh();
-                showAlert("Success", "User updated successfully!", () -> {
-                    // 更新成功后的操作（可选）
-                });
-            });
+            showAlert("Success", "User updated successfully!");
 
         } catch (Exception e) {
             showAlert("Error", "Update failed: " + e.getMessage());
@@ -118,7 +118,6 @@ public class UserManagementController {
 
     // 保存用户更改
     private void saveUserChanges(User user) {
-        // 实现你的保存逻辑（如写入CSV或数据库）
         try {
             List<User> users = loadUsersFromCSV();
             boolean found = false;
@@ -187,7 +186,6 @@ public class UserManagementController {
             alert.setHeaderText(null);
             alert.setContentText(message);
 
-            // 确保在UI线程执行showAndWait
             alert.showAndWait().ifPresent(response -> {
                 if (postAction != null) {
                     postAction.run();

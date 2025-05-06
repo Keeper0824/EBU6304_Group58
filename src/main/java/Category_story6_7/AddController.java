@@ -8,23 +8,47 @@ import src.main.java.Session;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class AddController {
-    private final static String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname();
     @FXML
     private TextField transactionField;
     @FXML
     private TextField priceField;
     @FXML
-    private TextField classificationField;
+    private ComboBox<String> classificationField;
     @FXML
-    private TextField dateField;
+    private DatePicker dateField;
     @FXML
-    private TextField IOTypeField;
+    private ComboBox<String> IOTypeField;
 
     private boolean added = false;
     private Transaction newTransaction;
+
+    @FXML
+    private void initialize() {
+        // 初始化分类下拉列表
+        classificationField.getItems().addAll(
+                "Income",
+                "Food",
+                "Clothing",
+                "Household equipment and services",
+                "Medical care",
+                "Transportation and Communication",
+                "Entertainment",
+                "Educational supplies and services",
+                "Residence",
+                "Other goods and services"
+        );
+
+        // 初始化IO类型下拉列表
+        IOTypeField.getItems().addAll("Income", "Expense");
+    }
 
     @FXML
     private void handleSave() {
@@ -32,9 +56,10 @@ public class AddController {
         String id = getNextId(); // 使用新方法获取ID
         String transaction = transactionField.getText();
         double price = Double.parseDouble(priceField.getText());
-        String classification = classificationField.getText();
-        String date = dateField.getText();
-        String IOType = IOTypeField.getText();
+        String classification = classificationField.getValue();
+        LocalDate localDate = dateField.getValue();
+        String date = formatDate(localDate);
+        String IOType = IOTypeField.getValue();
         added = true;
 
         // 创建新的 Transaction 对象
@@ -47,7 +72,6 @@ public class AddController {
         Stage stage = (Stage) transactionField.getScene().getWindow();
         stage.close();
     }
-
 
     private void saveTransactionToCSV(Transaction transaction) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/"+currentUser+"_transaction.csv", true))) {
@@ -98,8 +122,14 @@ public class AddController {
                 e.printStackTrace();
             }
         }
-        return "1"; // 如果文件为空或出错，就从1开始喵
+        return "1"; // 如果文件为空或出错，就从1开始
     }
 
-
+    private String formatDate(LocalDate localDate) {
+        if (localDate == null) {
+            return "";
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return localDate.format(formatter);
+    }
 }

@@ -7,12 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVUtils {
-    private final static String currentUser = Session.getCurrentNickname();
-    private static final String CSV_FILE = "data/"+currentUser+"_cards.csv"; // 添加默认文件路径
-
-    // 修改loadCards方法签名（移除参数）
     public static List<CreditCard> loadCards() {
-        System.out.println(CSV_FILE);
+        String currentUser = Session.getCurrentNickname();
+        String CSV_FILE = "data/" + currentUser + "_cards.csv";
         List<CreditCard> cards = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
             String line;
@@ -28,13 +25,14 @@ public class CSVUtils {
                 }
             }
         } catch (IOException e) {
-            System.out.println("No existing data file");
+            System.out.println("无历史数据文件");
         }
         return cards;
     }
 
-    // 修改saveCards方法签名（移除path参数）
     public static void saveCards(List<CreditCard> cards) {
+        String currentUser = Session.getCurrentNickname();
+        String CSV_FILE = "data/" + currentUser + "_cards.csv";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(CSV_FILE))) {
             for (CreditCard card : cards) {
                 bw.write(String.join(",",
@@ -46,7 +44,7 @@ public class CSVUtils {
                 bw.newLine();
             }
         } catch (IOException e) {
-            System.err.println("Save error: " + e.getMessage());
+            System.err.println("保存失败: " + e.getMessage());
         }
     }
 }
