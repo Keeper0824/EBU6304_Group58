@@ -1,31 +1,31 @@
 package src.main.java.AI_story_11_21_22;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class AIModelAPI {
+public class ConsumptionHealthAnalyzer {
     private static final String API_KEY = "sk-10283adb0b75447fa0d33a27ac317074";
     private static final String API_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
     private static final String MODEL_NAME = "qwen2.5-72b-instruct";
 
-    public static double predictNextMonthConsumption(List<Transaction> transactions) throws IOException, InterruptedException {
-        System.out.println("\n【AI模型调用】开始预测流程...");
+    public static Map<String, String> getHealthScoreAndSuggestions(List<Transaction> transactions) throws IOException, InterruptedException {
+        System.out.println("\n【AI模型调用】开始获取健康评分和建议...");
 
         // 生成提示词
-        String prompt = generatePrompt(transactions);
+        String prompt = generateHealthScorePrompt(transactions);
         System.out.println("【AI模型调用】生成的提示词:\n" + prompt);
 
         // 准备请求体
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model","qwen2.5-72b-instruct");
+        requestBody.put("model", MODEL_NAME);
 
         // 构建 messages 参数
         List<Map<String, String>> messages = new ArrayList<>();
@@ -35,7 +35,7 @@ public class AIModelAPI {
         messages.add(message);
         requestBody.put("messages", messages);
 
-        requestBody.put("max_tokens", 50);
+        requestBody.put("max_tokens", 2000);
 
         // 打印请求体
         ObjectMapper objectMapper = new ObjectMapper();
@@ -65,59 +65,41 @@ public class AIModelAPI {
         if (choices != null && !choices.isEmpty()) {
             Map<String, Object> choice = choices.get(0);
             Map<String, Object> messageMap = (Map<String, Object>) choice.get("message");
-            String forecastText = (String) messageMap.get("content");
-            System.out.println("【AI模型调用】原始预测文本: " + forecastText);
+            String responseText = (String) messageMap.get("content");
 
-            double forecast = extractForecastValue(forecastText);
-            System.out.println("【AI模型调用】提取后的预测值: " + forecast);
+            // 解析健康评分和建议
+            String[] parts = responseText.split("建议:");
+            String score = parts[0].trim();
+            String suggestions = parts.length > 1 ? parts[1].trim() : "";
 
-            return forecast;
+            Map<String, String> result = new HashMap<>();
+            result.put("score", score);
+            result.put("suggestions", suggestions);
+            return result;
         }
 
-        System.out.println("【AI模型调用】警告: 未获取到有效预测结果");
-        return 0.0;
+        System.out.println("【AI模型调用】警告: 未获取到有效结果");
+        Map<String, String> result = new HashMap<>();
+        result.put("score", "0");
+        result.put("suggestions", "无有效建议");
+        return result;
     }
 
-    private static String generatePrompt(List<Transaction> transactions) {
-        StringBuilder prompt = new StringBuilder("Predict the total expenses for the next month based on the following transactions:\n");
+    private static String generateHealthScorePrompt(List<Transaction> transactions) {
+        StringBuilder prompt = new StringBuilder("根据以下消费记录，给出一个0 - 100的健康评分，并给出一些消费建议：\n");
         for (Transaction transaction : transactions) {
-            if("expense".equals(transaction.getIoType())) {  // 只统计支出
-                prompt.append(transaction.getDate())
-                        .append(", ")
-                        .append(transaction.getDescription())
-                        .append(", ¥")
-                        .append(transaction.getPrice())
-                        .append(", ")
-                        .append(transaction.getClassification())
-                        .append(", ")
-                        .append(transaction.getIoType())
-                        .append("\n");
-            }
+            prompt.append(transaction.getDate())
+                    .append(", ")
+                    .append(transaction.getDescription())
+                    .append(", ¥")
+                    .append(transaction.getPrice())
+                    .append(", ")
+                    .append(transaction.getClassification())
+                    .append(", ")
+                    .append(transaction.getIoType())
+                    .append("\n");
         }
-        prompt.append("请预测下个月的总支出金额（只返回数字，不要包含任何其他文字或符号）: ");
+        prompt.append("格式：评分: [分数]\n建议: [建议内容]");
         return prompt.toString();
     }
-
-    private static double extractForecastValue(String forecastText) {
-        // 更健壮的数值提取方法
-        forecastText = forecastText.replaceAll("[^0-9.]", ""); // 移除非数字字符
-        if(forecastText.isEmpty()) {
-            System.err.println("【数值提取】警告: 预测文本中未找到有效数字");
-            return 0.0;
-        }
-
-        try {
-            double value = Double.parseDouble(forecastText);
-            System.out.println("【数值提取】成功提取数值: " + value);
-            return value;
-        } catch (NumberFormatException e) {
-            System.err.println("【数值提取】错误: 无法解析预测文本: " + forecastText);
-            return 0.0;
-        }
-    }
-
-
-
-
-
 }
