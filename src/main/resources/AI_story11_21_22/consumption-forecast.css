@@ -1,0 +1,50 @@
+/* 基础样式 */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-padding: 20px;
+}
+
+/* 标题样式 */
+.title-label {
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10px 0;
+}
+
+/* 卡片标题样式 */
+.card-title-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 0 0 0;
+}
+
+/* 卡片副标题样式 */
+.card-subtitle-label {
+    -fx-text-fill: #bdc3c7;
+    -fx-font-size: 11px;
+    -fx-padding: 0 0 10px 0;
+}
+
+/* 预测金额样式 */
+.forecast-value-label {
+    -fx-text-fill: #3498db;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5px 0;
+}
+
+/* 评分样式 */
+.score-value-label {
+    -fx-text-fill: #2ecc71;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 5px 0;
+}
+
+/* 建议文本样式 */
+.suggestion-text-label {
+    -fx-text-fill: #34495e;
+    -fx-font-size: 13px;
+    -fx-padding: 5px 15px 10px 15px;
+    -fx-alignment: center-left;
+}
