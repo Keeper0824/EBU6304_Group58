@@ -115,9 +115,4 @@ public class AIModelAPI {
             return 0.0;
         }
     }
-
-
-
-
-
 }
