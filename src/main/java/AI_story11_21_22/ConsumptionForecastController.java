@@ -89,4 +89,6 @@ public class ConsumptionForecastController {
             suggestionsLabel.setText("");
         }
     }
+
+
 }
