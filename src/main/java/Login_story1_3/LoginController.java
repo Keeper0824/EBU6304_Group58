@@ -13,6 +13,12 @@ import src.main.java.Session;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,6 +26,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.stream.Collectors;
 
 public class LoginController {
     @FXML
@@ -89,6 +96,17 @@ public class LoginController {
             showAlert("Login Failed", "Invalid email or password.");
             generateCaptcha();
         }
+
+        if (user.getMembershipType().equalsIgnoreCase("VIP")) {
+            String exp = user.getExpiryDate(); // e.g. "2025-05-01" or "null"
+            if (exp != null && !exp.equalsIgnoreCase("null")) {
+                LocalDate expireDate = LocalDate.parse(exp, DateTimeFormatter.ISO_DATE);
+                if (expireDate.isBefore(LocalDate.now())) {
+                    user.setMembershipType("Normal");                   // 内存里先改状态
+                    updateVIPStatusInCSV(user.getID(), "Normal"); // 再写回 CSV
+                }
+            }
+        }
     }
 
     // 密码加密方法（与注册时使用的相同）
@@ -112,6 +130,27 @@ public class LoginController {
             showAlert("Error", "System error during login.");
         }
         return null;
+    }
+
+
+    private void updateVIPStatusInCSV(String userId, String newStatus) {
+        Path path = Paths.get("data/user.csv");
+        try {
+            List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            List<String> updated = lines.stream().map(line -> {
+                String[] f = line.split(",");
+                if (f.length >= 7 && f[0].equals(userId)) {
+                    f[6] = newStatus;  // 第七列 isVIP
+                    // ExpireDate 保留原值，不动第八列
+                    return String.join(",", f);
+                }
+                return line;
+            }).collect(Collectors.toList());
+            Files.write(path, updated, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "无法更新 VIP 状态到 CSV。");
+        }
     }
 
 
