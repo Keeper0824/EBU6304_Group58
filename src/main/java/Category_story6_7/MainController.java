@@ -318,18 +318,30 @@ public class MainController {
             // Call AI for analysis
             String analysis = analyzeBudgetWithAI(budget, currentExpenses);
 
-            // Show the analysis result
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Budget Analysis");
-            alert.setHeaderText("Budget Comparison Result");
-            alert.setContentText(analysis);
-            alert.showAndWait();
+            // Show the analysis report in a new window
+            showAnalysisReport(analysis);
 
         } catch (NumberFormatException e) {
             showAlert("Error", "Please enter a valid budget number");
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "Failed to analyze budget: " + e.getMessage());
+        }
+    }
+
+    private void showAnalysisReport(String reportText) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/AnalysisReport.fxml"));
+            Pane reportPane = loader.load();
+            AnalysisReportController reportController = loader.getController();
+            reportController.setReportText(reportText);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(reportPane, 1200, 675)); // 设置窗口大小为 1600x900
+            stage.setResizable(false); // 禁止调整窗口大小
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -423,4 +435,5 @@ public class MainController {
 
         return "Sorry, couldn't get analysis from AI. Please try again later.";
     }
+
 }
