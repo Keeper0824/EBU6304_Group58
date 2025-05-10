@@ -20,6 +20,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import src.main.java.Session;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 
@@ -115,7 +118,38 @@ public class LayoutController {
 
     @FXML
     private void onAIForecast(ActionEvent e) {
+        // Check if user is VIP by reading user.csv
+        if (!isCurrentUserVIP()) {
+            showError("This feature is only available for VIP users.");
+            return;
+        }
         loadView("/src/main/resources/AI_story11_21_22/ConsumptionForecast.fxml", "AI Forecast");
+    }
+
+    // Helper method to check VIP status
+    private boolean isCurrentUserVIP() {
+        String currentUser = Session.getCurrentNickname();
+        if (currentUser == null || currentUser.isEmpty()) {
+            return false;
+        }
+
+        String csvFilePath = "user.csv";
+        File csvFile = new File(csvFilePath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            String line;
+            br.readLine(); // Skip header
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+                String[] data = line.split(",");
+                if (data.length >= 7 && data[1].equals(currentUser)) {
+                    return "VIP".equalsIgnoreCase(data[6]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @FXML

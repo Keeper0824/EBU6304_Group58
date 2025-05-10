@@ -301,6 +301,12 @@ public class MainController {
 
     @FXML
     private void handleCompare(ActionEvent event) {
+        // Check VIP status first
+        if (!isCurrentUserVIP()) {
+            showAlert("Access Denied", "This feature is only available for VIP users.");
+            return;
+        }
+
         try {
             double budget = Double.parseDouble(budgetField.getText());
             if (budget <= 0) {
@@ -308,17 +314,15 @@ public class MainController {
                 return;
             }
 
-            // Get current month's expenses
+            // Rest of the existing compare logic...
             List<Transaction> currentExpenses = getCurrentMonthExpenses();
             if (currentExpenses.isEmpty()) {
                 showAlert("Info", "No expenses recorded for current month");
                 return;
             }
 
-            // Call AI for analysis
             String analysis = analyzeBudgetWithAI(budget, currentExpenses);
 
-            // Show the analysis result
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Budget Analysis");
             alert.setHeaderText("Budget Comparison Result");
@@ -331,6 +335,26 @@ public class MainController {
             e.printStackTrace();
             showAlert("Error", "Failed to analyze budget: " + e.getMessage());
         }
+    }
+
+    private boolean isCurrentUserVIP() {
+        String csvFilePath = "user.csv";
+        File csvFile = new File(csvFilePath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            String line;
+            br.readLine(); // Skip header
+            while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+                String[] data = line.split(",");
+                if (data.length >= 7 && data[1].equals(currentUser)) {
+                    return "VIP".equalsIgnoreCase(data[6]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private List<Transaction> getCurrentMonthExpenses() {
