@@ -296,6 +296,29 @@ public class MainController {
         }
     }
 
+    // 新增的 getTransactions() 方法
+    public ObservableList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    @FXML
+    private void handleSuggestion(ActionEvent event) {
+        try {
+            // 确保路径正确，相对于 resources 目录
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/suggestion.fxml"));
+            Pane suggestionPane = loader.load();
+
+            // 打开新的窗口并显示建议页面
+            Stage suggestionStage = new Stage();
+            suggestionStage.setTitle("Suggestion");
+            suggestionStage.setScene(new Scene(suggestionPane));
+            suggestionStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to open suggestion page: " + e.getMessage());
+        }
+    }
+
     @FXML
     private void handleCompare(ActionEvent event) {
         // Check VIP status first

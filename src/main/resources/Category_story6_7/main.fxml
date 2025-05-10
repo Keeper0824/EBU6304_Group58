@@ -26,6 +26,7 @@
         <Button text="Add" onAction="#handleAdd" style="-fx-font-size: 16;"/>
         <Button text="Delete" onAction="#handleDelete" style="-fx-font-size: 16;"/>
         <Button text="Refresh" onAction="#handleRefresh" style="-fx-font-size: 16;"/>
+        <Button text="Suggestion" onAction="#handleSuggestion" style="-fx-font-size: 16;"/>
     </HBox>
 
     <!-- Budget comparison section -->

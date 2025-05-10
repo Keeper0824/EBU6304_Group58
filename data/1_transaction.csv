@@ -3,5 +3,15 @@ ID,Transaction,Price,Classification,Date,IOType
 2,Rent house,10000,Accommodation,2025-03-01,expense
 3,Stock,3000.0,Finance Management,2025-03-15,income
 4,Iphone 15(1TB),9900,Entertainment,2025-03-18,expense
-5,Nike T-shirt,350.0,Shopping,2025-04-25,expense
-6,Salary,30000.0,Salary,2025-04-01,income
+5,Nike T-shirt,350,Shopping,2025-04-25,expense
+6,Salary,30000,Salary,2025-04-01,income
+7,Groceries,1500,Food,2025-04-05,expense
+8,Electricity Bill,250,Utility,2025-04-10,expense
+9,Internet Bill,200,Utility,2025-04-12,expense
+10,Restaurant,500,Food,2025-04-14,expense
+11,Transportation,120,Transport,2025-04-20,expense
+12,Movie Tickets,300,Entertainment,2025-04-22,expense
+13,Clothes,800,Shopping,2025-04-28,expense
+14,Salary,30000,Salary,2025-05-01,income
+15,Bonus,5000,Salary,2025-05-05,income
+16,Travel,2500,Leisure,2025-05-10,expense
