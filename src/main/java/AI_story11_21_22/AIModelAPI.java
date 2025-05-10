@@ -25,7 +25,7 @@ public class AIModelAPI {
 
         // 准备请求体
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model","qwen2.5-72b-instruct");
+        requestBody.put("model", "qwen2.5-72b-instruct");
 
         // 构建 messages 参数
         List<Map<String, String>> messages = new ArrayList<>();
@@ -81,7 +81,7 @@ public class AIModelAPI {
     private static String generatePrompt(List<Transaction> transactions) {
         StringBuilder prompt = new StringBuilder("Predict the total expenses for the next month based on the following transactions:\n");
         for (Transaction transaction : transactions) {
-            if("expense".equals(transaction.getIoType())) {  // 只统计支出
+            if ("expense".equals(transaction.getIoType())) {  // 只统计支出
                 prompt.append(transaction.getDate())
                         .append(", ")
                         .append(transaction.getDescription())
@@ -101,7 +101,7 @@ public class AIModelAPI {
     private static double extractForecastValue(String forecastText) {
         // 更健壮的数值提取方法
         forecastText = forecastText.replaceAll("[^0-9.]", ""); // 移除非数字字符
-        if(forecastText.isEmpty()) {
+        if (forecastText.isEmpty()) {
             System.err.println("【数值提取】警告: 预测文本中未找到有效数字");
             return 0.0;
         }
@@ -114,5 +114,41 @@ public class AIModelAPI {
             System.err.println("【数值提取】错误: 无法解析预测文本: " + forecastText);
             return 0.0;
         }
+    }
+
+    // 新增：获取节省建议
+    public static String getAIAdvice(String promptText) throws IOException, InterruptedException {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("model", MODEL_NAME);
+
+        List<Map<String, String>> messages = new ArrayList<>();
+        Map<String, String> message = new HashMap<>();
+        message.put("role", "user");
+        message.put("content", promptText);
+        messages.add(message);
+        requestBody.put("messages", messages);
+        requestBody.put("max_tokens", 300);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonBody = objectMapper.writeValueAsString(requestBody);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(API_URL))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + API_KEY)
+                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
+        List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
+
+        if (choices != null && !choices.isEmpty()) {
+            Map<String, Object> choice = choices.get(0);
+            Map<String, Object> messageMap = (Map<String, Object>) choice.get("message");
+            return (String) messageMap.get("content");
+        }
+        return "未获取到建议，请重试。";
     }
 }
