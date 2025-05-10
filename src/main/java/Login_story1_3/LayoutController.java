@@ -133,7 +133,7 @@ public class LayoutController {
             return false;
         }
 
-        String csvFilePath = "user.csv";
+        String csvFilePath = "data/user.csv";
         File csvFile = new File(csvFilePath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
