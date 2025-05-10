@@ -301,12 +301,6 @@ public class MainController {
 
     @FXML
     private void handleCompare(ActionEvent event) {
-        // Check VIP status first
-        if (!isCurrentUserVIP()) {
-            showAlert("Access Denied", "This feature is only available for VIP users.");
-            return;
-        }
-
         try {
             double budget = Double.parseDouble(budgetField.getText());
             if (budget <= 0) {
@@ -314,20 +308,18 @@ public class MainController {
                 return;
             }
 
-            // Rest of the existing compare logic...
+            // Get current month's expenses
             List<Transaction> currentExpenses = getCurrentMonthExpenses();
             if (currentExpenses.isEmpty()) {
                 showAlert("Info", "No expenses recorded for current month");
                 return;
             }
 
+            // Call AI for analysis
             String analysis = analyzeBudgetWithAI(budget, currentExpenses);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Budget Analysis");
-            alert.setHeaderText("Budget Comparison Result");
-            alert.setContentText(analysis);
-            alert.showAndWait();
+            // Show the analysis report in a new window
+            showAnalysisReport(analysis);
 
         } catch (NumberFormatException e) {
             showAlert("Error", "Please enter a valid budget number");
@@ -337,24 +329,20 @@ public class MainController {
         }
     }
 
-    private boolean isCurrentUserVIP() {
-        String csvFilePath = "user.csv";
-        File csvFile = new File(csvFilePath);
+    private void showAnalysisReport(String reportText) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/AnalysisReport.fxml"));
+            Pane reportPane = loader.load();
+            AnalysisReportController reportController = loader.getController();
+            reportController.setReportText(reportText);
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-            String line;
-            br.readLine(); // Skip header
-            while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
-                String[] data = line.split(",");
-                if (data.length >= 7 && data[1].equals(currentUser)) {
-                    return "VIP".equalsIgnoreCase(data[6]);
-                }
-            }
+            Stage stage = new Stage();
+            stage.setScene(new Scene(reportPane, 1200, 675)); // 设置窗口大小为 1600x900
+            stage.setResizable(false); // 禁止调整窗口大小
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     private List<Transaction> getCurrentMonthExpenses() {
@@ -447,4 +435,5 @@ public class MainController {
 
         return "Sorry, couldn't get analysis from AI. Please try again later.";
     }
+
 }
