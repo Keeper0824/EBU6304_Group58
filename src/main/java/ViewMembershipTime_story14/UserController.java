@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.GridPane;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -64,28 +66,26 @@ public class UserController {
         }
     }
 
+
     @FXML
     private void openRechargePopup() {
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.APPLICATION_MODAL);
-        dialogStage.setTitle("Choose Membership Duration");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/ViewMembershipTime_story14/recharge_popup.fxml"));
+            GridPane gridPane = loader.load();
+            Scene dialogScene = new Scene(gridPane, 640, 360);
+            dialogScene.getStylesheets().add(getClass().getResource("/src/main/resources/ViewMembershipTime_story14/rechargestyle.css").toExternalForm());
 
-        VBox vbox = new VBox();
-        Button oneMonthButton = new Button("1 Month");
-        Button oneQuarterButton = new Button("1 Quarter");
-        Button oneYearButton = new Button("1 Year");
-
-        oneMonthButton.setOnAction(e -> handleMembershipSelection(1, dialogStage));
-        oneQuarterButton.setOnAction(e -> handleMembershipSelection(3, dialogStage));
-        oneYearButton.setOnAction(e -> handleMembershipSelection(12, dialogStage));
-
-        vbox.getChildren().addAll(oneMonthButton, oneQuarterButton, oneYearButton);
-        Scene dialogScene = new Scene(vbox, 300, 200);
-        dialogStage.setScene(dialogScene);
-        dialogStage.show();
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle("Choose Membership Duration");
+            dialogStage.setScene(dialogScene);
+            dialogStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void handleMembershipSelection(int months, Stage dialogStage) {
+    public void handleMembershipSelection(int months, Stage dialogStage) {
         // Get the current user's data (Email for matching)
         User user = UserLoader.loadUserFromCSV("data/user.csv");
 
@@ -132,9 +132,36 @@ public class UserController {
                 System.out.println("No matching user found.");
             }
 
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
+        //initialize();
     }
-}
 
+    /*public void refreshMembershipInfo() {
+        // Load user data from CSV
+        User user = UserLoader.loadUserFromCSV("data/user.csv");
+
+        if (user != null) {
+            if (user.getMembershipExpiryDate() != null) {
+                greetingText.setText("Hello " + user.getUsername() + ",\nYour VIP expires on " + user.getMembershipExpiryDate());
+
+                if (user.isMembershipActive()) {
+                    membershipLabel.setText("Membership expires on: " + user.getMembershipExpiryDate() +
+                            " (" + user.getRemainingDays() + " days left)");
+                } else {
+                    membershipLabel.setText("Membership Expired");
+                    membershipLabel.setStyle("-fx-text-fill: red;");
+                }
+            } else {
+                greetingText.setText("Hello " + user.getUsername() + ",\nYou are not our VIP member yet.");
+                membershipLabel.setText("Membership Expired");
+                membershipLabel.setStyle("-fx-text-fill: red;");
+            }
+        } else {
+            membershipLabel.setText("No user found.");
+        }
+    }*/
+
+}

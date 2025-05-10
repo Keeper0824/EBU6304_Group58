@@ -1,0 +1,47 @@
+/* styles.css */
+.grid-pane {
+    -fx-padding: 20px;
+    -fx-background-color: #f0f0f0; /* 浅灰色背景 */
+    -fx-alignment: center; /* 居中对齐 */
+}
+
+.title {
+    -fx-font-size: 24px; /* 标题字体大小 */
+    -fx-font-weight: bold; /* 加粗 */
+    -fx-text-fill: #333333; /* 深灰色字体 */
+    -fx-padding: 10px 0; /* 上下内边距 */
+}
+
+.price {
+    -fx-font-size: 32px; /* 价格字体大小 */
+    -fx-font-weight: bold; /* 加粗 */
+    -fx-text-fill: #e60000; /* 红色字体 */
+    -fx-padding: 10px 0; /* 上下内边距 */
+}
+
+.recharge-button {
+    -fx-font-size: 18px; /* 按钮字体大小 */
+    -fx-background-color: #0076a3; /* 按钮背景颜色 */
+    -fx-text-fill: white; /* 按钮文字颜色 */
+    -fx-padding: 15px 30px; /* 按钮内边距 */
+    -fx-border-radius: 8px; /* 按钮边框圆角 */
+    -fx-background-radius: 8px; /* 按钮背景圆角 */
+    -fx-border-color: #005f8c; /* 按钮边框颜色 */
+    -fx-border-width: 1px; /* 按钮边框宽度 */
+}
+
+.recharge-button:hover {
+    -fx-background-color: #005f8c; /* 按钮悬停背景颜色 */
+    -fx-cursor: hand; /* 鼠标悬停时显示手型光标 */
+}
+
+.vbox {
+    -fx-alignment: center; /* VBox内容居中对齐 */
+    -fx-padding: 20px; /* VBox内边距 */
+    -fx-background-color: #ffffff; /* VBox背景颜色 */
+    -fx-border-color: #cccccc; /* VBox边框颜色 */
+    -fx-border-width: 1px; /* VBox边框宽度 */
+    -fx-border-radius: 8px; /* VBox边框圆角 */
+    -fx-background-radius: 8px; /* VBox背景圆角 */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.0, 0, 1); /* 添加阴影效果 */
+}
