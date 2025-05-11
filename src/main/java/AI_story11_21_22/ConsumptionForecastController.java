@@ -21,67 +21,67 @@ public class ConsumptionForecastController {
     @FXML
     private void initialize() {
         try {
-            System.out.println("\n=== 开始消费预测流程 ===");
-            System.out.println("【1】开始初始化预测界面...");
+            System.out.println("\n=== Starting consumption forecast process ===");
+            System.out.println("[1] Initializing forecast interface...");
 
-            // 获取当前用户昵称
+            // Get current user nickname
             String nickname = Session.getCurrentNickname();
             if (nickname == null || nickname.isEmpty()) {
-                throw new IOException("未获取到当前用户信息，请先登录");
+                throw new IOException("User information not available, please login first");
             }
-            System.out.println("【2】当前用户昵称: " + nickname);
+            System.out.println("[2] Current user nickname: " + nickname);
 
-            // 构建文件路径
+            // Build file path
             String filePath = "data/" + nickname + "_transaction.csv";
             File transactionFile = new File(filePath);
-            System.out.println("【3】尝试加载交易文件: " + transactionFile.getAbsolutePath());
+            System.out.println("[3] Attempting to load transaction file: " + transactionFile.getAbsolutePath());
 
             if (!transactionFile.exists()) {
-                throw new IOException("找不到用户的交易数据文件: " + filePath);
+                throw new IOException("User transaction data file not found: " + filePath);
             }
 
-            // 加载交易数据
+            // Load transaction data
             List<Transaction> transactions = DataPreprocessor.loadTransactions(filePath);
-            System.out.println("【4】成功加载交易记录数: " + transactions.size());
+            System.out.println("[4] Successfully loaded transaction records: " + transactions.size());
 
-            // 打印前5条交易记录（用于验证数据）
+            // Print first 5 transaction records (for data verification)
             if (!transactions.isEmpty()) {
-                System.out.println("【5】前5条交易记录样例:");
+                System.out.println("[5] Sample of first 5 transaction records:");
                 for (int i = 0; i < Math.min(5, transactions.size()); i++) {
                     Transaction t = transactions.get(i);
                     System.out.printf("  - %s | %s | ¥%.2f | %s%n",
                             t.getDate(), t.getDescription(), t.getPrice(), t.getClassification());
                 }
             } else {
-                System.out.println("【5】警告: 没有加载到任何交易记录");
-                throw new IOException("交易记录为空");
+                System.out.println("[5] Warning: No transaction records loaded");
+                throw new IOException("Transaction records are empty");
             }
 
-            // 调用预测API
-            System.out.println("【6】开始调用AI预测API...");
+            // Call prediction API
+            System.out.println("[6] Calling AI prediction API...");
             double forecast = AIModelAPI.predictNextMonthConsumption(transactions);
-            System.out.println("【7】API返回的预测值: " + forecast);
+            System.out.println("[7] API returned forecast value: " + forecast);
 
-            // 获取健康评分和建议
+            // Get health score and suggestions
             Map<String, String> scoreAndSuggestions = ConsumptionHealthAnalyzer.getHealthScoreAndSuggestions(transactions);
             String score = scoreAndSuggestions.get("score");
             String suggestions = scoreAndSuggestions.get("suggestions");
 
-            // 更新UI
-            forecastLabel.setText("您的下个月预计消费金额是: ¥" + String.format("%.2f", forecast));
-            healthScoreLabel.setText("您的消费健康评分为: " + score);
-            suggestionsLabel.setText("消费建议: " + suggestions);
+            // Update UI
+            forecastLabel.setText("Your predicted consumption for next month is: ¥" + String.format("%.2f", forecast));
+            healthScoreLabel.setText("Your score: " + score);
+            suggestionsLabel.setText("Suggestions: " + suggestions);
 
-            System.out.println("【8】预测结果显示完成");
-            System.out.println("=== 消费预测流程结束 ===\n");
+            System.out.println("[8] Forecast results displayed");
+            System.out.println("=== Consumption forecast process completed ===\n");
 
         } catch (IOException | InterruptedException e) {
-            System.err.println("\n【ERROR】初始化过程中出现错误:");
+            System.err.println("\n[ERROR] Error during initialization:");
             e.printStackTrace();
 
-            String errorMessage = "加载数据时出错: " + e.getMessage();
-            if (e instanceof IOException && e.getMessage().contains("文件不存在")) {
-                errorMessage = "找不到用户的交易记录，请先添加交易数据";
+            String errorMessage = "Error loading data: " + e.getMessage();
+            if (e instanceof IOException && e.getMessage().contains("file not found")) {
+                errorMessage = "User transaction records not found, please add transaction data first";
             }
 
             forecastLabel.setText(errorMessage);

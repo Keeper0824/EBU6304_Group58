@@ -17,17 +17,17 @@ public class ConsumptionHealthAnalyzer {
     private static final String MODEL_NAME = "qwen2.5-72b-instruct";
 
     public static Map<String, String> getHealthScoreAndSuggestions(List<Transaction> transactions) throws IOException, InterruptedException {
-        System.out.println("\n【AI模型调用】开始获取健康评分和建议...");
+        System.out.println("\n[AI Model Call] Starting to get health score and suggestions...");
 
-        // 生成提示词
+        // Generate prompt
         String prompt = generateHealthScorePrompt(transactions);
-        System.out.println("【AI模型调用】生成的提示词:\n" + prompt);
+        System.out.println("[AI Model Call] Generated prompt:\n" + prompt);
 
-        // 准备请求体
+        // Prepare request body
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", MODEL_NAME);
 
-        // 构建 messages 参数
+        // Build messages parameter
         List<Map<String, String>> messages = new ArrayList<>();
         Map<String, String> message = new HashMap<>();
         message.put("role", "user");
@@ -35,14 +35,14 @@ public class ConsumptionHealthAnalyzer {
         messages.add(message);
         requestBody.put("messages", messages);
 
-        requestBody.put("max_tokens", 2000);
+        requestBody.put("max_tokens", 500); // Reduced from 2000 since we want concise output
 
-        // 打印请求体
+        // Print request body
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBody = objectMapper.writeValueAsString(requestBody);
-        System.out.println("【AI模型调用】请求体JSON:\n" + jsonBody);
+        System.out.println("[AI Model Call] Request JSON:\n" + jsonBody);
 
-        // 创建HTTP请求
+        // Create HTTP request
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL))
@@ -51,14 +51,14 @@ public class ConsumptionHealthAnalyzer {
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
-        System.out.println("【AI模型调用】发送请求到API...");
+        System.out.println("[AI Model Call] Sending request to API...");
 
-        // 发送请求
+        // Send request
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println("【AI模型调用】收到API响应，状态码: " + response.statusCode());
-        System.out.println("【AI模型调用】响应内容:\n" + response.body());
+        System.out.println("[AI Model Call] Received API response, status code: " + response.statusCode());
+        System.out.println("[AI Model Call] Response content:\n" + response.body());
 
-        // 解析响应
+        // Parse response
         Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
         List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
 
@@ -67,9 +67,9 @@ public class ConsumptionHealthAnalyzer {
             Map<String, Object> messageMap = (Map<String, Object>) choice.get("message");
             String responseText = (String) messageMap.get("content");
 
-            // 解析健康评分和建议
-            String[] parts = responseText.split("建议:");
-            String score = parts[0].trim();
+            // Parse health score and suggestions
+            String[] parts = responseText.split("Suggestions:");
+            String score = parts[0].trim().replace("Score:", "").trim();
             String suggestions = parts.length > 1 ? parts[1].trim() : "";
 
             Map<String, String> result = new HashMap<>();
@@ -78,15 +78,20 @@ public class ConsumptionHealthAnalyzer {
             return result;
         }
 
-        System.out.println("【AI模型调用】警告: 未获取到有效结果");
+        System.out.println("[AI Model Call] Warning: No valid results received");
         Map<String, String> result = new HashMap<>();
         result.put("score", "0");
-        result.put("suggestions", "无有效建议");
+        result.put("suggestions", "No valid suggestions received. Please try again later.");
         return result;
     }
 
     private static String generateHealthScorePrompt(List<Transaction> transactions) {
-        StringBuilder prompt = new StringBuilder("根据以下消费记录，给出一个0 - 100的健康评分，并给出一些消费建议：\n");
+        StringBuilder prompt = new StringBuilder("Analyze these transactions and provide:\n");
+        prompt.append("1. A financial health score (0-100)\n");
+        prompt.append("2. Exactly 3 practical spending suggestions in English\n\n");
+        prompt.append("Each suggestion should be 2 sentences long - first identifying an area for improvement, then recommending specific action.\n\n");
+        prompt.append("Transaction records:\n");
+
         for (Transaction transaction : transactions) {
             prompt.append(transaction.getDate())
                     .append(", ")
@@ -99,7 +104,13 @@ public class ConsumptionHealthAnalyzer {
                     .append(transaction.getIoType())
                     .append("\n");
         }
-        prompt.append("格式：评分: [分数]\n建议: [建议内容]");
+        prompt.append("\nFormat your response exactly like this:\n");
+        prompt.append("Score: [your score number]\n");
+        prompt.append("Suggestions:\n");
+        prompt.append("1. [First suggestion - 3 sentences]\n");
+        prompt.append("2. [Second suggestion - 3 sentences]\n");
+        prompt.append("3. [Third suggestion - 3 sentences]");
+
         return prompt.toString();
     }
 }
