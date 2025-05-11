@@ -44,7 +44,7 @@ public class SuggestionController {
             suggestionArea.setText(aiAdvice);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            showAlert("Error", "获取 AI 建议时出错: " + e.getMessage());
+            showAlert("Error", "Error while getting AI advice: " + e.getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ public class SuggestionController {
                 if (line.trim().isEmpty()) continue;
                 String[] data = line.split(",");
                 if (data.length != 6) {
-                    System.err.println("CSV文件格式错误，该行数据字段数量不正确: " + line);
+                    System.err.println("CSV file format error, incorrect number of fields: " + line);
                     continue;
                 }
                 try {
@@ -69,12 +69,12 @@ public class SuggestionController {
                     );
                     transactions.add(tx);
                 } catch (NumberFormatException e) {
-                    System.err.println("价格数据格式错误: " + data[2]);
+                    System.err.println("Price format error: " + data[2]);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new IOException("加载交易数据时出错：" + e.getMessage());
+            throw new IOException("Error while loading transaction data: " + e.getMessage());
         }
 
         return transactions;
@@ -89,9 +89,9 @@ public class SuggestionController {
         alert.showAndWait();
     }
 
-    // 生成用于 AI 分析的提示词
+    // 生成用于 AI 分析的提示词，英文版
     private String generateAdvicePrompt(List<Transaction> transactions) {
-        StringBuilder prompt = new StringBuilder("根据以下交易数据，给出节省开支的建议：\n");
+        StringBuilder prompt = new StringBuilder("Based on the following transaction data, provide advice on how to save expenses:\n");
 
         // 添加交易数据
         for (Transaction transaction : transactions) {
@@ -108,7 +108,7 @@ public class SuggestionController {
                         .append("\n");
             }
         }
-        prompt.append("\n请根据上述数据给出节省开支的建议，特别是在哪些分类上可以减少开支。");
+        prompt.append("\nPlease provide specific suggestions on which categories to reduce spending on based on the above data.");
         return prompt.toString();
     }
 }
