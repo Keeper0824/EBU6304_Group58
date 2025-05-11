@@ -343,11 +343,8 @@ public class MainController {
 
             String analysis = analyzeBudgetWithAI(budget, currentExpenses);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Budget Analysis");
-            alert.setHeaderText("Budget Comparison Result");
-            alert.setContentText(analysis);
-            alert.showAndWait();
+            // Show the analysis report in a new window
+            showAnalysisReport(analysis);
 
         } catch (NumberFormatException e) {
             showAlert("Error", "Please enter a valid budget number");
