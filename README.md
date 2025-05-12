@@ -150,6 +150,21 @@ AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
   It successfully reads income/expense information from `InOutcome.csv` and renders analysis charts.
 - **Developer**: @Keeper0824 (Haoran Sun)
 
+## Feature #20: Holiday Reminder
+
+* **Classes**: `ScheduleListController`, `ScheduleItem`, `UserLoader`
+* **Data**: `data/{currentUser}_reminders.csv` (and `data/user.csv` for VIP expiry)
+* **Description:**
+  The “Holiday Reminder” feature automatically loads any existing custom reminders when initialized and supplements them with today’s official holiday based on the current date (`LocalDate.now()`). For example, if today is “Test Day” (mapped to `MonthDay.of(5, 9)`), the system will automatically add a reminder titled **“Holiday Reminder”** with details like
+
+```
+Today is Test Day. Remember to arrange your budget reasonably.
+```
+
+* Verified with JUnit unit testing.
+* **Developer**: @Keeper0824 (Haoran Sun)
+
+
 ## Feature #24: MainMenu Navigation
 
 - **Classes**: `MainMenuApp`, `MainMenuController`, `UserManagementApp`, `UserManagementController`, `User`

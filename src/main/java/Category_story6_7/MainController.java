@@ -24,12 +24,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.HashMap;
 
 public class MainController {
     private final String currentUser = Session.getCurrentNickname();
@@ -299,8 +296,37 @@ public class MainController {
         }
     }
 
+    // 新增的 getTransactions() 方法
+    public ObservableList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    @FXML
+    private void handleSuggestion(ActionEvent event) {
+        try {
+            // 确保路径正确，相对于 resources 目录
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/suggestion.fxml"));
+            Pane suggestionPane = loader.load();
+
+            // 打开新的窗口并显示建议页面
+            Stage suggestionStage = new Stage();
+            suggestionStage.setTitle("Suggestion");
+            suggestionStage.setScene(new Scene(suggestionPane));
+            suggestionStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to open suggestion page: " + e.getMessage());
+        }
+    }
+
     @FXML
     private void handleCompare(ActionEvent event) {
+        // Check VIP status first
+        if (!isCurrentUserVIP()) {
+            showAlert("Access Denied", "This feature is only available for VIP users.");
+            return;
+        }
+
         try {
             double budget = Double.parseDouble(budgetField.getText());
             if (budget <= 0) {
@@ -308,28 +334,73 @@ public class MainController {
                 return;
             }
 
-            // Get current month's expenses
+            // Rest of the existing compare logic...
             List<Transaction> currentExpenses = getCurrentMonthExpenses();
             if (currentExpenses.isEmpty()) {
                 showAlert("Info", "No expenses recorded for current month");
                 return;
             }
 
-            // Call AI for analysis
             String analysis = analyzeBudgetWithAI(budget, currentExpenses);
 
-            // Show the analysis result
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Budget Analysis");
-            alert.setHeaderText("Budget Comparison Result");
-            alert.setContentText(analysis);
-            alert.showAndWait();
+            // Show the analysis report in a new window
+            showAnalysisReport(analysis);
 
         } catch (NumberFormatException e) {
             showAlert("Error", "Please enter a valid budget number");
         } catch (Exception e) {
             e.printStackTrace();
             showAlert("Error", "Failed to analyze budget: " + e.getMessage());
+        }
+    }
+
+    private boolean isCurrentUserVIP() {
+        String currentUser = Session.getCurrentNickname();
+        if (currentUser == null || currentUser.isEmpty()) {
+            System.err.println("Error: Current user is null or empty!");
+            return false;
+        }
+
+        String csvFilePath = "data/user.csv"; // 或改用完整路径
+        File csvFile = new File(csvFilePath);
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            String line;
+            br.readLine(); // 跳过表头
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty()) continue;
+
+                String[] data = line.split(",");
+                System.out.println("Debug - CSV line: " + Arrays.toString(data)); // 调试输出
+
+                // 检查列数是否足够，且用户名匹配（忽略大小写和空格）
+                if (data.length >= 7 && data[1].trim().equalsIgnoreCase(currentUser.trim())) {
+                    boolean isVIP = "VIP".equalsIgnoreCase(data[6].trim());
+                    System.out.println("Debug - VIP status: " + isVIP); // 调试输出
+                    return isVIP;
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading user.csv: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void showAnalysisReport(String reportText) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/AnalysisReport.fxml"));
+            Pane reportPane = loader.load();
+            AnalysisReportController reportController = loader.getController();
+            reportController.setReportText(reportText);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(reportPane, 1200, 675)); // 设置窗口大小为 1600x900
+            stage.setResizable(false); // 禁止调整窗口大小
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -423,4 +494,5 @@ public class MainController {
 
         return "Sorry, couldn't get analysis from AI. Please try again later.";
     }
+
 }

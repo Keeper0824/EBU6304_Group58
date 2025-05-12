@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.Suggestion_story_17.SuggestionController" alignment="CENTER" spacing="10" prefWidth="400" prefHeight="350">
+    <!-- Title -->
+    <Label text="AI Prediction Advice" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <!-- Suggestion Text -->
+    <Text fx:id="suggestionText" style="-fx-font-size: 14px;"/>
+
+    <!-- Display AI predicted spending advice -->
+    <Label text="Advice:"/>
+    <TextArea fx:id="suggestionArea" prefHeight="150" prefWidth="300" wrapText="true" editable="false" promptText="AI provided savings advice will appear here..."/>
+
+    <!-- Button section -->
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="Get Advice" onAction="#handleGetAIAdvice"/>
+    </HBox>
+</VBox>

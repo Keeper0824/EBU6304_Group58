@@ -66,6 +66,16 @@ public class Transaction {
         this.IOType = IOType;
     }
 
+    // 新增方法：获取描述
+    public String getDescription() {
+        return transaction;  // 返回交易描述
+    }
+
+    // 新增方法：获取交易类型
+    public String getIoType() {
+        return IOType;  // 返回交易类型（收入或支出）
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +

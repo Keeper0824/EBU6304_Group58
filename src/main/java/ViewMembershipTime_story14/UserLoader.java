@@ -1,21 +1,40 @@
 package src.main.java.ViewMembershipTime_story14;
 
 import src.main.java.Session;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Title      : UserLoader.java
+ * Description: Utility class for loading User objects from a CSV file.
+ *              It reads the CSV file, skips the header row, and returns
+ *              the User matching the current session nickname. If the user
+ *              has VIP status, it also parses the expiry date.
+ *
+ * @author Haoran Sun
+ * @version 1.0
+ */
 public class UserLoader {
-    private final String currentUser = Session.getCurrentNickname();
 
+    /**
+     * Date formatter for parsing membership expiry dates in 'yyyy-MM-dd' format.
+     */
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    /**
+     * Loads the User corresponding to the currently logged-in nickname from the given CSV file.
+     * The CSV is expected to have these columns in order:
+     * ID, Nickname, Password, Email, Gender, DateOfBirth, isVIP, ExpiryDate
+     *
+     * @param path the file path to the CSV containing user data
+     * @return a User object with username and expiry date (null expiryDate if not VIP),
+     *         or null if no matching record is found or on error
+     */
     public static User loadUserFromCSV(String path) {
-        // 在真正使用时再拿一次昵称
         String currentNickname = Session.getCurrentNickname();
         if (currentNickname == null) {
             System.err.println("NO USER LOGIN!");
@@ -23,18 +42,18 @@ public class UserLoader {
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            // ☆ 1. 跳过表头
+            // 1. Skip header row
             br.readLine();
 
             String line;
-            // ☆ 2. 从第二行开始，一行行遍历到文件末尾
+            // 2. Read each subsequent line
             while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;     // 跳过空行
+                if (line.trim().isEmpty()) continue;     // Skip empty lines
 
                 String[] parts = line.split(",");
-                if (parts.length < 8) continue;         // 列数不够也跳过
+                if (parts.length < 8) continue;         // Skip malformed lines
 
-                // ☆ 3. 找到匹配昵称就返回
+                // 3. Match nickname
                 if (parts[1].trim().equals(currentNickname)) {
                     String membershipType = parts[6].trim();
                     LocalDate expiryDate = null;
@@ -51,7 +70,7 @@ public class UserLoader {
             e.printStackTrace();
         }
 
-        // 全部遍历完都没 return，就说明找不到喵
+        // No match found
         return null;
     }
 }

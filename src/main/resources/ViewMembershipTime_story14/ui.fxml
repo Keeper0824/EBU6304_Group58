@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
 
 <AnchorPane style="-fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);-fx-padding: 0 0 0 0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.main.java.ViewMembershipTime_story14.UserController">
 
@@ -29,11 +30,6 @@
 
             <!-- 用户信息 -->
             <HBox alignment="CENTER" spacing="20">
-<!--                <ImageView fitHeight="167.0" fitWidth="151.0" preserveRatio="true">-->
-<!--                    <image>-->
-<!--                        <Image url="@images/1.png" />-->
-<!--                    </image>-->
-<!--                </ImageView>-->
                 <VBox alignment="CENTER_LEFT" spacing="5">
                     <Text fx:id="greetingText" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d;" />
                     <Label style="-fx-font-size: 18px; -fx-text-fill: #7d8fb3;" text="Premium Member" />
@@ -88,9 +84,12 @@
                 <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Early Access" />
                 <Label style="-fx-font-size: 16px; -fx-text-fill: #7d8fb3; -fx-wrap-text: true; -fx-alignment: center;" text="Be the first to try new features" />
             </VBox>
-         <rowConstraints>
-            <RowConstraints />
-         </rowConstraints>
+
+            <!-- 新增 VIP充值按钮 -->
+            <VBox alignment="CENTER" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <Button fx:id="vipRechargeButton" text="VIP Recharge" style="-fx-font-size: 16px; -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe); -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 30;" onAction="#openRechargePopup"/>
+            </VBox>
+
         </GridPane>
     </VBox>
 </AnchorPane>

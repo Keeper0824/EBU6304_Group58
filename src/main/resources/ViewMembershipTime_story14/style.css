@@ -44,3 +44,13 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);
     -fx-translate-y: -5;
 }
+
+
+/* VIP Recharge Button Styling */
+#vipRechargeButton {
+    -fx-font-size: 16px;
+    -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
+    -fx-text-fill: white;
+    -fx-padding: 10 20;
+    -fx-background-radius: 30;
+}

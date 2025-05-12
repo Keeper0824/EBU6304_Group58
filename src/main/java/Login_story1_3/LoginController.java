@@ -13,48 +13,70 @@ import src.main.java.Session;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.Base64;
 
+/**
+ * Title      : LoginController.java
+ * Description: Controller for the login view.
+ *              It handles user authentication with email/password and CAPTCHA,
+ *              supports an admin backdoor, opens the appropriate next window,
+ *              and ensures VIP status is updated if expired.
+ *
+ * @author Zhengxuan Han
+ * @version 1.0
+ * @author Haoran Sun
+ * @version 1.1
+ */
 public class LoginController {
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private TextField captchaField;
-    @FXML
-    private Label captchaLabel;
-    @FXML
-    private Button refreshCaptchaBtn;
+
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField captchaField;
+    @FXML private Label captchaLabel;
+    @FXML private Button refreshCaptchaBtn;
 
     private String currentCaptcha;
 
+    /**
+     * Initializes the login form by generating the first CAPTCHA
+     * and wiring the refresh button to regenerate it.
+     */
     @FXML
     public void initialize() {
         generateCaptcha();
         refreshCaptchaBtn.setOnAction(event -> generateCaptcha());
     }
 
-
+    /**
+     * Handles the login button press:
+     * 1) Verifies the CAPTCHA.
+     * 2) Allows admin login for "Administration@qq.com"/"000000".
+     * 3) Validates the user against CSV credentials.
+     * 4) Updates session nickname and opens the main menu on success.
+     * 5) Checks and updates VIP expiry status after login.
+     */
     @FXML
     private void handleLogin() {
         String email = emailField.getText();
         String password = passwordField.getText();
         String userCaptcha = captchaField.getText();
 
+        // 1. CAPTCHA check
         if (!userCaptcha.equalsIgnoreCase(currentCaptcha)) {
             showAlert("Error", "Invalid verification code!");
             generateCaptcha();
             return;
         }
 
-        // Special case for Administration@qq.com
+        // 2. Admin backdoor
         if (email.equals("Administration@qq.com") && password.equals("000000")) {
             try {
                 new UserSearchApp().start(new Stage());
@@ -67,17 +89,17 @@ public class LoginController {
             }
         }
 
+        // 3. User credential validation
         User user = validateUser(email, password);
-
         if (user != null) {
             Session.setCurrentNickname(user.getNickname());
             showAlert("Success", "Login successful.");
             try {
-                // 关闭当前登录窗口
+                // Close login window
                 Stage currentStage = (Stage) emailField.getScene().getWindow();
                 currentStage.close();
 
-                // 启动 MainLayout.fxml（通过 Main.java 的方式）
+                // Open main menu
                 Main mainApp = new Main();
                 Stage mainStage = new Stage();
                 mainApp.start(mainStage);
@@ -88,22 +110,49 @@ public class LoginController {
         } else {
             showAlert("Login Failed", "Invalid email or password.");
             generateCaptcha();
+            return;
+        }
+
+        // 4. Post-login VIP expiry check and update
+        if ("VIP".equalsIgnoreCase(user.getMembershipType())) {
+            String exp = user.getExpiryDate(); // e.g. "2025-05-01" or "null"
+            if (exp != null && !exp.equalsIgnoreCase("null")) {
+                LocalDate expireDate = LocalDate.parse(exp, DateTimeFormatter.ISO_DATE);
+                if (expireDate.isBefore(LocalDate.now())) {
+                    user.setMembershipType("Normal");                       // update in memory
+                    updateVIPStatusInCSV(user.getID(), "Normal");           // persist update
+                }
+            }
         }
     }
 
-    // 密码加密方法（与注册时使用的相同）
+    /**
+     * Encrypts a plaintext password using SHA-256 and Base64 encoding.
+     *
+     * @param password the raw password to encrypt
+     * @return the Base64-encoded SHA-256 hash
+     * @throws NoSuchAlgorithmException if SHA-256 is not available
+     */
     private String encryptPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(hash);
     }
 
+    /**
+     * Validates the user's email and password against records in data/user.csv.
+     *
+     * @param email    the user's email
+     * @param password the plaintext password
+     * @return a User object if credentials match; null otherwise
+     */
     private User validateUser(String email, String password) {
         List<User> users = loadUsersFromCSV();
         try {
             String encryptedPassword = encryptPassword(password);
             for (User user : users) {
-                if (user.getEmail().equals(email) && user.getPassword().equals(encryptedPassword)) {
+                if (user.getEmail().equals(email) &&
+                        user.getPassword().equals(encryptedPassword)) {
                     return user;
                 }
             }
@@ -114,22 +163,54 @@ public class LoginController {
         return null;
     }
 
+    /**
+     * Updates the VIP status field in the CSV for the given user ID.
+     *
+     * @param userId    the ID of the user to update
+     * @param newStatus the new VIP status ("VIP" or "Normal")
+     */
+    private void updateVIPStatusInCSV(String userId, String newStatus) {
+        Path path = Paths.get("data/user.csv");
+        try {
+            List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+            List<String> updated = lines.stream()
+                    .map(line -> {
+                        String[] f = line.split(",");
+                        if (f.length >= 7 && f[0].equals(userId)) {
+                            f[6] = newStatus;  // update isVIP column
+                            // leave ExpiryDate (column 8) unchanged
+                            return String.join(",", f);
+                        }
+                        return line;
+                    })
+                    .collect(Collectors.toList());
+            Files.write(path, updated, StandardCharsets.UTF_8,
+                    StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Unable to update VIP status in CSV.");
+        }
+    }
 
+    /**
+     * Generates a new 4-character alphanumeric CAPTCHA,
+     * displays it in the label, and clears the input field.
+     */
     private void generateCaptcha() {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random random = new Random();
         StringBuilder captcha = new StringBuilder(4);
-
         for (int i = 0; i < 4; i++) {
-            int index = random.nextInt(chars.length());
-            captcha.append(chars.charAt(index));
+            captcha.append(chars.charAt(random.nextInt(chars.length())));
         }
-
         currentCaptcha = captcha.toString();
         captchaLabel.setText(currentCaptcha);
         captchaField.clear();
     }
 
+    /**
+     * Opens the registration window and closes the login form.
+     */
     @FXML
     private void handleRegister() {
         try {
@@ -141,6 +222,11 @@ public class LoginController {
         }
     }
 
+    /**
+     * Loads all users from data/user.csv into a List.
+     *
+     * @return a List of User objects parsed from the CSV
+     */
     private List<User> loadUsersFromCSV() {
         List<User> users = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("data/user.csv"))) {
@@ -148,8 +234,8 @@ public class LoginController {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length == 8) {
-                    User user = new User(data[0], data[1], data[2], data[3], data[4],data[5],data[6],data[7]);
-                    users.add(user);
+                    users.add(new User(data[0], data[1], data[2], data[3],
+                            data[4], data[5], data[6], data[7]));
                 }
             }
         } catch (IOException e) {
@@ -159,6 +245,12 @@ public class LoginController {
         return users;
     }
 
+    /**
+     * Displays an information alert with the given title and message.
+     *
+     * @param title   the alert title
+     * @param message the alert message text
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
