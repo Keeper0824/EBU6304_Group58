@@ -12,22 +12,37 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Title      : UserManagementController.java
+ * Description: Controller for the user management view.
+ *              It initializes the form with user data, handles form updates,
+ *              and provides navigation back to the main menu.
+ *
+ * @author Zhengxuan Han
+ * @version 1.0
+ */
+
 public class UserManagementController {
     @FXML private TextField nicknameField;
     @FXML private TextField emailField;
     @FXML private ChoiceBox<String> genderChoiceBox;
     @FXML private DatePicker dobPicker;
 
-    // 拿到 Session 里存的昵称
     private static final String sessionNickname = Session.getCurrentNickname();
     private User currentUser;
 
+    /**
+     * Initializes the form.
+     * 1. Initializes the gender options in the choice box.
+     * 2. Loads all users from the CSV file and finds the current user based on the session nickname.
+     * 3. If the user is found, updates the form fields with the user's information; otherwise, shows an error alert.
+     */
     @FXML
     private void initialize() {
-        // 1. 初始化性别选项
+        // 1. Initialize gender options
         genderChoiceBox.getItems().addAll("Male", "Female", "Other");
 
-        // 2. 自加载：根据 sessionNickname 从 CSV 里找出对应的 User
+        // 2. Load users from CSV and find the current user
         List<User> all = loadUsersFromCSV();
         for (User u : all) {
             if (sessionNickname.equals(u.getNickname())) {
@@ -36,7 +51,7 @@ public class UserManagementController {
             }
         }
 
-        // 3. 如果找到了，就填数据
+        // 3. If the user is found, update the form fields
         if (currentUser != null) {
             updateFormFields();
         } else {
@@ -44,32 +59,48 @@ public class UserManagementController {
         }
     }
 
-    // 添加回调接口
     private Runnable returnToMainMenuCallback;
 
-    public void setReturnToMainMenuCallback(Runnable callback) {
-        this.returnToMainMenuCallback = callback;
-    }
+//    /**
+//     * Set the callback for returning to the main menu.
+//     *
+//     * @param callback The callback function.
+//     */
+//    public void setReturnToMainMenuCallback(Runnable callback) {
+//        this.returnToMainMenuCallback = callback;
+//    }
+//
+//    /**
+//     * Handles the back button click event.
+//     * Closes the current window and executes the callback to return to the main menu.
+//     */
+//    @FXML
+//    private void handleBack() {
+//        if (returnToMainMenuCallback != null) {
+//            // Close the current window
+//            Stage stage = (Stage) nicknameField.getScene().getWindow();
+//            stage.close();
+//
+//            // Execute the callback to open the main menu
+//            returnToMainMenuCallback.run();
+//        }
+//    }
 
-    @FXML
-    private void handleBack() {
-        if (returnToMainMenuCallback != null) {
-            // 关闭当前窗口
-            Stage stage = (Stage) nicknameField.getScene().getWindow();
-            stage.close();
-
-            // 执行回调打开主菜单
-            returnToMainMenuCallback.run();
-        }
-    }
-
-    // 设置当前用户
+    /**
+     * Set the current user.
+     * Runs the updateFormFields method on the JavaFX application thread.
+     *
+     * @param user The user object.
+     */
     public void setUser(User user) {
         this.currentUser = user;
         Platform.runLater(this::updateFormFields);
     }
 
-    // 更新表单字段
+    /**
+     * Updates the form fields with the current user's information.
+     * Handles potential date parsing exceptions and shows an error alert if necessary.
+     */
     private void updateFormFields() {
         try {
             if (currentUser != null) {
@@ -77,7 +108,7 @@ public class UserManagementController {
                 emailField.setText(currentUser.getEmail());
                 genderChoiceBox.setValue(currentUser.getGender());
 
-                // 安全解析日期
+                // Safely parse the date
                 if (currentUser.getDateOfBirth() != null && !currentUser.getDateOfBirth().isEmpty()) {
                     dobPicker.setValue(LocalDate.parse(currentUser.getDateOfBirth()));
                 }
@@ -88,11 +119,15 @@ public class UserManagementController {
         }
     }
 
-    // 处理更新操作
+    /**
+     * Handles the update button click event.
+     * Validates the form fields, updates the user information, saves the changes to the CSV file,
+     * and shows a success or error alert accordingly.
+     */
     @FXML
     private void handleUpdate() {
         try {
-            // 验证字段
+            // Validate fields
             if (nicknameField.getText().isEmpty() ||
                     genderChoiceBox.getValue() == null ||
                     dobPicker.getValue() == null) {
@@ -100,12 +135,12 @@ public class UserManagementController {
                 return;
             }
 
-            // 更新用户信息
+            // Update user information
             currentUser.setNickname(nicknameField.getText());
             currentUser.setGender(genderChoiceBox.getValue());
             currentUser.setDateOfBirth(dobPicker.getValue().toString());
 
-            // 保存更改
+            // Save changes
             saveUserChanges(currentUser);
 
             showAlert("Success", "User updated successfully!");
@@ -116,7 +151,13 @@ public class UserManagementController {
         }
     }
 
-    // 保存用户更改
+    /**
+     * Saves the user changes to the CSV file.
+     * Loads all users from the CSV, updates the corresponding user information,
+     * and then saves all users back to the CSV.
+     *
+     * @param user The user object with updated information.
+     */
     private void saveUserChanges(User user) {
         try {
             List<User> users = loadUsersFromCSV();
@@ -141,7 +182,12 @@ public class UserManagementController {
         }
     }
 
-    // 从CSV文件加载用户
+    /**
+     * Loads all users from the CSV file.
+     * Parses each line of the CSV and creates User objects.
+     *
+     * @return A list of User objects.
+     */
     private List<User> loadUsersFromCSV() {
         List<User> users = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("data/user.csv"))) {
@@ -160,7 +206,12 @@ public class UserManagementController {
         return users;
     }
 
-    // 将用户信息保存到CSV文件
+    /**
+     * Saves a list of users to the CSV file.
+     * Converts each user object to a CSV line and writes them to the file.
+     *
+     * @param users A list of User objects.
+     */
     private void saveUsersToCSV(List<User> users) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("data/user.csv"))) {
             for (User user : users) {
@@ -174,11 +225,25 @@ public class UserManagementController {
         }
     }
 
-    // 显示弹窗（线程安全版本）
+    /**
+     * Displays an alert with the given title and message.
+     * Calls the overloaded showAlert method with a null post-action.
+     *
+     * @param title The title of the alert.
+     * @param message The message of the alert.
+     */
     private void showAlert(String title, String message) {
         showAlert(title, message, null);
     }
 
+    /**
+     * Displays an alert with the given title, message, and an optional post-action.
+     * Runs on the JavaFX application thread.
+     *
+     * @param title The title of the alert.
+     * @param message The message of the alert.
+     * @param postAction An optional callback function to be executed after the alert is closed.
+     */
     private void showAlert(String title, String message, Runnable postAction) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
