@@ -96,6 +96,16 @@ AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
 - **Read-Only Table**: Prevents accidental modifications
 - **Developer**: @jmmboy (Yudian Wang)
 
+## Feature #10: Display of Member Benefits
+
+- **Classes**: `User`, `UserController`, `UserLoader`, `Main`
+- **Data**: `data/user.csv`
+- **Description**:
+  This feature provides a comprehensive overview of all the rights and interests that members enjoy. It clearly lists various benefits such as exclusive deals, priority support, early 
+  access. Non - members can access this information to make an informed decision on whether to join the membership.
+- Verified with JUnit unit testing.
+- **Developer**: @hzxuan6628(Zhengxuan Han)
+- 
 ## Feature #12: Card Management (Add, Delete & Validation)
 
 - **Classes**: `BankCardManager`, `AddCardListener`, `DeleteCardListener`
