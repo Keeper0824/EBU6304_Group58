@@ -102,7 +102,7 @@ public class RegistrationController {
      * @return The Base64-encoded SHA-256 hash of the password.
      * @throws NoSuchAlgorithmException If the SHA-256 algorithm is not available.
      */
-    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+    public String encryptPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(hash);
@@ -149,7 +149,7 @@ public class RegistrationController {
      * @param email The email address to be checked.
      * @return true if the email is valid; false otherwise.
      */
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email != null && email.matches(emailRegex);
     }
@@ -251,7 +251,7 @@ public class RegistrationController {
      *
      * @return The next user ID as a string.
      */
-    private String getNextUserId() {
+    public String getNextUserId() {
         String lastLine = "";
         try (BufferedReader br = new BufferedReader(new FileReader("data/user.csv"))) {
             String line;

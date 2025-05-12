@@ -133,7 +133,7 @@ public class LoginController {
         }
     }
 
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email != null && email.matches(emailRegex);
     }
@@ -145,7 +145,7 @@ public class LoginController {
      * @return the Base64-encoded SHA-256 hash
      * @throws NoSuchAlgorithmException if SHA-256 is not available
      */
-    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+    public String encryptPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(hash);
@@ -159,7 +159,7 @@ public class LoginController {
      * @return a User object if credentials match; null otherwise
      */
 
-    private User validateUser(String email, String password) {
+    public User validateUser(String email, String password) {
         List<User> users = loadUsersFromCSV();
         try {
             String encryptedPassword = encryptPassword(password);
@@ -240,7 +240,7 @@ public class LoginController {
      *
      * @return a List of User objects parsed from the CSV
      */
-    private List<User> loadUsersFromCSV() {
+    public List<User> loadUsersFromCSV() {
         List<User> users = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("data/user.csv"))) {
             String line;
