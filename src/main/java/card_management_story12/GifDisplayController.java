@@ -6,22 +6,41 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+/**
+ * Title      : GifDisplayController.java
+ * Description: Controller for displaying a confirmation GIF after adding a credit card.
+ *              It loads the GIF into the ImageView and, after a 4.5-second pause,
+ *              invokes the returnToPreviousPage() method on BankCardController
+ *              to switch back to the card entry view.
+ *
+ * @author Yudian Wang
+ * @version 1.0
+ */
 public class GifDisplayController {
 
     @FXML
     private ImageView gifImageView;
 
+    /**
+     * Initializes the controller by loading the GIF into the ImageView
+     * and starting a 4.5-second PauseTransition. Once the pause finishes,
+     * it returns to the previous card entry screen.
+     */
+    @FXML
     public void initialize() {
-        // 加载 GIF 动图
-        Image gifImage = new Image(getClass().getResource("/src/main/resources/card_management_story12/images/imageonline-co-gifimage.gif").toExternalForm());
+        // Load GIF animation
+        Image gifImage = new Image(
+                getClass().getResource(
+                        "/src/main/resources/card_management_story12/images/imageonline-co-gifimage.gif"
+                ).toExternalForm()
+        );
         gifImageView.setImage(gifImage);
 
-        // 设置播放时间为 4.5 秒
+        // Play for 4.5 seconds, then return to entry form
         PauseTransition pause = new PauseTransition(Duration.seconds(4.5));
         pause.setOnFinished(event -> {
-            // 播放完 GIF 后切换回卡片录入界面
             BankCardController bankCardController = new BankCardController();
-            bankCardController.returnToPreviousPage();  // 通过实例调用方法
+            bankCardController.returnToPreviousPage();
         });
         pause.play();
     }
