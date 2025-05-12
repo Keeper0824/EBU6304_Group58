@@ -82,7 +82,6 @@ public class RegistrationController {
         return Base64.getEncoder().encodeToString(hash);
     }
 
-
     @FXML
     private void handleBack() {
         switchToLoginScreen();
@@ -99,7 +98,17 @@ public class RegistrationController {
             return false;
         }
 
+        if (!isValidEmail(emailField.getText())) {
+            showAlert("Error", "Invalid email format!");
+            return false;
+        }
+
         return true;
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email != null && email.matches(emailRegex);
     }
 
     private void saveUser(User user) {
@@ -195,5 +204,4 @@ public class RegistrationController {
         }
         return "1";
     }
-
 }

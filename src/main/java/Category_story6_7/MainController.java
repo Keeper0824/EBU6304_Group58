@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import src.main.java.Login_story1_3.MainMenuApp;
 import src.main.java.Login_story1_3.User;
 import src.main.java.Session;
 
@@ -92,23 +91,23 @@ public class MainController {
         });
     }
 
-    @FXML
-    private void handleBackToMainMenu(ActionEvent event) {
-        try {
-            // Close current transaction window
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.close();
-
-            // Get the current user from MainMenuApp
-            User currentUser = MainMenuApp.getCurrentUser();
-
-            // Open MainMenu with the same user
-            new MainMenuApp(currentUser).start(new Stage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to return to Main Menu: " + e.getMessage());
-        }
-    }
+//    @FXML
+//    private void handleBackToMainMenu(ActionEvent event) {
+//        try {
+//            // Close current transaction window
+//            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//            currentStage.close();
+//
+//            // Get the current user from MainMenuApp
+//            User currentUser = MainMenuApp.getCurrentUser();
+//
+//            // Open MainMenu with the same user
+//            new MainMenuApp(currentUser).start(new Stage());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            showAlert("Error", "Failed to return to Main Menu: " + e.getMessage());
+//        }
+//    }
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

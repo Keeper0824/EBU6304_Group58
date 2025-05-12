@@ -69,6 +69,13 @@ public class LoginController {
         String password = passwordField.getText();
         String userCaptcha = captchaField.getText();
 
+        // 0. Email format check
+        if (!isValidEmail(email)) {
+            showAlert("Error", "Invalid email format!");
+            generateCaptcha();
+            return;
+        }
+
         // 1. CAPTCHA check
         if (!userCaptcha.equalsIgnoreCase(currentCaptcha)) {
             showAlert("Error", "Invalid verification code!");
@@ -126,6 +133,11 @@ public class LoginController {
         }
     }
 
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email != null && email.matches(emailRegex);
+    }
+
     /**
      * Encrypts a plaintext password using SHA-256 and Base64 encoding.
      *
@@ -146,6 +158,7 @@ public class LoginController {
      * @param password the plaintext password
      * @return a User object if credentials match; null otherwise
      */
+
     private User validateUser(String email, String password) {
         List<User> users = loadUsersFromCSV();
         try {
