@@ -15,6 +15,9 @@ import java.time.*;
 import java.time.format.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
 
 /**
  * Title      : ScheduleListController.java
@@ -140,10 +143,18 @@ public class ScheduleListController {
      * Starts a Timeline that runs every 5 seconds to check VIP expiry status.
      */
     private void startScheduledTask() {
-        Timeline tl = new Timeline(new KeyFrame(Duration.seconds(5), e -> checkVipAndNotify()));
+        // ─── 先手立刻检查一波 ───
+        checkVipAndNotify();
+
+        // ─── 然后每隔 1 秒再检查一次 ───
+        Timeline tl = new Timeline(
+                new KeyFrame(Duration.seconds(5),
+                        e -> checkVipAndNotify())
+        );
         tl.setCycleCount(Timeline.INDEFINITE);
         tl.play();
     }
+
 
     /**
      * Checks the current user's VIP expiry date; if expiring within 7 days,
@@ -230,12 +241,16 @@ public class ScheduleListController {
      */
     private void updateScheduleList() {
         reminders.sort(
-                Comparator.<ScheduleItem, Boolean>comparing(it -> !"VIP Expiry Reminder".equals(it.getTitle()))
-                        .thenComparing(ScheduleItem::getDate, Comparator.reverseOrder())
+                Comparator.comparing(ScheduleItem::getDate)      // ① 日期
+                        .reversed()                            //   倒序＝最新在前
+                        .thenComparing(ScheduleItem::getTitle) // ② 同一天按标题字典序
         );
+
         List<ScheduleItem> latest10 = reminders.size() > 10
                 ? reminders.subList(0, 10)
                 : new ArrayList<>(reminders);
+
         scheduleList.setItems(FXCollections.observableArrayList(latest10));
     }
+
 }
