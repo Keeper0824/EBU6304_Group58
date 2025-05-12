@@ -27,6 +27,16 @@ import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Title      : MainController.java
+ * Description: This JavaFX controller manages a financial transaction management system.
+ * It handles displaying, adding, deleting, and editing transactions, as well as providing budget analysis and suggestions.
+ *
+ * @author Wei Chen
+ * @version 1.0
+ * @author Zhengxuan Han
+ * @version 1.1
+ */
 public class MainController {
     private final String currentUser = Session.getCurrentNickname();
     @FXML
@@ -48,6 +58,10 @@ public class MainController {
 
     private ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the main controller, setting up the table view and loading transactions.
+     * This method is called when the FXML file is loaded.
+     */
     public void initialize() {
         transactionColumn.setCellValueFactory(new PropertyValueFactory<>("transaction"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -91,24 +105,12 @@ public class MainController {
         });
     }
 
-//    @FXML
-//    private void handleBackToMainMenu(ActionEvent event) {
-//        try {
-//            // Close current transaction window
-//            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//            currentStage.close();
-//
-//            // Get the current user from MainMenuApp
-//            User currentUser = MainMenuApp.getCurrentUser();
-//
-//            // Open MainMenu with the same user
-//            new MainMenuApp(currentUser).start(new Stage());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            showAlert("Error", "Failed to return to Main Menu: " + e.getMessage());
-//        }
-//    }
 
+    /**
+     * Displays an alert dialog with an error message.
+     * @param title The title of the alert dialog.
+     * @param message The error message to be displayed.
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -117,6 +119,10 @@ public class MainController {
         alert.showAndWait();
     }
 
+    /**
+     * Loads transactions from a CSV file and populates the table view.
+     * This method reads the CSV file, creates Transaction objects, and adds them to the table view.
+     */
     private void loadTransactions() {
         // 1. 动态拼路径
         String csvFilePath = "data/" + currentUser + "_transaction.csv";
@@ -176,6 +182,11 @@ public class MainController {
         tableView.setItems(list);
     }
 
+    /**
+     * Handles the add button click event.
+     * Opens the add transaction window and updates the table view if a new transaction is added.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleAdd(ActionEvent event) {
         try {
@@ -200,6 +211,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Handles the delete button click event.
+     * Deletes the selected transactions from the table view and the CSV file.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleDelete(ActionEvent event) {
         ObservableList<Transaction> selectedRows = tableView.getSelectionModel().getSelectedItems();
@@ -210,6 +226,10 @@ public class MainController {
         loadTransactions();
     }
 
+    /**
+     * Deletes a transaction from the CSV file.
+     * @param transaction The transaction to be deleted.
+     */
     private void deleteTransactionFromCSV(Transaction transaction) {
         List<String> lines = new ArrayList<>();
         String csvFilePath = "data/" + currentUser + "_transaction.csv";
@@ -234,11 +254,20 @@ public class MainController {
         }
     }
 
+    /**
+     * Handles the refresh button click event.
+     * Reloads the transactions from the CSV file and updates the table view.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleRefresh(ActionEvent event) {
         loadTransactions();
     }
 
+    /**
+     * Opens the edit window for a transaction.
+     * @param transaction The transaction to be edited.
+     */
     private void openEditWindow(Transaction transaction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/edit.fxml"));
@@ -270,6 +299,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Updates a transaction in the CSV file.
+     * @param oldTransaction The original transaction.
+     * @param newTransaction The updated transaction.
+     */
     private void updateTransactionInCSV(Transaction oldTransaction, Transaction newTransaction) {
         List<String> lines = new ArrayList<>();
         String csvFilePath = "data/" + currentUser + "_transaction.csv";
@@ -295,11 +329,19 @@ public class MainController {
         }
     }
 
-    // 新增的 getTransactions() 方法
+    /**
+     * Returns the list of transactions.
+     * @return The observable list of transactions.
+     */
     public ObservableList<Transaction> getTransactions() {
         return transactions;
     }
 
+    /**
+     * Handles the suggestion button click event.
+     * Opens the suggestion window.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleSuggestion(ActionEvent event) {
         try {
@@ -318,6 +360,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Handles the compare button click event.
+     * Checks if the current user is a VIP user and performs budget analysis if they are.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleCompare(ActionEvent event) {
         // Check VIP status first
@@ -353,6 +400,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Checks if the current user is a VIP user.
+     * @return true if the user is a VIP, false otherwise.
+     */
     private boolean isCurrentUserVIP() {
         String currentUser = Session.getCurrentNickname();
         if (currentUser == null || currentUser.isEmpty()) {
@@ -387,6 +438,10 @@ public class MainController {
         return false;
     }
 
+    /**
+     * Shows the analysis report in a new window.
+     * @param reportText The analysis report text to be displayed.
+     */
     private void showAnalysisReport(String reportText) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/AnalysisReport.fxml"));
@@ -403,6 +458,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Gets the current month's expenses from the table view.
+     * @return A list of transactions representing the current month's expenses.
+     */
     private List<Transaction> getCurrentMonthExpenses() {
         List<Transaction> expenses = new ArrayList<>();
         LocalDate now = LocalDate.now();
@@ -422,6 +481,13 @@ public class MainController {
         return expenses;
     }
 
+    /**
+     * Analyzes the budget with an AI service.
+     * @param budget The user's budget.
+     * @param expenses The list of expenses.
+     * @return The analysis report from the AI service.
+     * @throws Exception If there is an error in the analysis process.
+     */
     private String analyzeBudgetWithAI(double budget, List<Transaction> expenses) throws Exception {
         // Group expenses by category
         Map<String, Double> categorySpending = new HashMap<>();

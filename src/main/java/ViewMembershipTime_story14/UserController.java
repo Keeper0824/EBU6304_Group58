@@ -176,33 +176,4 @@ public class UserController {
             e.printStackTrace();
         }
     }
-
-    // Optional method to refresh UI after update; uncomment if needed.
-    // public void refreshMembershipInfo() { ... }
-
-    /*public void refreshMembershipInfo() {
-        // Load user data from CSV
-        User user = UserLoader.loadUserFromCSV("data/user.csv");
-
-        if (user != null) {
-            if (user.getMembershipExpiryDate() != null) {
-                greetingText.setText("Hello " + user.getUsername() + ",\nYour VIP expires on " + user.getMembershipExpiryDate());
-
-                if (user.isMembershipActive()) {
-                    membershipLabel.setText("Membership expires on: " + user.getMembershipExpiryDate() +
-                            " (" + user.getRemainingDays() + " days left)");
-                } else {
-                    membershipLabel.setText("Membership Expired");
-                    membershipLabel.setStyle("-fx-text-fill: red;");
-                }
-            } else {
-                greetingText.setText("Hello " + user.getUsername() + ",\nYou are not our VIP member yet.");
-                membershipLabel.setText("Membership Expired");
-                membershipLabel.setStyle("-fx-text-fill: red;");
-            }
-        } else {
-            membershipLabel.setText("No user found.");
-        }
-    }*/
-
 }

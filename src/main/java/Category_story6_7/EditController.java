@@ -11,26 +11,37 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Title      : EditController.java
+ * Description: This controller manages the edit transaction window in the Transaction Management System.
+ * It allows users to modify existing transactions and updates the changes in the CSV file.
+ *
+ * @author Wei Chen
+ * @version 1.0
+ */
 public class EditController {
-    private final String currentUser = Session.getCurrentNickname();
+    private final String currentUser = Session.getCurrentNickname(); // Current user's nickname
     @FXML
-    private TextField transactionField;
+    private TextField transactionField; // TextField for transaction name
     @FXML
-    private TextField priceField;
+    private TextField priceField; // TextField for transaction price
     @FXML
-    private ComboBox<String> classificationField;
+    private ComboBox<String> classificationField; // ComboBox for transaction classification
     @FXML
-    private DatePicker dateField;
+    private DatePicker dateField; // DatePicker for transaction date
     @FXML
-    private ComboBox<String> IOTypeField;
+    private ComboBox<String> IOTypeField; // ComboBox for transaction type (Income/Expense)
 
-    private Transaction transaction;
-    private boolean isEdited = false;
-    private Transaction transaction1;
+    private Transaction transaction; // The transaction being edited
+    private boolean isEdited = false; // Flag to indicate if the transaction has been edited
+    private Transaction transaction1; // Backup of the original transaction
 
+    /**
+     * Initializes the edit window by setting up the classification and IO type ComboBoxes.
+     */
     @FXML
     private void initialize() {
-        // 初始化分类下拉列表
+        // Initialize classification ComboBox
         classificationField.getItems().addAll(
                 "Income",
                 "Food",
@@ -44,14 +55,19 @@ public class EditController {
                 "Other goods and services"
         );
 
-        // 初始化IO类型下拉列表
+        // Initialize IO type ComboBox
         IOTypeField.getItems().addAll("Income", "Expense");
     }
 
+    /**
+     * Sets the transaction to be edited and populates the form fields with its data.
+     * @param transaction The transaction object to be edited.
+     */
     public void setTransaction(Transaction transaction) {
         this.transaction = transaction;
         transaction1 = transaction;
-        // 初始化表单数据
+
+        // Populate form fields with transaction data
         transactionField.setText(transaction.getTransaction());
         priceField.setText(String.valueOf(transaction.getPrice()));
         classificationField.setValue(transaction.getClassification());
@@ -59,48 +75,47 @@ public class EditController {
         IOTypeField.setValue(transaction.getIOType());
     }
 
+    /**
+     * Handles the save button click event.
+     * Updates the transaction data and writes the changes to the CSV file.
+     */
     @FXML
     private void handleSave() {
-        // 获取表单数据
+        // Get form data
         String newTransaction = transactionField.getText();
         double price = Double.parseDouble(priceField.getText());
         String classification = classificationField.getValue();
-        LocalDate date = dateField.getValue();  // 获取 DatePicker 的值
-        String formattedDate = formatDate(date);  // 格式化日期
+        LocalDate date = dateField.getValue();
+        String formattedDate = formatDate(date);
         String IOType = IOTypeField.getValue();
 
         String originalTransaction = this.transaction.getTransaction();
         String id = this.transaction.getId();
 
-        // 更新交易对象
+        // Update transaction object
         this.transaction.setTransaction(newTransaction);
         this.transaction.setPrice(price);
         this.transaction.setClassification(classification);
-        this.transaction.setDate(formattedDate);  // 使用格式化后的日期
+        this.transaction.setDate(formattedDate);
         this.transaction.setIOType(IOType);
 
-        System.out.println("Updated Transaction: " + this.transaction);
-
-        // 设置编辑标志为 true
+        // Set edited flag to true
         isEdited = true;
 
-        // 写入 CSV 文件
-        String filePath = "data/"+currentUser+"_transaction.csv"; // CSV 文件路径
+        // Update CSV file
+        String filePath = "data/" + currentUser + "_transaction.csv";
         List<String[]> lines = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             boolean found = false;
             while ((line = br.readLine()) != null) {
-                System.out.println("CSV Line: " + line); // 打印 CSV 文件中的每一行
                 String[] values = line.split(",");
 
                 if (values.length >= 6 && values[1].equals(originalTransaction)) {
-                    // 更新为新的值
                     lines.add(new String[]{id, newTransaction, String.valueOf(price), classification, formattedDate, IOType});
                     found = true;
                 } else {
-                    // 保留原始行
                     lines.add(values);
                 }
             }
@@ -121,11 +136,16 @@ public class EditController {
             e.printStackTrace();
         }
 
-        // 关闭编辑窗口
+        // Close edit window
         Stage stage = (Stage) transactionField.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Formats a LocalDate object to a string in "yyyy-MM-dd" format.
+     * @param date The LocalDate object to be formatted.
+     * @return The formatted date string.
+     */
     private String formatDate(LocalDate date) {
         if (date == null) {
             return "";
@@ -134,15 +154,27 @@ public class EditController {
         return date.format(formatter);
     }
 
+    /**
+     * Handles the cancel button click event.
+     * Sets the edited flag to false.
+     */
     @FXML
     private void handleCancel() {
         isEdited = false;
     }
 
+    /**
+     * Checks if the transaction has been edited.
+     * @return true if the transaction has been edited, false otherwise.
+     */
     public boolean isEdited() {
         return isEdited;
     }
 
+    /**
+     * Gets the edited transaction object.
+     * @return The edited transaction object.
+     */
     public Transaction getTransaction() {
         return transaction;
     }
