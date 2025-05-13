@@ -150,6 +150,22 @@ AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
   It successfully reads income/expense information from `InOutcome.csv` and renders analysis charts.
 - **Developer**: @Keeper0824 (Haoran Sun)
 
+## Feature #19: Reminder Application
+
+* **Classes**:`Main`, `ScheduleItem`, `ScheduleListController`
+* **Data**: `data/{currentUser}_reminders.csv` (and `data/user.csv` for VIP expiry)
+* **Description:**
+  ## UI Type: **JavaFX** (with FXML)
+  ## Components:
+    - **Text fields** for user input
+    - **Table (ListView)** to display stored reminder entries
+    - **Buttons** for adding and deleting reminders
+    - **Responsive Layout** with a user-friendly interface
+    - **Read-Only Table** to prevent accidental modifications
+* **Developer**: @jmmboy (Yudian Wang)
+
+
+
 ## Feature #20: Holiday Reminder
 
 * **Classes**: `ScheduleListController`, `ScheduleItem`, `UserLoader`
