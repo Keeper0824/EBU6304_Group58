@@ -11,11 +11,27 @@ import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Title      : ConsumptionHealthAnalyzer.java
+ * Description: This class analyzes the consumption health based on transaction data.
+ *              It uses an AI model to generate a financial health score and spending suggestions.
+ *
+ * @author Wei Muchi
+ * @version 1.0
+ */
 public class ConsumptionHealthAnalyzer {
     private static final String API_KEY = "sk-10283adb0b75447fa0d33a27ac317074";
     private static final String API_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
     private static final String MODEL_NAME = "qwen2.5-72b-instruct";
 
+    /**
+     * Gets the financial health score and spending suggestions based on the given transaction data.
+     *
+     * @param transactions a list of Transaction objects representing the transaction data
+     * @return a map containing the health score and suggestions
+     * @throws IOException          if an I/O error occurs during the API call
+     * @throws InterruptedException if the API call is interrupted
+     */
     public static Map<String, String> getHealthScoreAndSuggestions(List<Transaction> transactions) throws IOException, InterruptedException {
         System.out.println("\n[AI Model Call] Starting to get health score and suggestions...");
 
@@ -85,6 +101,12 @@ public class ConsumptionHealthAnalyzer {
         return result;
     }
 
+    /**
+     * Generates a prompt for the AI model to get the health score and suggestions based on the given transaction data.
+     *
+     * @param transactions a list of Transaction objects representing the transaction data
+     * @return the generated prompt string
+     */
     private static String generateHealthScorePrompt(List<Transaction> transactions) {
         StringBuilder prompt = new StringBuilder("Analyze these transactions and provide:\n");
         prompt.append("1. A financial health score (0-100)\n");

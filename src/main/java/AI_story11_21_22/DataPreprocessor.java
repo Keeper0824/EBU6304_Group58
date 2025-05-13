@@ -7,7 +7,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Title      : DataPreprocessor.java
+ * Description: This class is responsible for loading transaction data from a CSV file.
+ *              It validates the data format, skips invalid lines, and creates Transaction objects.
+ *
+ * @author Wei Muchi
+ * @version 1.0
+ */
 public class DataPreprocessor {
+
+    /**
+     * Loads transaction data from a given file path.
+     *
+     * @param filePath the path to the CSV file containing transaction data
+     * @return a list of Transaction objects representing the loaded data
+     * @throws IOException if the file does not exist or an error occurs during reading
+     */
     public static List<Transaction> loadTransactions(String filePath) throws IOException {
         System.out.println("\n【数据加载】开始加载交易数据...");
         System.out.println("【数据加载】文件路径: " + new File(filePath).getAbsolutePath());

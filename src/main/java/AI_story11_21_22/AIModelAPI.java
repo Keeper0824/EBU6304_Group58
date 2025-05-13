@@ -11,11 +11,28 @@ import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Title      : AIModelAPI.java
+ * Description: This class provides methods to interact with an AI model API.
+ *              It can predict the next month's consumption based on transaction data
+ *              and get AI advice based on a given prompt.
+ *
+ * @author Wei Muchi
+ * @version 1.0
+ */
 public class AIModelAPI {
     private static final String API_KEY = "sk-10283adb0b75447fa0d33a27ac317074";
     private static final String API_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
     private static final String MODEL_NAME = "qwen2.5-72b-instruct";
 
+    /**
+     * Predicts the total expenses for the next month based on the given transaction data.
+     *
+     * @param transactions a list of Transaction objects representing the transaction data
+     * @return the predicted total expenses for the next month
+     * @throws IOException          if an I/O error occurs during the API call
+     * @throws InterruptedException if the API call is interrupted
+     */
     public static double predictNextMonthConsumption(List<Transaction> transactions) throws IOException, InterruptedException {
         System.out.println("\n【AI模型调用】开始预测流程...");
 
@@ -78,6 +95,12 @@ public class AIModelAPI {
         return 0.0;
     }
 
+    /**
+     * Generates a prompt for the AI model based on the given transaction data.
+     *
+     * @param transactions a list of Transaction objects representing the transaction data
+     * @return the generated prompt string
+     */
     private static String generatePrompt(List<Transaction> transactions) {
         StringBuilder prompt = new StringBuilder("Predict the total expenses for the next month based on the following transactions:\n");
         for (Transaction transaction : transactions) {
@@ -98,6 +121,12 @@ public class AIModelAPI {
         return prompt.toString();
     }
 
+    /**
+     * Extracts the forecast value from the given forecast text.
+     *
+     * @param forecastText the text containing the forecast value
+     * @return the extracted forecast value as a double
+     */
     private static double extractForecastValue(String forecastText) {
         // 更健壮的数值提取方法
         forecastText = forecastText.replaceAll("[^0-9.]", ""); // 移除非数字字符
@@ -116,7 +145,14 @@ public class AIModelAPI {
         }
     }
 
-    // 新增：获取节省建议
+    /**
+     * Gets AI advice based on the given prompt text.
+     *
+     * @param promptText the prompt text for the AI model
+     * @return the AI advice as a string
+     * @throws IOException          if an I/O error occurs during the API call
+     * @throws InterruptedException if the API call is interrupted
+     */
     public static String getAIAdvice(String promptText) throws IOException, InterruptedException {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", MODEL_NAME);

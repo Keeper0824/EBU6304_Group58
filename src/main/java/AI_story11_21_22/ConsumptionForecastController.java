@@ -9,6 +9,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Title      : ConsumptionForecastController.java
+ * Description: This controller class is responsible for initializing the consumption forecast process.
+ *              It loads user transaction data, calls the AI prediction API, and updates the UI with the results.
+ *
+ * @author Wei Muchi
+ * @version 1.0
+ */
 public class ConsumptionForecastController {
 
     @FXML
@@ -18,6 +26,11 @@ public class ConsumptionForecastController {
     @FXML
     private Label suggestionsLabel;
 
+    /**
+     * Initializes the consumption forecast process.
+     * It checks user information, loads transaction data, calls the AI prediction API,
+     * and updates the UI with the forecast, health score, and suggestions.
+     */
     @FXML
     private void initialize() {
         try {
