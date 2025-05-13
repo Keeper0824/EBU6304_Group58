@@ -160,6 +160,23 @@ AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
   It successfully reads income/expense information from `InOutcome.csv` and renders analysis charts.
 - **Developer**: @Keeper0824 (Haoran Sun)
 
+
+
+## Feature #19: Reminder Application
+
+* **Classes**:`Main`, `ScheduleItem`, `ScheduleListController`
+* **Data**: `data/{currentUser}_reminders.csv` (and `data/user.csv` for VIP expiry)
+* **Description:**
+  ## UI Type: **JavaFX** (with FXML)
+  ## Components:
+    - **Text fields** for user input
+    - **Table (ListView)** to display stored reminder entries
+    - **Buttons** for adding and deleting reminders
+    - **Responsive Layout** with a user-friendly interface
+    - **Read-Only Table** to prevent accidental modifications
+* **Developer**: @jmmboy (Yudian Wang)
+
+
 ## Feature #20: Holiday Reminder
 
 * **Classes**: `ScheduleListController`, `ScheduleItem`, `UserLoader`
@@ -188,3 +205,31 @@ Today is Test Day. Remember to arrange your budget reasonably.
 - **Clicking** different buttons can lead to interfaces with different functions, and there is a back button to return to the main menu.
 - **Verified** with JUnit unit testing.
 - **Developer**: @hzxuan6628(Zhengxuan Han)
+
+
+
+## Feature #25: VIP Membership Recharge
+* **Classes**: `Main`, `RechargePopupController`, `User`, `UserController`, `UserLoader`
+* **Data**: `data/user.csv`
+* **Description:**
+- **UI Type**: JavaFX (with FXML)
+- **Components**:
+- **Text fields** for displaying user data such as VIP status and expiry date.
+- **Buttons** for opening the recharge popup and managing membership.
+- **Popup Window** for selecting the VIP membership duration (1 month, 3 months, or 12 months).
+- **Label** for displaying VIP status and remaining days until membership expiry.
+- **Responsive Layout** with a user-friendly interface for managing and updating VIP memberships.
+- **Developer**: @jmmboy (Yudian Wang)**
+
+
+
+## Feature #26: Financial Analysis System
+* **Classes**: `MainApp`, `FinancialController`
+* **Data**: `data/transaction.csv`
+* **Description:**  
+  The Financial Analysis System provides a graphical interface for tracking financial transactions, displaying income and expenses. The system loads transaction data from a CSV file and presents it in pie and bar charts.  
+- **Pie Chart**: Displays expenses by category.
+- **Bar Chart**: Shows the trend of monthly income vs. expenses.
+- **UI Enhancements**: The background features a gradient, and the charts are styled for better readability.
+- **Error Handling**: Displays error messages if the data cannot be loaded or processed correctly.
+- **Developer**: @jmmboy (Yudian Wang)**
