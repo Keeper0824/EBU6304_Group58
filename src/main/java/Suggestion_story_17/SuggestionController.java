@@ -16,22 +16,27 @@ import java.io.*;
 import java.util.List;
 
 /**
- * SuggestionController.java
+ * Title      : SuggestionController.java
+ * Description: Controller for the AI-based spending suggestion interface.
+ *              Reads the current user's transaction history, filters expenses,
+ *              sends a formatted prompt to the AI model, and displays generated saving suggestions.
+ *              Handles input validation, error display, and CSV parsing.
  *
- * Controller responsible for handling user interactions in the AI-based spending suggestion view.
- * It reads transaction data of the current user, sends it to the AI model, and displays the returned advice.
+ * @author Kaiyu Liu
+ * @version 1.0
  */
 public class SuggestionController {
 
     @FXML
-    private Text suggestionText;  // UI element displaying a heading or hint text
+    private Text suggestionText;  // Label or heading for the suggestion area
 
     @FXML
-    private TextArea suggestionArea;  // UI text area for displaying AI suggestions
+    private TextArea suggestionArea;  // Text area to display AI-generated saving advice
 
     /**
-     * Event handler for the "Get AI Advice" button.
-     * Retrieves the current user's transaction history and fetches spending advice from the AI model.
+     * Event handler triggered by the "Get AI Advice" button.
+     * Loads the current user's expense history, generates an AI prompt,
+     * and displays advice returned by the AI model.
      */
     @FXML
     private void handleGetAIAdvice() {
@@ -39,16 +44,16 @@ public class SuggestionController {
             // Get the currently logged-in user's nickname
             String currentUser = Session.getCurrentNickname();
 
-            // Construct the path to that user's transaction CSV file
+            // Construct file path to user's transaction CSV
             String csvFilePath = "data/" + currentUser + "_transaction.csv";
 
             // Load transaction data from file
             List<Transaction> transactions = readTransactionsFromCSV(csvFilePath);
 
-            // Generate the prompt and get advice from the AI model
+            // Generate a prompt and send it to the AI model
             String aiAdvice = AIModelAPI.getAIAdvice(generateAdvicePrompt(transactions));
 
-            // Display the result in the suggestion area
+            // Display AI response in the UI
             suggestionArea.setText(aiAdvice);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -57,21 +62,22 @@ public class SuggestionController {
     }
 
     /**
-     * Reads transaction records from a given CSV file path.
+     * Reads transaction records from a CSV file.
+     * Parses each line into a Transaction object, skipping malformed or invalid lines.
      *
-     * @param filePath Path to the transaction CSV file
-     * @return List of parsed Transaction objects
-     * @throws IOException If an error occurs during file reading
+     * @param filePath Absolute or relative path to the CSV file
+     * @return A list of Transaction objects parsed from the file
+     * @throws IOException If file reading fails
      */
-    private List<Transaction> readTransactionsFromCSV(String filePath) throws IOException {
+    public List<Transaction> readTransactionsFromCSV(String filePath) throws IOException {
         ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            br.readLine(); // Skip the header line
+            br.readLine(); // Skip header row
 
             while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue; // Skip empty lines
+                if (line.trim().isEmpty()) continue;
                 String[] data = line.split(",");
 
                 if (data.length != 6) {
@@ -98,30 +104,16 @@ public class SuggestionController {
     }
 
     /**
-     * Displays an alert popup with a given title and message.
+     * Generates a natural language prompt from the user's transaction data.
+     * Only includes transactions where IOType is "expense".
      *
-     * @param title   The title of the alert window
-     * @param message The message to display
+     * @param transactions List of transactions to summarize for the AI model
+     * @return A formatted string representing the AI input prompt
      */
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    /**
-     * Generates a prompt to be sent to the AI model based on user transaction data.
-     *
-     * @param transactions List of user transactions
-     * @return A formatted prompt string suitable for the AI model
-     */
-    private String generateAdvicePrompt(List<Transaction> transactions) {
+    public String generateAdvicePrompt(List<Transaction> transactions) {
         StringBuilder prompt = new StringBuilder("Based on the following transaction data, provide advice on how to save expenses:\n");
 
         for (Transaction transaction : transactions) {
-            // Only consider expenses for saving suggestions
             if ("expense".equals(transaction.getIOType())) {
                 prompt.append(transaction.getDate())
                         .append(", ")
@@ -138,5 +130,19 @@ public class SuggestionController {
 
         prompt.append("\nPlease provide specific suggestions on which categories to reduce spending on based on the above data.");
         return prompt.toString();
+    }
+
+    /**
+     * Displays an alert dialog box with a given error title and message.
+     *
+     * @param title   Title of the alert window
+     * @param message Message to display in the alert content
+     */
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

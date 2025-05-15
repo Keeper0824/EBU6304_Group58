@@ -16,7 +16,7 @@ import src.main.java.Login_story1_3.LoginApp;
  *              This class loads the corresponding FXML layout, sets a background, and manages
  *              navigation to the login screen upon logout.
  *
- * @author
+ * @author      Kaiyu Liu
  * @version     1.0
  */
 public class UserSearchApp extends Application {

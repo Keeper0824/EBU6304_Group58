@@ -19,7 +19,7 @@ import java.io.IOException;
  *              Supports search by nickname, and listing VIP or normal users.
  *              Loads user data from a CSV file, and supports logout functionality.
  *
- * @author
+ * @author      Kaiyu Liu
  * @version     1.0
  */
 public class UserSearchController {
