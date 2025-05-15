@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *              It validates the core functionality of the login controller,
  *              including email validation, password encryption, user authentication,
  *              and CSV data loading.
- *
+ * @author Zhengxuan Han
  * @version 1.0
  */
 class LoginControllerTest {

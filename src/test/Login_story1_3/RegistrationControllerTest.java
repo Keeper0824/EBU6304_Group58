@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Description: Test suite for the RegistrationController class.
  *              It validates the core functionality of the registration controller,
  *              including password encryption, email validation, and user ID generation.
- *
+ * @author Zhengxuan Han
  * @version 1.0
  */
 public class RegistrationControllerTest {
