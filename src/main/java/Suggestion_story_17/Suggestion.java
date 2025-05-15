@@ -7,56 +7,94 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Title       : Suggestion.java
+ * Description : Provides functionality to predict next month's expenses and offer saving suggestions
+ *               based on the user's transaction history.
+ *
+ * Main functionalities include:
+ * 1. Adding user transaction records;
+ * 2. Predicting next month's expenses using an AI model;
+ * 3. Retrieving saving suggestions from the AI model;
+ * 4. Compiling and displaying both prediction and suggestions.
+ *
+ * Author      :
+ * Version     : 1.0
+ */
 public class Suggestion {
 
-    private List<Transaction> transactions;  // 假设这是从数据库或CSV加载的交易记录
+    /**
+     * Stores user transaction records.
+     * These records are assumed to be loaded from a database or CSV file.
+     */
+    private List<Transaction> transactions;
 
+    /**
+     * Constructor that initializes the transaction list.
+     */
     public Suggestion() {
         this.transactions = new ArrayList<>();
     }
 
-    // 添加交易记录的方法（假设有一些外部方法添加交易）
+    /**
+     * Adds a transaction record to the list.
+     *
+     * @param transaction The user's transaction to add
+     */
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);
     }
 
-    // 获取下月的消费预测
+    /**
+     * Predicts the total expenses for the next month using the AI model.
+     *
+     * @return The predicted expense amount (in RMB)
+     * @throws IOException           if an I/O error occurs while accessing the model
+     * @throws InterruptedException  if the model call is interrupted
+     */
     public double getNextMonthPrediction() throws IOException, InterruptedException {
-        // 使用AI模型来预测下个月的消费
         return AIModelAPI.predictNextMonthConsumption(this.transactions);
     }
 
-    // 获取节省建议
+    /**
+     * Retrieves practical saving suggestions based on the current transaction history.
+     * Requests the AI model to return 3 concise, actionable tips.
+     *
+     * @return A string containing the saving suggestions
+     * @throws IOException           if an I/O error occurs while accessing the model
+     * @throws InterruptedException  if the model call is interrupted
+     */
     public String getSavingSuggestions() throws IOException, InterruptedException {
-        // 构建用于AI模型的提示词
-        StringBuilder prompt = new StringBuilder("以下是用户的支出记录，请提供节省建议：\n");
+        StringBuilder prompt = new StringBuilder("Here is the user's spending history. Please provide saving suggestions:\n");
+
         for (Transaction t : transactions) {
-            prompt.append(t.getDate()).append("，")
-                    .append(t.getDescription()).append("，¥")
-                    .append(t.getPrice()).append("，")
+            prompt.append(t.getDate()).append(", ")
+                    .append(t.getDescription()).append(", ¥")
+                    .append(t.getPrice()).append(", ")
                     .append(t.getClassification()).append("\n");
         }
-        prompt.append("请用简洁中文给出3条实际可行的削减开支建议：");
 
-        // 调用AI模型并获取建议
+        prompt.append("Please give 3 concise and practical suggestions for reducing expenses, in Chinese:");
+
         return AIModelAPI.getAIAdvice(prompt.toString());
     }
 
-    // 获取下个月的消费预测并展示节省建议
+    /**
+     * Generates a prediction for next month's expenses along with saving suggestions.
+     * Useful for UI display or user reports.
+     *
+     * @return A compiled string of predicted expenses and suggestions;
+     *         if an error occurs, returns a failure message.
+     */
     public String generatePredictionAndSuggestions() {
         try {
-            // 预测下个月的消费
             double predictedExpense = getNextMonthPrediction();
-            // 获取节省建议
             String savingSuggestions = getSavingSuggestions();
 
-            // 合成最终的结果
-            String result = "下月预测支出：¥" + predictedExpense + "\n\n节省建议：\n" + savingSuggestions;
-            return result;
+            return "Predicted Expense for Next Month: ¥" + predictedExpense + "\n\nSaving Suggestions:\n" + savingSuggestions;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            return "获取AI预测或建议失败，请稍后再试。";
+            return "Failed to retrieve AI prediction or suggestions. Please try again later.";
         }
     }
-
 }
