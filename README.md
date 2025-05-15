@@ -160,7 +160,15 @@ AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
   It successfully reads income/expense information from `InOutcome.csv` and renders analysis charts.
 - **Developer**: @Keeper0824 (Haoran Sun)
 
+## Feature #16: Consumption Reduction Suggestion System
 
+- **Classes**: `Transaction`, `AnalysisReportController`，`MainApp`
+- **Data**: `data/user.csv`
+- **Description**:
+    - AI model is introduced to analyze the transaction data over a period of time.
+    - Open a new window to display the analysis report.
+- Tested with JUnit to ensure the AI model grab the correct data from csv file and work operates effectively. 
+- **Developer**: @hzxuan6628(Zhengxuan Han)
 
 ## Feature #19: Reminder Application
 
