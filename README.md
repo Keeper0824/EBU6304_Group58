@@ -1,5 +1,160 @@
 # EBU6304_Group58 – Software Engineering Group Project
-AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
+
+## **AI Empowered Personal Finance Tracker - Beta v2.1**
+
+This project is a modern desktop application designed to help users manage and visualize personal finances efficiently. It is developed using Java 21 and JavaFX, adopting agile development methodologies, and leverages third-party libraries such as Jackson (for JSON processing) and JUnit (for unit testing). The system features a modular, extensible architecture and a user-friendly graphical interface, supporting data persistence, categorized transactions, visual analytics, and reminder functions.
+
+------
+
+## System Requirements
+
+### Hardware Requirements
+
+- **Processor:** Intel i3 8th Gen or equivalent (minimum)
+- **Memory:** 2 GB RAM (minimum), 4 GB or higher recommended
+- **Disk:** At least 200 MB free storage space
+- **Display:** 1600x900 resolution or higher recommended
+- **Operating System:** Windows 10/11, macOS, or Linux (tested on Windows 10/11)
+
+### Software Requirements
+
+- **JDK 21** (Make sure Java is installed and the environment variables are correctly configured)
+- **JavaFX SDK 21.0.7**
+- **IDE:** IntelliJ IDEA is recommended (Eclipse or other modularity-supporting IDEs are also compatible)
+- **Dependencies:** All required external libraries (e.g., jackson-core, jackson-databind, junit, etc.) are included in the `lib` directory.
+
+------
+
+## Directory Structure Overview
+
+For new contributors, the project directory is structured as follows:
+
+```
+├── src/main/java           # Main source code (Java packages, controllers, models)
+├── src/main/resources      # FXML, configuration, and static resources (stylesheets, images)
+├── src/test/java           # Unit test source code
+├── lib                     # Third-party library dependencies (.jar files)
+├── out                     # Compilation output directory
+├── docs                    # Project documentation and design reports
+└── README.md               # This README file
+```
+
+------
+
+## Project Setup and Execution
+
+### 1. Configure JavaFX Runtime Parameters
+
+Since JavaFX is no longer bundled with the JDK since version 11, you must specify the JavaFX SDK module path manually.
+
+**VM Options Example (for Windows):**
+
+```
+--module-path "C:\Program Files\Java\javafx-sdk-21.0.7\lib" --add-modules javafx.controls,javafx.fxml
+```
+
+> Please adjust the path to match your actual JavaFX SDK installation.
+
+### 2. Set the Working Directory
+
+Ensure the working directory in your run configuration points to the project root, for example:
+
+```
+E:\Lessons\University\ThirdYear\Software Engineer\Coursework\EBU6304_Group58
+```
+
+### 3. Main Class
+
+The main class to launch the application is:
+
+```
+src.main.java.Login_story1_3.LoginApp
+```
+
+Please verify that the package structure and class name match your actual code.
+
+------
+
+## Dependencies
+
+The following external libraries are used and located in the `lib` folder:
+
+- **Jackson Core, Annotations, Databind** (version 2.19.0-rc2)
+- **JUnit Jupiter** 5.9.0 and its related dependencies
+
+Please ensure all `.jar` files are correctly added to your project dependencies via your IDE.
+
+------
+
+## IDE Configuration Recommendations
+
+Below is an example based on **IntelliJ IDEA**:
+
+1. **Add Libraries via Maven:**
+  - Go to **File > Project Structure > Libraries**.
+  - Click the **+** button, select **From Maven**.
+  - Search for `jackson-databind` and add `com.fasterxml.jackson.core:jackson-databind:2.19.0-rc2`.
+  - Similarly, add `org.junit.jupiter:junit-jupiter:5.9.0`.
+2. **JavaFX Setup:**
+  - Open **Run > Edit Configurations**.
+  - Create a new Java Application configuration, set the main class as required.
+  - In the VM options field, add the previously mentioned module path option.
+  - Save and apply the configuration.
+
+------
+
+## Compilation and Execution
+
+- You can build and run the project directly using the IDE's "Run" button after the above configurations are complete.
+- **Note:** Command-line execution is not supported by default due to JavaFX resource pathing issues. If you need to run via command-line, you must adjust the paths for FXML and CSS resources in the code to absolute or compatible relative paths.
+
+------
+
+## Unit Testing
+
+The project uses **JUnit Jupiter** for unit tests.
+
+- Test cases are located in `src/test/java`.
+- All tests can be run directly from the IDE's built-in test runner.
+
+------
+
+## Version Control
+
+- **Git** is used for version management.
+- All team members are encouraged to follow standard git workflows:
+  - Branch-based development (feature branches, bugfix branches, etc.)
+  - Frequent commits with clear, concise messages
+  - Pull requests for code review and merging
+  - Resolve conflicts promptly and keep the main branch stable
+
+------
+
+## Known Issues and FAQ
+
+- **FXML or CSS File Not Found:** If you encounter errors related to FXML or CSS not being found, ensure all resource paths are correct and files are present under `src/main/resources`.
+- **Cannot Run via Command Line:** By default, this project is intended to be run from within an IDE. Command-line execution requires manual adjustment of FXML and CSS resource paths.
+- **Module/Class Not Found Errors:** Double-check your module path and classpath settings, and make sure your Java and JavaFX versions match the requirements.
+- **UI Occupies Full Screen:** If the application window appears oversized or occupies the entire screen, try disabling system display scaling or increasing your screen resolution.
+
+------
+
+## Code Style and Contribution Guidelines
+
+- The project follows the **MVC (Model-View-Controller)** design pattern:
+  - **Model:** POJO (JavaBean) classes for business/data logic (e.g., User, Transaction).
+  - **View:** JavaFX FXML files and CSS for UI layout and styling.
+  - **Controller:** Java classes annotated with `@FXML`, handling events, data binding, and communication between view and model.
+- Additionally, the project architecture can be mapped to the **Boundary-Entity-Controller (BEC)** pattern:
+  - **Boundary:** Represents the interface between the system and external actors, implemented as the FXML views and their associated controllers.
+  - **Entity:** Refers to the core business objects and data structures, implemented as JavaBeans (POJOs) such as `User`, `Transaction`, etc.
+  - **Controller:** Handles the application logic, orchestrates interactions between boundaries and entities, and may be further separated into service or use-case classes for complex business workflows.
+- Code should be clean, well-documented, and use meaningful naming conventions.
+- Please refer to the team documentation or contact the lead developer for further guidance.
+
+------
+
+### Contribution Guidelines
 
 ## Feature #1:Open Account
 - **Class**: `RegistrationApp`
@@ -273,3 +428,24 @@ Today is Test Day. Remember to arrange your budget reasonably.
 - **UI Enhancements**: The background features a gradient, and the charts are styled for better readability.
 - **Error Handling**: Displays error messages if the data cannot be loaded or processed correctly.
 - **Developer**: @jmmboy (Yudian Wang)**
+
+
+## Notes
+
+- Ensure your Java version is 21.
+- Verify that the JavaFX SDK version matches your JDK.
+- For Windows, paths with spaces must be enclosed in double quotes.
+- If you encounter "module not found" or "class not found" errors, check all configuration settings for correctness.
+
+------
+
+## Contact
+
+- **Email:** [jp2022213462@qmul.ac.uk](mailto:jp2022213462@qmul.ac.uk)
+- **Phone:** +86 157 2662 1095
+
+------
+
+If you need further help with configuration, contribution guidelines, or encounter any issues, please do not hesitate to reach out via email or phone.
+
+------
