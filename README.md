@@ -105,7 +105,20 @@ AI Empowered Personal Finance Tracker(Software Development Using Agile Methods)
   access. Non - members can access this information to make an informed decision on whether to join the membership.
 - Verified with JUnit unit testing.
 - **Developer**: @hzxuan6628(Zhengxuan Han)
-- 
+
+## Feature #11: Consumption habit Forecasting
+- **Class**: ConsumptionForecastController, AIModelAPI, DataPreprocessor
+- **Data**: data/{nickname}_transaction.csv
+- **Description**:
+  Utilizes machine learning algorithms to predict the next month's expenses based on historical transaction data and seasonal consumption patterns (e.g., Singles' Day).
+  Loads user transaction data from a CSV file, preprocesses the data, and sends it to the AI model API for prediction.
+  The AI model identifies and prioritizes seasonal events in historical data to provide accurate expense forecasts.
+  Ensures VIP users' expense predictions have an error rate of ≤15%.
+  If insufficient seasonal data exists for prediction, the system displays a warning and provides a conservative default estimate.
+  Displays the predicted expense amount to the user.
+- Verified with JUnit unit testing.
+- **Developer**: @lshmy(Muchi Wei)
+
 ## Feature #12: Card Management (Add, Delete & Validation)
 
 - **Classes**: `BankCardManager`, `AddCardListener`, `DeleteCardListener`
@@ -184,8 +197,6 @@ Developer: @xiaodonx (Kaiyu Liu)
 * **Classes**:`Main`, `ScheduleItem`, `ScheduleListController`
 * **Data**: `data/{currentUser}_reminders.csv` (and `data/user.csv` for VIP expiry)
 * **Description:**
-  ## UI Type: **JavaFX** (with FXML)
-  ## Components:
     - **Text fields** for user input
     - **Table (ListView)** to display stored reminder entries
     - **Buttons** for adding and deleting reminders
@@ -208,6 +219,18 @@ Today is Test Day. Remember to arrange your budget reasonably.
 * Verified with JUnit unit testing.
 * **Developer**: @Keeper0824 (Haoran Sun)
 
+## Feature #21: Financial Health Scoring
+
+- **Class:** ConsumptionHealthAnalyzer
+- **Data:** data/{nickname}_transaction.csv
+- **Description:**
+  - Calculates a monthly financial health score for the user based on factors like savings rate, debt ratio, and spending habits.
+  - Analyzes transaction data to assess the user's financial well-being and provides a score from 0 to 100.
+  - Generates actionable recommendations to help the user improve their financial health based on the score.
+  - The recommendations are tailored to the user's specific financial situation and habits.
+  - Displays the financial health score and corresponding recommendations to the user.
+- Verified with JUnit unit testing.
+- **Developer:** @lshmy(Muchi Wei)
 
 ## Feature #24: MainMenu Navigation
 
