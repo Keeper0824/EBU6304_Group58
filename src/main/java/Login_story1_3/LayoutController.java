@@ -266,7 +266,7 @@ public class LayoutController {
             sectionTitle.setText(title);
         } catch (Exception ex) {
             ex.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "加载失败: " + fxmlPath).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Fail to load: " + fxmlPath).showAndWait();
         }
     }
 }

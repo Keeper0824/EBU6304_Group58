@@ -17,42 +17,40 @@
 <StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="src.main.java.Login_story1_3.LoginController">
 
-    <!-- 背景图 -->
+    <!-- Background Image -->
     <ImageView fx:id="bgImageView" fitHeight="900" fitWidth="1600" preserveRatio="false">
         <image>
             <Image url="@images/2.jpg"/>
         </image>
     </ImageView>
 
-    <!-- 半透明遮罩 -->
+    <!-- Semi-transparent Overlay -->
     <Pane style="-fx-background-color: rgba(255,255,255,0); "/>
 
-    <!-- 大标题 -->
-
+    <!-- Main Title -->
     <Label text="AI-Empowered Personal Finance Tracker" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d; -fx-padding: 0 0 450 0;"/>
 
-
-    <!-- 内容面板 -->
+    <!-- Content Panel -->
     <GridPane alignment="CENTER" hgap="20" maxHeight="741.0" maxWidth="952.0" prefHeight="741.0" prefWidth="952.0"
               style="-fx-background-color: rgba(255,255,255,0); -fx-background-radius: 15;" vgap="30">
         <padding>
             <Insets bottom="40" left="40" right="40" top="40"/>
         </padding>
 
-        <!-- 邮箱 -->
+        <!-- Email -->
         <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Email:" GridPane.columnIndex="0"
                GridPane.rowIndex="0"/>
         <TextField fx:id="emailField" promptText="Enter your email" style="-fx-font-size: 18px; -fx-pref-height: 40px;"
                    GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-        <!-- 密码 -->
+        <!-- Password -->
         <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Password:" GridPane.columnIndex="0"
                GridPane.rowIndex="1"/>
         <PasswordField fx:id="passwordField" promptText="Enter your password"
                        style="-fx-font-size: 18px; -fx-pref-height: 40px;" GridPane.columnIndex="1"
                        GridPane.rowIndex="1"/>
 
-        <!-- 验证码 -->
+        <!-- Verification Code -->
         <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Verification Code:" GridPane.columnIndex="0"
                GridPane.rowIndex="2"/>
         <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -64,7 +62,7 @@
                     style="-fx-font-size: 14px; -fx-pref-height: 40px; -fx-pref-width: 80px;" text="Refresh"/>
         </HBox>
 
-        <!-- 按钮 -->
+        <!-- Buttons -->
         <HBox spacing="400" alignment="CENTER_RIGHT"
               GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2">
             <Button text="Login" onAction="#handleLogin"

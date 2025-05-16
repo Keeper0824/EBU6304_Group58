@@ -6,9 +6,8 @@
       fx:controller="src.main.java.Category_story6_7.MainController"
       style="-fx-padding: 10;-fx-alignment: TOP_CENTER"
       alignment="TOP_CENTER"
-      spacing="20">             <!-- 表格和按钮间距 -->
+      spacing="20">
 
-    <!-- 用 HBox 把 TableView 居中包裹 -->
     <HBox alignment="CENTER">
         <TableView fx:id="tableView" prefWidth="1200" prefHeight="560" style="-fx-font-size: 16;">
             <columns>

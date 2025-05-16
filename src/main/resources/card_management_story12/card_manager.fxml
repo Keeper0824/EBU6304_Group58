@@ -11,7 +11,7 @@
            fx:controller="src.main.java.card_management_story12.BankCardController"
            fx:id="rootContainer">
 
-    <!-- 输入表单视图 -->
+    <!-- Input Form View -->
     <VBox fx:id="inputView" alignment="CENTER" spacing="20"
           style="-fx-background-color: rgba(255,255,255,0.7);">
         <padding>
@@ -55,13 +55,13 @@
         </HBox>
     </VBox>
 
-    <!-- 显示GIF动画的视图 -->
+    <!-- GIF Animation View -->
     <VBox fx:id="gifView" alignment="CENTER" visible="false"
           style="-fx-background-color: rgba(255,255,255,0.7);">
         <padding>
             <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
         </padding>
-        <!-- 设置 gifImageView 为正方形，宽高均为500 -->
+        <!-- Set gifImageView to be a square, 500x500 -->
         <ImageView fx:id="gifImageView" fitWidth="500" fitHeight="500"/>
         <HBox spacing="30" alignment="CENTER">
             <Button text="Back to Card Entry" onAction="#handleBackToCardEntry"
@@ -70,7 +70,7 @@
         </HBox>
     </VBox>
 
-    <!-- 表格视图 -->
+    <!-- Table View -->
     <VBox fx:id="tableViewView" alignment="CENTER" visible="false"
           style="-fx-background-color: rgba(255,255,255,0.7);">
         <padding>

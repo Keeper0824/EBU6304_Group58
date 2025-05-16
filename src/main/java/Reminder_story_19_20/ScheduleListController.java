@@ -143,10 +143,8 @@ public class ScheduleListController {
      * Starts a Timeline that runs every 5 seconds to check VIP expiry status.
      */
     private void startScheduledTask() {
-        // ─── 先手立刻检查一波 ───
         checkVipAndNotify();
 
-        // ─── 然后每隔 1 秒再检查一次 ───
         Timeline tl = new Timeline(
                 new KeyFrame(Duration.seconds(5),
                         e -> checkVipAndNotify())
@@ -241,9 +239,9 @@ public class ScheduleListController {
      */
     private void updateScheduleList() {
         reminders.sort(
-                Comparator.comparing(ScheduleItem::getDate)      // ① 日期
-                        .reversed()                            //   倒序＝最新在前
-                        .thenComparing(ScheduleItem::getTitle) // ② 同一天按标题字典序
+                Comparator.comparing(ScheduleItem::getDate)
+                        .reversed()
+                        .thenComparing(ScheduleItem::getTitle)
         );
 
         List<ScheduleItem> latest10 = reminders.size() > 10

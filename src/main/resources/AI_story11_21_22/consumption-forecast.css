@@ -1,16 +1,16 @@
-/* 基础样式 */
+/* Base Styles */
 .root {
     -fx-font-family: "Segoe UI", Arial, sans-serif;
     -fx-padding: 20px;
 }
 
-/* 标题样式 */
+/* Title Label */
 .title-label {
     -fx-text-fill: #2c3e50;
     -fx-padding: 0 0 10px 0;
 }
 
-/* 卡片标题样式 */
+/* Card Title Label */
 .card-title-label {
     -fx-text-fill: #7f8c8d;
     -fx-font-size: 13px;
@@ -18,14 +18,14 @@
     -fx-padding: 10px 0 0 0;
 }
 
-/* 卡片副标题样式 */
+/* Card Subtitle Label */
 .card-subtitle-label {
     -fx-text-fill: #bdc3c7;
     -fx-font-size: 11px;
     -fx-padding: 0 0 10px 0;
 }
 
-/* 预测金额样式 */
+/* Forecast Value Label */
 .forecast-value-label {
     -fx-text-fill: #3498db;
     -fx-font-size: 32px;
@@ -33,7 +33,7 @@
     -fx-padding: 0 0 5px 0;
 }
 
-/* 评分样式 */
+/* Score Value Label */
 .score-value-label {
     -fx-text-fill: #2ecc71;
     -fx-font-size: 32px;
@@ -41,7 +41,7 @@
     -fx-padding: 0 0 5px 0;
 }
 
-/* 建议文本样式 */
+/* Suggestion Text Label */
 .suggestion-text-label {
     -fx-text-fill: #34495e;
     -fx-font-size: 13px;

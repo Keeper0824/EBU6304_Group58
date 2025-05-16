@@ -30,15 +30,15 @@ import java.util.regex.Pattern;
 public class BankCardController {
 
     @FXML private StackPane rootContainer;
-    @FXML private VBox inputView;      // 卡片录入界面
-    @FXML private VBox gifView;        // 显示GIF的界面
-    @FXML private VBox tableViewView;  // 表格视图
+    @FXML private VBox inputView;      // Card entry interface
+    @FXML private VBox gifView;        // GIF display interface
+    @FXML private VBox tableViewView;  // Table view interface
     @FXML private TableView<CreditCard> cardTable;
     @FXML private TextField cardNumberField;
     @FXML private TextField cardHolderField;
     @FXML private TextField expiryDateField;
     @FXML private TextField cvvField;
-    @FXML private ImageView gifImageView;  // 用于显示GIF
+    @FXML private ImageView gifImageView;  // For displaying GIF
 
     private ObservableList<CreditCard> cardData = FXCollections.observableArrayList();
 
@@ -73,7 +73,7 @@ public class BankCardController {
             );
             rootContainer.setBackground(new Background(background));
         } catch (Exception e) {
-            System.err.println("背景加载失败: " + e.getMessage());
+            System.err.println("Background loading failed: " + e.getMessage());
             rootContainer.setBackground(
                     new Background(
                             new BackgroundFill(
@@ -195,7 +195,7 @@ public class BankCardController {
             Stage currentStage = (Stage) rootContainer.getScene().getWindow();
             currentStage.close();
         } catch (Exception e) {
-            System.err.println("返回主菜单失败: " + e.getMessage());
+            System.err.println("Failed to return to main menu: " + e.getMessage());
         }
     }
 
@@ -212,19 +212,19 @@ public class BankCardController {
     private boolean validateInput(String cardNumber, String cardHolder,
                                   String expiryDate, String cvv) {
         if (!Pattern.matches("^\\d{16}$", cardNumber.replaceAll("\\s+", ""))) {
-            showError("卡号必须为16位数字");
+            showError("Card number must be a 16-digit number");
             return false;
         }
         if (!Pattern.matches("^[a-zA-Z]+(\\s[a-zA-Z]+)+$", cardHolder)) {
-            showError("持卡人姓名需包含全名");
+            showError("Card holder name must include full name");
             return false;
         }
         if (!Pattern.matches("^(0[1-9]|1[0-2])/\\d{2}$", expiryDate)) {
-            showError("有效期格式应为MM/YY");
+            showError("Expiry date format must be MM/YY");
             return false;
         }
         if (!Pattern.matches("^\\d{3}$", cvv)) {
-            showError("CVV必须为3位数字");
+            showError("CVV must be a 3-digit number");
             return false;
         }
         return true;
@@ -247,7 +247,7 @@ public class BankCardController {
      */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("输入验证错误");
+        alert.setTitle("Input Validation Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
