@@ -1,9 +1,9 @@
-/* VIP 中心专用样式 */
+/* VIP Center Exclusive Styles */
 .root {
     -fx-background-color: linear-gradient(to bottom right, #f5f7fa, #c3cfe2);
 }
 
-/* 会员状态标签 */
+/* Membership Status Label */
 .membership-label {
     -fx-font-size: 32px;
     -fx-font-weight: bold;
@@ -12,27 +12,27 @@
     -fx-alignment: center;
 }
 
-/* 有效会员样式 */
+/* Active Member Style */
 .membership-label.active {
     -fx-text-fill: white;
     -fx-background-color: linear-gradient(to right, #4facfe, #00f2fe);
     -fx-effect: dropshadow(gaussian, rgba(74, 172, 254, 0.5), 10, 0, 0, 5);
 }
 
-/* 过期会员样式 */
+/* Expired Member Style */
 .membership-label.expired {
     -fx-text-fill: white;
     -fx-background-color: linear-gradient(to right, #ff758c, #ff7eb3);
     -fx-effect: dropshadow(gaussian, rgba(255, 117, 140, 0.5), 10, 0, 0, 5);
 }
 
-/* 按钮悬停效果 */
+/* Button Hover Effect */
 .button:hover {
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);
 }
 
-/* 特权卡片效果 */
+/* Privilege Card Effect */
 .vbox {
     -fx-background-color: white;
     -fx-background-radius: 15;
@@ -44,7 +44,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);
     -fx-translate-y: -5;
 }
-
 
 /* VIP Recharge Button Styling */
 #vipRechargeButton {
