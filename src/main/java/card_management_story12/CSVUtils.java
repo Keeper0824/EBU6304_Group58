@@ -45,7 +45,7 @@ public class CSVUtils {
                 }
             }
         } catch (IOException e) {
-            System.out.println("无历史数据文件");
+            System.out.println("No historical data file found");
         }
         return cards;
     }
@@ -71,7 +71,7 @@ public class CSVUtils {
                 bw.newLine();
             }
         } catch (IOException e) {
-            System.err.println("保存失败: " + e.getMessage());
+            System.err.println("Save failed: " + e.getMessage());
         }
     }
 }

@@ -9,7 +9,6 @@
       spacing="40" alignment="CENTER">
 
     <VBox style="-fx-padding: 30 0 0 0;">
-    <!-- 饼图 -->
     <PieChart fx:id="pieChart" title="Expense Category Distribution"
               legendVisible="true" animated="false"
               prefWidth="700" prefHeight="560"
@@ -17,8 +16,6 @@
     </PieChart>
     </VBox>
 
-    <!-- 柱状图 -->
-    <!-- 添加内边距来增加上下空间 -->
     <VBox style="-fx-padding: 30 0 0 0;">
     <BarChart fx:id="barChart" title="Monthly Income vs. Expense Comparison"
               prefWidth="500" prefHeight="590" animated="false"

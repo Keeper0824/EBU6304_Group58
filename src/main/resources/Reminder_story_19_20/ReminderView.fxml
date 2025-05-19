@@ -10,7 +10,6 @@
             fx:controller="src.main.java.Reminder_story_19_20.ScheduleListController"
             stylesheets="@style.css">
 
-    <!-- 白色卡片容器 -->
     <VBox alignment="TOP_CENTER"
           spacing="20"
           AnchorPane.topAnchor="20"
@@ -22,7 +21,6 @@
                  -fx-padding: 30;
                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 5);">
 
-        <!-- 标题 -->
         <Label text="Notification"
                style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3a4a6d;">
             <effect>
@@ -32,7 +30,6 @@
             </effect>
         </Label>
 
-        <!-- 列表 -->
         <ListView fx:id="scheduleList" styleClass="card-list" />
 
     </VBox>

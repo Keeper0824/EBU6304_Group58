@@ -54,8 +54,5 @@ public class RechargePopupController {
         UserController userController = new UserController();
         userController.handleMembershipSelection(months, stage);
         stage.close();
-
-        // Uncomment if membership info needs immediate refresh:
-        // userController.refreshMembershipInfo();
     }
 }

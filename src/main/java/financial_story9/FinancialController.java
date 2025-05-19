@@ -17,6 +17,15 @@ import java.util.HashMap;
 import java.util.Map;
 import javafx.geometry.Insets;
 
+/**
+ * Title      : FinancialController.java
+ * Description: Controller class for handling financial data visualization.
+ *              Loads transaction data, processes it, and populates charts (pie and bar) with the data.
+ *              Also beautifies the user interface and handles errors.
+ *
+ * @author Yudian Wang
+ * @version 1.0
+ */
 public class FinancialController {
     private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String currentUser = Session.getCurrentNickname();
@@ -31,77 +40,95 @@ public class FinancialController {
     private final Map<YearMonth, Double> monthlyExpense = new HashMap<>();
     private final Map<String, Double> categoryExpenses = new HashMap<>();
 
+    /**
+     * Initializes the controller by loading data and populating the charts.
+     * Also beautifies the UI by setting a gradient background.
+     */
     @FXML
     public void initialize() {
         try {
-            loadData("data/" + currentUser + "_transaction.csv");
-            populateCharts();
-            beautifyUI();
+            loadData("data/" + currentUser + "_transaction.csv"); // Load transaction data from a CSV file
+            populateCharts(); // Populate the pie and bar charts with data
+            beautifyUI(); // Beautify the user interface with a gradient background
         } catch (IOException e) {
-            showErrorDialog("数据加载错误", e.getMessage());
+            showErrorDialog("Data Loading Error", e.getMessage()); // Show error dialog if data loading fails
             e.printStackTrace();
         }
     }
 
+    /**
+     * Loads transaction data from a CSV file and processes it.
+     * The data includes income, expense, category, and date information.
+     *
+     * @param filePath The file path of the CSV data.
+     * @throws IOException If an error occurs while reading the file.
+     */
     private void loadData(String filePath) throws IOException {
         Path path = Path.of(filePath);
         Files.readAllLines(path).forEach(line -> {
             String[] parts = line.split(",");
             if (parts.length == 6) {
                 try {
+                    // Parse the transaction data
                     LocalDate date = LocalDate.parse(parts[4].trim(), DATE_FORMATTER);
                     double amount = Double.parseDouble(parts[2].trim());
                     String category = parts[3].trim();
                     YearMonth month = YearMonth.from(date);
 
+                    // Process income and expense data
                     if (parts[5].trim().equals("income")) {
-                        monthlyIncome.merge(month, amount, Double::sum);
+                        monthlyIncome.merge(month, amount, Double::sum); // Sum income for each month
                     } else {
                         double expense = Math.abs(amount);
-                        monthlyExpense.merge(month, expense, Double::sum);
-                        categoryExpenses.merge(category, expense, Double::sum);
+                        monthlyExpense.merge(month, expense, Double::sum); // Sum expense for each month
+                        categoryExpenses.merge(category, expense, Double::sum); // Sum expenses by category
                     }
                 } catch (Exception e) {
-                    System.err.println("Invalid data line: " + line);
+                    System.err.println("Invalid data line: " + line); // Handle invalid data lines
                 }
             }
         });
     }
 
+    /**
+     * Populates the pie chart and bar chart with processed data.
+     * The pie chart shows category-wise expenses, while the bar chart shows monthly income and expenses.
+     */
     private void populateCharts() {
-        pieChart.getData().clear();
-        barChart.getData().clear();
+        pieChart.getData().clear(); // Clear previous data
+        barChart.getData().clear(); // Clear previous data
 
-        // 设置图表字体
+        // Set chart font size and style
         pieChart.setStyle("-fx-font-size: 16px; -fx-font-weight: bold");
         barChart.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 0 -20 0 0;");
 
-        // 饼图数据
+        // Populate pie chart with category expenses
         categoryExpenses.forEach((category, amount) ->
                 pieChart.getData().add(new PieChart.Data(category + " (" + amount + ")", amount))
         );
 
-        // 柱状图数据系列
+        // Prepare data series for bar chart (Income and Expense)
         XYChart.Series<String, Number> incomeSeries = new XYChart.Series<>();
         incomeSeries.setName("Income");
 
         XYChart.Series<String, Number> expenseSeries = new XYChart.Series<>();
         expenseSeries.setName("Expense");
 
+        // Add monthly data to the bar chart
         monthlyIncome.keySet().stream().sorted().forEach(month -> {
             String label = month.format(DateTimeFormatter.ofPattern("yyyy-MM"));
             incomeSeries.getData().add(new XYChart.Data<>(label, monthlyIncome.get(month)));
             expenseSeries.getData().add(new XYChart.Data<>(label, monthlyExpense.getOrDefault(month, 0.0)));
         });
 
-        barChart.getData().addAll(incomeSeries, expenseSeries);
-        yAxis.setAutoRanging(true);
+        barChart.getData().addAll(incomeSeries, expenseSeries); // Add both income and expense series to the bar chart
+        yAxis.setAutoRanging(true); // Automatically adjust the Y-axis range
 
-        // 设置坐标轴字体
+        // Set axis font size and label padding
         xAxis.setStyle("-fx-tick-label-font-size: 8px; -fx-label-padding: 10;");
         yAxis.setStyle("-fx-tick-label-font-size: 8px; -fx-label-padding: 10;");
 
-        // 设置图例字体
+        // Set legend font size for both charts
         barChart.lookupAll(".chart-legend").forEach(legend ->
                 legend.setStyle("-fx-font-size: 12px;")
         );
@@ -109,11 +136,14 @@ public class FinancialController {
                 legend.setStyle("-fx-font-size: 12px;")
         );
 
-        // ✅ 设置柱子间距，使其居中对齐
-        barChart.setCategoryGap(20);  // 分组之间的间距
-        barChart.setBarGap(5);        // 同组柱子之间的间距
+        // Adjust bar spacing for the bar chart
+        barChart.setCategoryGap(20);  // Gap between groups of bars
+        barChart.setBarGap(5);        // Gap between bars in the same group
     }
 
+    /**
+     * Beautifies the user interface by setting a gradient background for the root pane.
+     */
     private void beautifyUI() {
         if (rootPane != null) {
             Stop[] stops = new Stop[] {
@@ -128,11 +158,17 @@ public class FinancialController {
         }
     }
 
+    /**
+     * Displays an error dialog with the given title and message.
+     *
+     * @param title The title of the error dialog.
+     * @param message The content message to be displayed.
+     */
     private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.showAndWait();
+        alert.showAndWait(); // Show the error dialog and wait for user response
     }
 }

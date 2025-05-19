@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import src.main.java.Login_story1_3.MainMenuApp;
 import src.main.java.Login_story1_3.User;
 import src.main.java.Session;
 
@@ -28,8 +27,20 @@ import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Title      : MainController.java
+ * Description: This JavaFX controller manages a financial transaction management system.
+ *              It handles displaying, adding, deleting, and editing transactions,
+ *              as well as providing budget analysis and suggestions.
+ *
+ * @author Wei Chen
+ * @version 1.0
+ * @author Zhengxuan Han
+ * @version 1.1
+ */
 public class MainController {
     private final String currentUser = Session.getCurrentNickname();
+
     @FXML
     private TableColumn<Transaction, Void> actionsColumn;
     @FXML
@@ -49,17 +60,22 @@ public class MainController {
 
     private ObservableList<Transaction> transactions = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the main controller, setting up the table view and loading transactions.
+     * This method is called when the FXML file is loaded.
+     */
     public void initialize() {
         transactionColumn.setCellValueFactory(new PropertyValueFactory<>("transaction"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         classificationColumn.setCellValueFactory(new PropertyValueFactory<>("classification"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         IOColumn.setCellValueFactory(new PropertyValueFactory<>("IOType"));
+        tableView.setPlaceholder(new Label("No data available"));
 
-        // 让所有列自动平铺，去掉右侧空白
+        // Make all columns auto-resize and remove empty space on the right
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        // 全部文字居中
+        // Center text in all columns
         transactionColumn.setStyle("-fx-alignment: CENTER;");
         priceColumn.setStyle("-fx-alignment: CENTER;");
         classificationColumn.setStyle("-fx-alignment: CENTER;");
@@ -75,7 +91,7 @@ public class MainController {
             {
                 btn.setOnAction(e -> {
                     Transaction item = getTableView().getItems().get(getIndex());
-                    // 弹出编辑窗口
+                    // Open edit window
                     openEditWindow(item);
                 });
             }
@@ -92,24 +108,11 @@ public class MainController {
         });
     }
 
-    @FXML
-    private void handleBackToMainMenu(ActionEvent event) {
-        try {
-            // Close current transaction window
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            currentStage.close();
-
-            // Get the current user from MainMenuApp
-            User currentUser = MainMenuApp.getCurrentUser();
-
-            // Open MainMenu with the same user
-            new MainMenuApp(currentUser).start(new Stage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to return to Main Menu: " + e.getMessage());
-        }
-    }
-
+    /**
+     * Displays an alert dialog with an error message.
+     * @param title The title of the alert dialog.
+     * @param message The error message to be displayed.
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -118,44 +121,48 @@ public class MainController {
         alert.showAndWait();
     }
 
+    /**
+     * Loads transactions from a CSV file and populates the table view.
+     * This method reads the CSV file, creates Transaction objects, and adds them to the table view.
+     */
     private void loadTransactions() {
-        // 1. 动态拼路径
+        // 1. Dynamically build the file path
         String csvFilePath = "data/" + currentUser + "_transaction.csv";
         File csvFile = new File(csvFilePath);
 
-        // 检查currentUser是否为空或null
+        // Check if currentUser is null or empty
         if (currentUser == null || currentUser.isEmpty()) {
-            showAlert("Error", "当前用户信息获取失败，无法加载交易数据");
+            showAlert("Error", "Failed to retrieve current user information, cannot load transactions");
             return;
         }
 
-        // 2. 如果文件不存在，就创建父目录和文件，并写入表头
+        // 2. If the file doesn't exist, create the directory and file, then write header
         if (!csvFile.exists()) {
             try {
-                csvFile.getParentFile().mkdirs(); // 确保 data/ 目录存在
+                csvFile.getParentFile().mkdirs(); // Ensure data/ directory exists
                 try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFile))) {
-                    // 根据你的 Transaction 字段顺序写表头
+                    // Write header based on Transaction fields
                     bw.write("Id,Transaction,Price,Classification,Date,IOType");
                     bw.newLine();
                 }
-                System.out.println("已为用户 " + currentUser + " 创建新的交易文件：" + csvFilePath);
+                System.out.println("Created new transaction file for user " + currentUser + ": " + csvFilePath);
             } catch (IOException e) {
                 e.printStackTrace();
-                showAlert("Error", "无法创建交易文件：" + e.getMessage());
+                showAlert("Error", "Cannot create transaction file: " + e.getMessage());
                 return;
             }
         }
 
-        // 3. 读取并加载交易
+        // 3. Read and load transactions
         ObservableList<Transaction> list = FXCollections.observableArrayList();
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             String line;
-            br.readLine(); // 跳过表头
+            br.readLine(); // Skip header
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
                 String[] data = line.split(",");
                 if (data.length != 6) {
-                    System.err.println("CSV文件格式错误，该行数据字段数量不正确: " + line);
+                    System.err.println("CSV format error: incorrect number of fields: " + line);
                     continue;
                 }
                 try {
@@ -165,34 +172,39 @@ public class MainController {
                     );
                     list.add(tx);
                 } catch (NumberFormatException e) {
-                    System.err.println("价格数据格式错误: " + data[2]);
+                    System.err.println("Price format error: " + data[2]);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "加载交易时出错：" + e.getMessage());
+            showAlert("Error", "Error loading transactions: " + e.getMessage());
         }
 
-        // 4. 将数据绑定到表格
+        // 4. Bind data to the table
         tableView.setItems(list);
     }
 
+    /**
+     * Handles the add button click event.
+     * Opens the add transaction window and updates the table view if a new transaction is added.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleAdd(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/add.fxml"));
             Pane addPane = loader.load();
-            AddController addController = loader.getController(); // 获取子控制器
+            AddController addController = loader.getController();
             Stage stage = new Stage();
             stage.setScene(new Scene(addPane));
             stage.show();
 
-            // 等待添加窗口关闭
+            // Wait for add window to close
             stage.setOnHidden(e -> {
-                if (addController.isAdded()) { // 检查是否添加了新数据
-                    Transaction newTransaction = addController.getTransaction(); // 获取新添加的交易
-                    transactions.add(newTransaction); // 添加到数据列表
-                    tableView.refresh(); // 刷新表格
+                if (addController.isAdded()) { // Check if new data was added
+                    Transaction newTransaction = addController.getTransaction();
+                    transactions.add(newTransaction);
+                    tableView.refresh();
                 }
                 loadTransactions();
             });
@@ -201,6 +213,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Handles the delete button click event.
+     * Deletes the selected transactions from the table view and the CSV file.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleDelete(ActionEvent event) {
         ObservableList<Transaction> selectedRows = tableView.getSelectionModel().getSelectedItems();
@@ -211,6 +228,10 @@ public class MainController {
         loadTransactions();
     }
 
+    /**
+     * Deletes a transaction from the CSV file.
+     * @param transaction The transaction to be deleted.
+     */
     private void deleteTransactionFromCSV(Transaction transaction) {
         List<String> lines = new ArrayList<>();
         String csvFilePath = "data/" + currentUser + "_transaction.csv";
@@ -235,31 +256,40 @@ public class MainController {
         }
     }
 
+    /**
+     * Handles the refresh button click event.
+     * Reloads the transactions from the CSV file and updates the table view.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleRefresh(ActionEvent event) {
         loadTransactions();
     }
 
+    /**
+     * Opens the edit window for a transaction.
+     * @param transaction The transaction to be edited.
+     */
     private void openEditWindow(Transaction transaction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/edit.fxml"));
             Pane editPane = loader.load();
-            EditController editController = loader.getController(); // 获取编辑窗口的控制器
-            editController.setTransaction(transaction); // 将当前选中的交易数据传递给编辑控制器
+            EditController editController = loader.getController();
+            editController.setTransaction(transaction);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(editPane));
             stage.show();
 
-            // 等待编辑窗口关闭
+            // Wait for edit window to close
             stage.setOnHidden(e -> {
-                if (editController.isEdited()) { // 检查是否进行了编辑
-                    Transaction editedTransaction = editController.getTransaction(); // 获取编辑后的交易数据
+                if (editController.isEdited()) {
+                    Transaction editedTransaction = editController.getTransaction();
                     int index = transactions.indexOf(transaction);
                     if (index != -1) {
-                        transactions.set(index, editedTransaction); // 更新表格数据
+                        transactions.set(index, editedTransaction);
                         tableView.refresh();
-                        updateTransactionInCSV(transaction, editedTransaction); // 更新CSV文件
+                        updateTransactionInCSV(transaction, editedTransaction);
                     } else {
                         System.err.println("Transaction not found in the list: " + transaction);
                     }
@@ -271,6 +301,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Updates a transaction in the CSV file.
+     * @param oldTransaction The original transaction.
+     * @param newTransaction The updated transaction.
+     */
     private void updateTransactionInCSV(Transaction oldTransaction, Transaction newTransaction) {
         List<String> lines = new ArrayList<>();
         String csvFilePath = "data/" + currentUser + "_transaction.csv";
@@ -296,19 +331,27 @@ public class MainController {
         }
     }
 
-    // 新增的 getTransactions() 方法
+    /**
+     * Returns the list of transactions.
+     * @return The observable list of transactions.
+     */
     public ObservableList<Transaction> getTransactions() {
         return transactions;
     }
 
+    /**
+     * Handles the suggestion button click event.
+     * Opens the suggestion window.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleSuggestion(ActionEvent event) {
         try {
-            // 确保路径正确，相对于 resources 目录
+            // Ensure the path is correct, relative to the resources directory
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/suggestion.fxml"));
             Pane suggestionPane = loader.load();
 
-            // 打开新的窗口并显示建议页面
+            // Open a new window and display suggestions
             Stage suggestionStage = new Stage();
             suggestionStage.setTitle("Suggestion");
             suggestionStage.setScene(new Scene(suggestionPane));
@@ -319,6 +362,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Handles the compare button click event.
+     * Checks if the current user is a VIP user and performs budget analysis if they are.
+     * @param event The action event triggered by the button click.
+     */
     @FXML
     private void handleCompare(ActionEvent event) {
         // Check VIP status first
@@ -337,7 +385,7 @@ public class MainController {
             // Rest of the existing compare logic...
             List<Transaction> currentExpenses = getCurrentMonthExpenses();
             if (currentExpenses.isEmpty()) {
-                showAlert("Info", "No expenses recorded for current month");
+                showAlert("Info", "No expenses recorded for the current month");
                 return;
             }
 
@@ -354,6 +402,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Checks if the current user is a VIP user.
+     * @return true if the user is a VIP, false otherwise.
+     */
     private boolean isCurrentUserVIP() {
         String currentUser = Session.getCurrentNickname();
         if (currentUser == null || currentUser.isEmpty()) {
@@ -361,23 +413,23 @@ public class MainController {
             return false;
         }
 
-        String csvFilePath = "data/user.csv"; // 或改用完整路径
+        String csvFilePath = "data/user.csv"; // or use the full path instead
         File csvFile = new File(csvFilePath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
             String line;
-            br.readLine(); // 跳过表头
+            br.readLine(); // Skip the header
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) continue;
 
                 String[] data = line.split(",");
-                System.out.println("Debug - CSV line: " + Arrays.toString(data)); // 调试输出
+                System.out.println("Debug - CSV line: " + Arrays.toString(data)); // Debug
 
-                // 检查列数是否足够，且用户名匹配（忽略大小写和空格）
+                // Check if the number of columns is sufficient and if the user names match (ignoring case and Spaces).
                 if (data.length >= 7 && data[1].trim().equalsIgnoreCase(currentUser.trim())) {
                     boolean isVIP = "VIP".equalsIgnoreCase(data[6].trim());
-                    System.out.println("Debug - VIP status: " + isVIP); // 调试输出
+                    System.out.println("Debug - VIP status: " + isVIP); // Debug
                     return isVIP;
                 }
             }
@@ -388,6 +440,10 @@ public class MainController {
         return false;
     }
 
+    /**
+     * Shows the analysis report in a new window.
+     * @param reportText The analysis report text to be displayed.
+     */
     private void showAnalysisReport(String reportText) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/src/main/resources/Category_story6_7/AnalysisReport.fxml"));
@@ -396,14 +452,18 @@ public class MainController {
             reportController.setReportText(reportText);
 
             Stage stage = new Stage();
-            stage.setScene(new Scene(reportPane, 1200, 675)); // 设置窗口大小为 1600x900
-            stage.setResizable(false); // 禁止调整窗口大小
+            stage.setScene(new Scene(reportPane, 1200, 675));
+            stage.setResizable(false);
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Gets the current month's expenses from the table view.
+     * @return A list of transactions representing the current month's expenses.
+     */
     private List<Transaction> getCurrentMonthExpenses() {
         List<Transaction> expenses = new ArrayList<>();
         LocalDate now = LocalDate.now();
@@ -417,12 +477,19 @@ public class MainController {
                     expenses.add(tx);
                 }
             } catch (Exception e) {
-                System.err.println("交易日期格式错误，无法解析: " + tx.getDate());
+                System.err.println("The transaction date format is incorrect and cannot be parsed: " + tx.getDate());
             }
         }
         return expenses;
     }
 
+    /**
+     * Analyzes the budget with an AI service.
+     * @param budget The user's budget.
+     * @param expenses The list of expenses.
+     * @return The analysis report from the AI service.
+     * @throws Exception If there is an error in the analysis process.
+     */
     private String analyzeBudgetWithAI(double budget, List<Transaction> expenses) throws Exception {
         // Group expenses by category
         Map<String, Double> categorySpending = new HashMap<>();
@@ -488,7 +555,7 @@ public class MainController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new Exception("AI分析请求失败: " + e.getMessage());
+            throw new Exception("AI analysis request failed:" + e.getMessage());
         }
 
 

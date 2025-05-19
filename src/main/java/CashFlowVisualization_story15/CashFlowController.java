@@ -78,10 +78,15 @@ public class CashFlowController {
     public void initialize() {
         setupCharts();
         setupLabels();
+        transactions = new ArrayList<>();
+        updateCharts();
+
         try {
             loadTransactionsFromCSV("data/" + currentUser + "_transaction.csv");
         } catch (IOException e) {
             System.err.println("Failed to load transactions: " + e.getMessage());
+            transactions = new ArrayList<>();
+            updateCharts();
         }
     }
 

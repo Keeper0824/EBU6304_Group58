@@ -11,23 +11,40 @@ import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Title      : AIModelAPI.java
+ * Description: This class provides methods to interact with an AI model API.
+ *              It can predict the next month's consumption based on transaction data
+ *              and get AI advice based on a given prompt.
+ *
+ * @author Wei Muchi
+ * @version 1.0
+ */
 public class AIModelAPI {
     private static final String API_KEY = "sk-10283adb0b75447fa0d33a27ac317074";
     private static final String API_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
     private static final String MODEL_NAME = "qwen2.5-72b-instruct";
 
+    /**
+     * Predicts the total expenses for the next month based on the given transaction data.
+     *
+     * @param transactions a list of Transaction objects representing the transaction data
+     * @return the predicted total expenses for the next month
+     * @throws IOException          if an I/O error occurs during the API call
+     * @throws InterruptedException if the API call is interrupted
+     */
     public static double predictNextMonthConsumption(List<Transaction> transactions) throws IOException, InterruptedException {
-        System.out.println("\n【AI模型调用】开始预测流程...");
+        System.out.println("\n[AI Model Invocation] Starting the prediction process...");
 
-        // 生成提示词
+        // Generate the prompt
         String prompt = generatePrompt(transactions);
-        System.out.println("【AI模型调用】生成的提示词:\n" + prompt);
+        System.out.println("[AI Model Invocation] Generated prompt words:\n" + prompt);
 
-        // 准备请求体
+        // Prepare request body
         Map<String, Object> requestBody = new HashMap<>();
-        requestBody.put("model", "qwen2.5-72b-instruct");
+        requestBody.put("model", MODEL_NAME);
 
-        // 构建 messages 参数
+        // Build messages parameter
         List<Map<String, String>> messages = new ArrayList<>();
         Map<String, String> message = new HashMap<>();
         message.put("role", "user");
@@ -37,12 +54,12 @@ public class AIModelAPI {
 
         requestBody.put("max_tokens", 50);
 
-        // 打印请求体
+        // Print request body
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBody = objectMapper.writeValueAsString(requestBody);
-        System.out.println("【AI模型调用】请求体JSON:\n" + jsonBody);
+        System.out.println("[AI Model Invocation] Request body JSON:\n" + jsonBody);
 
-        // 创建HTTP请求
+        // Create HTTP request
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL))
@@ -51,14 +68,14 @@ public class AIModelAPI {
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
-        System.out.println("【AI模型调用】发送请求到API...");
+        System.out.println("[AI Model Invocation] Sending request to API...");
 
-        // 发送请求
+        // Send request
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println("【AI模型调用】收到API响应，状态码: " + response.statusCode());
-        System.out.println("【AI模型调用】响应内容:\n" + response.body());
+        System.out.println("[AI Model Invocation] Received API response, status code: " + response.statusCode());
+        System.out.println("[AI Model Invocation] Response content:\n" + response.body());
 
-        // 解析响应
+        // Parse response
         Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
         List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
 
@@ -66,22 +83,28 @@ public class AIModelAPI {
             Map<String, Object> choice = choices.get(0);
             Map<String, Object> messageMap = (Map<String, Object>) choice.get("message");
             String forecastText = (String) messageMap.get("content");
-            System.out.println("【AI模型调用】原始预测文本: " + forecastText);
+            System.out.println("[AI Model Invocation] Original forecast text: " + forecastText);
 
             double forecast = extractForecastValue(forecastText);
-            System.out.println("【AI模型调用】提取后的预测值: " + forecast);
+            System.out.println("[AI Model Invocation] Extracted forecast value: " + forecast);
 
             return forecast;
         }
 
-        System.out.println("【AI模型调用】警告: 未获取到有效预测结果");
+        System.out.println("[AI Model Invocation] Warning: No valid prediction result obtained");
         return 0.0;
     }
 
+    /**
+     * Generates a prompt for the AI model based on the given transaction data.
+     *
+     * @param transactions a list of Transaction objects representing the transaction data
+     * @return the generated prompt string
+     */
     private static String generatePrompt(List<Transaction> transactions) {
         StringBuilder prompt = new StringBuilder("Predict the total expenses for the next month based on the following transactions:\n");
         for (Transaction transaction : transactions) {
-            if ("expense".equals(transaction.getIoType())) {  // 只统计支出
+            if ("expense".equals(transaction.getIoType())) {  // Only count expenses
                 prompt.append(transaction.getDate())
                         .append(", ")
                         .append(transaction.getDescription())
@@ -94,29 +117,42 @@ public class AIModelAPI {
                         .append("\n");
             }
         }
-        prompt.append("请预测下个月的总支出金额（只返回数字，不要包含任何其他文字或符号）: ");
+        prompt.append("Please predict the total expenses for the next month (return only the number, without any other words or symbols): ");
         return prompt.toString();
     }
 
+    /**
+     * Extracts the forecast value from the given forecast text.
+     *
+     * @param forecastText the text containing the forecast value
+     * @return the extracted forecast value as a double
+     */
     private static double extractForecastValue(String forecastText) {
-        // 更健壮的数值提取方法
-        forecastText = forecastText.replaceAll("[^0-9.]", ""); // 移除非数字字符
+        // More robust numeric extraction method
+        forecastText = forecastText.replaceAll("[^0-9.]", ""); // Remove non-numeric characters
         if (forecastText.isEmpty()) {
-            System.err.println("【数值提取】警告: 预测文本中未找到有效数字");
+            System.err.println("[Numeric Extraction] Warning: No valid number found in the forecast text");
             return 0.0;
         }
 
         try {
             double value = Double.parseDouble(forecastText);
-            System.out.println("【数值提取】成功提取数值: " + value);
+            System.out.println("[Numeric Extraction] Successfully extracted value: " + value);
             return value;
         } catch (NumberFormatException e) {
-            System.err.println("【数值提取】错误: 无法解析预测文本: " + forecastText);
+            System.err.println("[Numeric Extraction] Error: Unable to parse forecast text: " + forecastText);
             return 0.0;
         }
     }
 
-    // 新增：获取节省建议
+    /**
+     * Gets AI advice based on the given prompt text.
+     *
+     * @param promptText the prompt text for the AI model
+     * @return the AI advice as a string
+     * @throws IOException          if an I/O error occurs during the API call
+     * @throws InterruptedException if the API call is interrupted
+     */
     public static String getAIAdvice(String promptText) throws IOException, InterruptedException {
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", MODEL_NAME);
@@ -149,6 +185,6 @@ public class AIModelAPI {
             Map<String, Object> messageMap = (Map<String, Object>) choice.get("message");
             return (String) messageMap.get("content");
         }
-        return "未获取到建议，请重试。";
+        return "No advice received, please try again.";
     }
 }

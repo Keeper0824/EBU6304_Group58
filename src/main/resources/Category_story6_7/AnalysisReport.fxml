@@ -10,7 +10,6 @@
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
-    <!-- 标题，字体大小为28px，加粗 -->
     <Label text="Budget Analysis Report" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
     <ScrollPane fitToWidth="true" pannable="true" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc;">
         <VBox fx:id="reportContent" alignment="TOP_LEFT" spacing="10" style="-fx-font-size: 20px;">

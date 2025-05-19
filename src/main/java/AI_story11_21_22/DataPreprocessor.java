@@ -7,17 +7,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Title      : DataPreprocessor.java
+ * Description: This class is responsible for loading transaction data from a CSV file.
+ *              It validates the data format, skips invalid lines, and creates Transaction objects.
+ *
+ * @author Wei Muchi
+ * @version 1.0
+ */
 public class DataPreprocessor {
+
+    /**
+     * Loads transaction data from a given file path.
+     *
+     * @param filePath the path to the CSV file containing transaction data
+     * @return a list of Transaction objects representing the loaded data
+     * @throws IOException if the file does not exist or an error occurs during reading
+     */
     public static List<Transaction> loadTransactions(String filePath) throws IOException {
-        System.out.println("\n【数据加载】开始加载交易数据...");
-        System.out.println("【数据加载】文件路径: " + new File(filePath).getAbsolutePath());
+        System.out.println("\n[Data Loading] Starting to load transaction data...");
+        System.out.println("[Data Loading] File path: " + new File(filePath).getAbsolutePath());
 
         List<Transaction> transactions = new ArrayList<>();
         File file = new File(filePath);
 
-        if(!file.exists()) {
-            System.err.println("【数据加载】错误: 文件不存在");
-            throw new IOException("文件不存在: " + filePath);
+        if (!file.exists()) {
+            System.err.println("[Data Loading] Error: File does not exist");
+            throw new IOException("File not found: " + filePath);
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -26,23 +42,23 @@ public class DataPreprocessor {
             int skipCount = 0;
             int successCount = 0;
 
-            // 跳过标题行
+            // Skip header line
             String header = br.readLine();
-            System.out.println("【数据加载】跳过的标题行: " + header);
+            System.out.println("[Data Loading] Skipped header line: " + header);
 
             while ((line = br.readLine()) != null) {
                 lineCount++;
                 line = line.trim();
-                if(line.isEmpty()) {
+                if (line.isEmpty()) {
                     skipCount++;
                     continue;
                 }
 
-                System.out.printf("【数据加载】正在处理第%d行: %s%n", lineCount, line);
+                System.out.printf("[Data Loading] Processing line %d: %s%n", lineCount, line);
 
                 String[] parts = line.split(",");
                 if (parts.length != 6) {
-                    System.err.printf("【数据加载】警告: 第%d行数据列数不正确(应为6列，实际%d列): %s%n",
+                    System.err.printf("[Data Loading] Warning: Line %d has incorrect number of columns (expected 6, actual %d): %s%n",
                             lineCount, parts.length, line);
                     skipCount++;
                     continue;
@@ -58,7 +74,7 @@ public class DataPreprocessor {
                             parts[5].trim()
                     );
 
-                    System.out.printf("【数据加载】成功解析: %s - ¥%.2f (%s)%n",
+                    System.out.printf("[Data Loading] Successfully parsed: %s - ¥%.2f (%s)%n",
                             transaction.getDescription(),
                             transaction.getPrice(),
                             transaction.getIoType());
@@ -66,17 +82,17 @@ public class DataPreprocessor {
                     transactions.add(transaction);
                     successCount++;
                 } catch (NumberFormatException e) {
-                    System.err.printf("【数据加载】错误: 第%d行价格解析失败: %s%n",
+                    System.err.printf("[Data Loading] Error: Failed to parse price on line %d: %s%n",
                             lineCount, parts[2]);
                     skipCount++;
                 }
             }
 
-            System.out.printf("【数据加载】完成，共处理%d行: 成功%d条，跳过%d条%n",
+            System.out.printf("[Data Loading] Finished processing %d lines: %d successful, %d skipped%n",
                     lineCount, successCount, skipCount);
 
         } catch (Exception e) {
-            System.err.println("【数据加载】发生异常:");
+            System.err.println("[Data Loading] Exception occurred:");
             e.printStackTrace();
             throw e;
         }
