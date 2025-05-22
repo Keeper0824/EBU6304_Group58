@@ -2,6 +2,7 @@ package src.main.java.Login_story1_3;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import src.main.java.AbstractUser;
 
 /**
  * Title      : User.java
@@ -13,7 +14,7 @@ import javafx.beans.property.StringProperty;
  * @author Haoran Sun
  * @version 1.0
  */
-public class User {
+public class User extends AbstractUser {
     private final StringProperty ID;
     private final StringProperty nickname;
     private final StringProperty password;
@@ -38,6 +39,7 @@ public class User {
     public User(String ID, String nickname, String password, String email,
                 String gender, String dateOfBirth, String membershipType,
                 String expiryDate) {
+        super(nickname);
         this.ID = new SimpleStringProperty(ID);
         this.nickname = new SimpleStringProperty(nickname);
         this.password = new SimpleStringProperty(password);

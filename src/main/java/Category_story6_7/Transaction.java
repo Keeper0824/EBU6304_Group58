@@ -1,5 +1,7 @@
 package src.main.java.Category_story6_7;
 
+import src.main.java.AbstractTransaction;
+
 /**
  * This class represents a financial transaction in the Transaction Management System.
  * It encapsulates the transaction details such as transaction name, price, classification, date, and type (Income/Expense).
@@ -8,7 +10,7 @@ package src.main.java.Category_story6_7;
  * @author Wei Chen
  * @version 1.0
  */
-public class Transaction {
+public class Transaction extends AbstractTransaction {
     private String id;  // Unique identifier for the transaction
     private String transaction;  // Description of the transaction
     private double price;  // Amount of the transaction

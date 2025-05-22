@@ -1,5 +1,7 @@
 package src.main.java.CashFlowVisualization_story15;
 
+import src.main.java.AbstractTransaction;
+
 /**
  * Title      : Transaction.java
  * Description: Represents a single financial transaction for the cash flow visualization feature.
@@ -9,7 +11,7 @@ package src.main.java.CashFlowVisualization_story15;
  * @author Haoran Sun
  * @version 1.0
  */
-public class Transaction {
+public class Transaction extends AbstractTransaction {
     /**
      * The type of the transaction: either "income" or "expense".
      */

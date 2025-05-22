@@ -1,5 +1,7 @@
 package src.main.java.ViewMembershipTime_story14;
 
+import src.main.java.AbstractUser;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -12,7 +14,7 @@ import java.time.temporal.ChronoUnit;
  * @author Haoran Sun
  * @version 1.0
  */
-public class User {
+public class User extends AbstractUser {
     private String username;
     private LocalDate membershipExpiryDate;
 
@@ -23,6 +25,7 @@ public class User {
      * @param membershipExpiryDate   the date when the VIP membership expires
      */
     public User(String username, LocalDate membershipExpiryDate) {
+        super(username);
         this.username = username;
         this.membershipExpiryDate = membershipExpiryDate;
     }
