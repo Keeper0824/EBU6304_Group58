@@ -45,7 +45,7 @@ For new contributors, the project directory is structured as follows:
 
 ### 1. Configure JavaFX Runtime Parameters
 
-We provide a JavaFX software package in the project folder. You can decompress it and put it on your computer. 
+We provide a JavaFX software package in our Github. You can decompress it and put it on your computer. 
 Since JavaFX is no longer bundled with the JDK since version 11, you must specify the JavaFX SDK module path manually.
 
 **VM Options Example (for Windows):**
@@ -445,6 +445,7 @@ Today is Test Day. Remember to arrange your budget reasonably.
 
 - **Email:** [jp2022213462@qmul.ac.uk](mailto:jp2022213462@qmul.ac.uk)
 - **Phone:** +86 157 2662 1095
+- **Website:** https://github.com/Keeper0824/EBU6304_Group58
 
 ------
 
