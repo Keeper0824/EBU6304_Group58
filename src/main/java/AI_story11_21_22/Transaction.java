@@ -1,5 +1,8 @@
 package src.main.java.AI_story11_21_22;
 
+import src.main.java.AbstractTransaction;
+import src.main.java.AbstractUser;
+
 /**
  * Title      : Transaction.java
  * Description: This class models a transaction with attributes such as ID, description, price,
@@ -8,7 +11,7 @@ package src.main.java.AI_story11_21_22;
  * @author Wei Muchi
  * @version 1.0
  */
-public class Transaction {
+public class Transaction extends AbstractTransaction {
     private String id;
     private String description;
     private double price;
