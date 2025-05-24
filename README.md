@@ -344,8 +344,8 @@ The project uses **JUnit Jupiter** for unit tests.
 - **Description**:
     - Uses an AI model to analyze user spending data and provide personalized cost-cutting suggestions.
     - Reads "expense" records from the user's CSV file, sends a prompt to the AI, and displays saving advice to help reduce unnecessary expenses.
--Tested with JUnit to Verify that the system correctly reads transaction data from CSV and interacts with the AI model as expected.
-Developer: @xiaodonx (Kaiyu Liu)
+- Tested with JUnit to Verify that the system correctly reads transaction data from CSV and interacts with the AI model as expected.
+- Developer: @xiaodonx (Kaiyu Liu)
 
 ## Feature #19: Reminder Application
 
