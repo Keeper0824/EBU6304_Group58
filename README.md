@@ -45,6 +45,7 @@ For new contributors, the project directory is structured as follows:
 
 ### 1. Configure JavaFX Runtime Parameters
 
+We provide a JavaFX software package in the project folder. You can decompress it and put it on your computer. 
 Since JavaFX is no longer bundled with the JDK since version 11, you must specify the JavaFX SDK module path manually.
 
 **VM Options Example (for Windows):**
@@ -92,6 +93,7 @@ Below is an example based on **IntelliJ IDEA**:
 
 1. **Add Libraries via Maven:**
   - Go to **File > Project Structure > Libraries**.
+  - Click the **+** button, select **Java**. Find and add the "lib" folder under the JavaFX SDK. 
   - Click the **+** button, select **From Maven**.
   - Search for `jackson-databind` and add `com.fasterxml.jackson.core:jackson-databind:2.19.0-rc2`.
   - Similarly, add `org.junit.jupiter:junit-jupiter:5.9.0`.
