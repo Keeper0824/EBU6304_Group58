@@ -441,6 +441,13 @@ Today is Test Day. Remember to arrange your budget reasonably.
 
 ------
 
+## License
+
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
+See the [LICENSE](./LICENSE) file for details.
+
+------
+
 ## Contact
 
 - **Email:** [jp2022213462@qmul.ac.uk](mailto:jp2022213462@qmul.ac.uk)
